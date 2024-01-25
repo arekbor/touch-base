@@ -28,4 +28,12 @@ public class UsersController : BaseApiController
     [HttpGet("secret")]
     public async Task<IActionResult> Secret(CancellationToken cancellationToken) 
         => await Send(new GetSecretQuery(), cancellationToken);
+
+    [HttpGet("fakeData")]
+    public async Task<IActionResult> FakeData(CancellationToken cancellationToken) 
+        => await Send(new GetFakeDataQuery(), cancellationToken); 
+
+    [HttpGet("customData")]
+    public async Task<IActionResult> CustomData(CancellationToken cancellationToken) 
+        => await Send(new GetCustomDataQuery(), cancellationToken); 
 }

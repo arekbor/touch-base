@@ -11,6 +11,14 @@ export interface Secret {
   message: string;
 }
 
+export interface FakeData {
+  messages: string;
+}
+
+export interface CustomData {
+  customMessage: string;
+}
+
 @Injectable()
 export class UserService {
   constructor(
@@ -33,5 +41,17 @@ export class UserService {
 
   getSecret(): Observable<Secret | null> {
     return this.httpClient.get<Secret>(`${environment.base_url}/Users/secret`);
+  }
+
+  getFakeData(): Observable<FakeData[] | null> {
+    return this.httpClient.get<FakeData[]>(
+      `${environment.base_url}/Users/fakeData`
+    );
+  }
+
+  getCustomData(): Observable<CustomData | null> {
+    return this.httpClient.get<CustomData>(
+      `${environment.base_url}/Users/customData`
+    );
   }
 }

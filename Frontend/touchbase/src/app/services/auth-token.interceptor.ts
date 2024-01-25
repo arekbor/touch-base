@@ -40,16 +40,16 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (this.skipUrls.some((urls) => req.url.includes(urls))) {
+      return next.handle(req);
+    }
+
     return next.handle(this.setAuthorizationHeader(req)).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (this.skipUrls.some((urls) => req.url.includes(urls))) {
-          return next.handle(req);
-        }
-
         if (err.status === 401) {
           return this.handle401Error(req, next);
         }
-        return this.handleError(err);
+        return throwError(() => err);
       })
     );
   }
@@ -69,7 +69,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     const refreshToken = this.storageService.getRefreshToken();
     return this.authService.getRefreshToken(refreshToken!).pipe(
       concatMap((tokens) => {
-        if (tokens) {
+        if (tokens && tokens.accessToken && tokens.refreshToken) {
           this.storageService.setAccessToken(tokens.accessToken);
           this.storageService.setRefreshToken(tokens.refreshToken);
 
@@ -87,7 +87,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleError(err: unknown): Observable<never> {
+  private handleError(err: string | HttpErrorResponse): Observable<never> {
     this.storageService.removeAuthorizationTokens();
     this.router.navigate(["login"]);
     return throwError(() => err);

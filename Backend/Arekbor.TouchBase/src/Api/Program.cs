@@ -4,7 +4,9 @@ using Arekbor.TouchBase.Application;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Infrastructure;
 using Arekbor.TouchBase.Infrastructure.Options;
+using Arekbor.TouchBase.Infrastructure.Persistence;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 
@@ -21,6 +23,7 @@ builder.Services.AddApiServices(builder.Environment);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
 
 var app = builder.Build();
 
@@ -57,5 +60,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.ApplyMigrations();
 
 app.Run();

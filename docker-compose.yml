@@ -1,0 +1,42 @@
+version: "3.4"
+
+services:
+  touch-base-backend:
+    container_name: touch_base_server
+    restart: always
+    build:
+      context: ./Backend/Arekbor.TouchBase
+    ports:
+      - 127.0.0.1:5000:8080
+    environment:
+      - Serilog__MinimumLevel__Default=Information
+      - Serilog__MinimumLevel__Override__Microsoft=Information
+      - Serilog__MinimumLevel__Override__System=Information
+      - Cors__AllowedOrigins=http://localhost:4200
+      - Cors__AllowedMethods=*
+      - Cors__AllowedHeaders=*
+      - Cors__AllowCredentials=true
+      - Cors__MaxAgeInSeconds=1800
+      - Persistence__Postgres=Host=postgres;Port=5432;Username=postgres;Password=postgres;Database=touchbase
+      - Jwt__Secret=BbgZ01WknogUINkvUSKR7jDpvq2Ws2H4
+      - Jwt__Issuer=touchbase
+      - Jwt__Audience=touchbase
+      - Jwt__ExpiresInSeconds=60
+      - RefreshToken__ExpiresInSeconds=6000
+      - AllowedHosts=*
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: touch_base_postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
