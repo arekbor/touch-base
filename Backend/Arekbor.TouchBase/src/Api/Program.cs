@@ -4,9 +4,7 @@ using Arekbor.TouchBase.Application;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Infrastructure;
 using Arekbor.TouchBase.Infrastructure.Options;
-using Arekbor.TouchBase.Infrastructure.Persistence;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Serilog;
 

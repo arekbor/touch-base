@@ -1,7 +1,9 @@
 using Arekbor.TouchBase.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Arekbor.TouchBase.Api;
+namespace Arekbor.TouchBase.Infrastructure;
 
 public static class ApplicationBuilder
 {
