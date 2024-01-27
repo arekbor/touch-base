@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment.development";
+import { environment } from "src/environments/environment";
 import { Tokens } from "../models/tokens.model";
 import { StorageService } from "./storage.service";
 
@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   login(email: string, password: string): Observable<Tokens | null> {
-    return this.httpClient.post<Tokens>(`${environment.base_url}/Users/login`, {
+    return this.httpClient.post<Tokens>(`${environment.apiUrl}/Users/login`, {
       email: email,
       password: password,
     });
@@ -30,11 +30,8 @@ export class AuthService {
   }
 
   getRefreshToken(refreshToken: string): Observable<Tokens | null> {
-    return this.httpClient.post<Tokens>(
-      `${environment.base_url}/Users/refresh`,
-      {
-        refreshToken: refreshToken,
-      }
-    );
+    return this.httpClient.post<Tokens>(`${environment.apiUrl}/Users/refresh`, {
+      refreshToken: refreshToken,
+    });
   }
 }

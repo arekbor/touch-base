@@ -6,17 +6,10 @@ services:
     restart: always
     build:
       context: ./Backend/Arekbor.TouchBase
-    ports:
-      - 127.0.0.1:5000:8080
     environment:
       - Serilog__MinimumLevel__Default=Information
       - Serilog__MinimumLevel__Override__Microsoft=Information
       - Serilog__MinimumLevel__Override__System=Information
-      - Cors__AllowedOrigins=http://localhost:4200
-      - Cors__AllowedMethods=*
-      - Cors__AllowedHeaders=*
-      - Cors__AllowCredentials=true
-      - Cors__MaxAgeInSeconds=1800
       - Persistence__Postgres=Host=postgres;Port=5432;Username=postgres;Password=postgres;Database=touchbase
       - Jwt__Secret=BbgZ01WknogUINkvUSKR7jDpvq2Ws2H4
       - Jwt__Issuer=touchbase
@@ -26,6 +19,16 @@ services:
       - AllowedHosts=*
     depends_on:
       - postgres
+
+  touch-base-frontend:
+    container_name: touch_base
+    restart: always
+    build:
+      context: ./Frontend/touchbase
+    ports:
+      - 4200:80
+    depends_on:
+      - touch-base-backend
 
   postgres:
     container_name: touch_base_postgres
@@ -40,3 +43,9 @@ services:
 volumes:
   db:
     driver: local
+# - przekaz wszystkie environmenty z docker compose do appsettings.json
+# - sprobuj przekazac hosta i port do nginxa w touch-base-frontend
+# - odseparuj baze danych od reszty, mozna pingowac baze danych w kontenerze frontendowym
+# - zabezpiecz bardziej konfiguracje nginxa w touch-base-frontend
+# - zabezpiecz konfiguracje Dockerfilow, wylacz roota etc
+# - uzupenij plik .dockerignore

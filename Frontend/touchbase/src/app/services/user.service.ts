@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
-import { environment } from "src/environments/environment.development";
+import { environment } from "src/environments/environment";
 import { Claims } from "../models/claims.model";
 import { User } from "../models/user.models";
 import { StorageService } from "./storage.service";
@@ -36,22 +36,22 @@ export class UserService {
   }
 
   getUser(): Observable<User | null> {
-    return this.httpClient.get<User>(`${environment.base_url}/Users/get`);
+    return this.httpClient.get<User>(`${environment.apiUrl}/Users/get`);
   }
 
   getSecret(): Observable<Secret | null> {
-    return this.httpClient.get<Secret>(`${environment.base_url}/Users/secret`);
+    return this.httpClient.get<Secret>(`${environment.apiUrl}/Users/secret`);
   }
 
   getFakeData(): Observable<FakeData[] | null> {
     return this.httpClient.get<FakeData[]>(
-      `${environment.base_url}/Users/fakeData`
+      `${environment.apiUrl}/Users/fakeData`
     );
   }
 
   getCustomData(): Observable<CustomData | null> {
     return this.httpClient.get<CustomData>(
-      `${environment.base_url}/Users/customData`
+      `${environment.apiUrl}/Users/customData`
     );
   }
 }

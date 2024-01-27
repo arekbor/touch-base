@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
           return throwError(() => "Tokens not found");
         }),
         catchError((error: HttpErrorResponse) => {
-          console.log("debug login");
           this.errorDetail = error.error.detail ?? error.statusText;
           this.errors = error.error.errors;
           this.isLoginFailed = true;
