@@ -7,18 +7,20 @@ services:
     build:
       context: ./Backend/Arekbor.TouchBase
     environment:
-      - Serilog__MinimumLevel__Default=Information
-      - Serilog__MinimumLevel__Override__Microsoft=Information
-      - Serilog__MinimumLevel__Override__System=Information
-      - Persistence__Postgres=Host=postgres;Port=5432;Username=postgres;Password=postgres;Database=touchbase
-      - Jwt__Secret=BbgZ01WknogUINkvUSKR7jDpvq2Ws2H4
-      - Jwt__Issuer=touchbase
-      - Jwt__Audience=touchbase
-      - Jwt__ExpiresInSeconds=60
-      - RefreshToken__ExpiresInSeconds=6000
-      - AllowedHosts=*
+      - Serilog__MinimumLevel__Default=${SERILOG_MINIMUMLEVEL_DEFAULT}
+      - Serilog__MinimumLevel__Override__Microsoft=${SERILOG_MINIMUMLEVEL_OVERRIDE_MICROSOFT}
+      - Serilog__MinimumLevel__Override__System=${SERILOG_MINIMUMLEVEL_OVERRIDE_SYSTEM}
+      - Persistence__Postgres=${DATABASE_CONN}
+      - Jwt__Secret=${JWT_SECRET}
+      - Jwt__Issuer=${JWT_ISSUER}
+      - Jwt__Audience=${JWT_AUDIENCE}
+      - Jwt__ExpiresInSeconds=${JWT_EXPIRES_IN_SECONDS}
+      - RefreshToken__ExpiresInSeconds=${REFRESH_TOKEN_EXPIRES_IN_SECONDS}
+      - AllowedHosts=${ALLOWED_HOSTS}
     depends_on:
       - postgres
+    env_file:
+      - .env
 
   touch-base-frontend:
     container_name: touch_base
@@ -35,10 +37,12 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - db:/var/lib/postgresql/data
+    env_file:
+      - .env
 
 volumes:
   db:
