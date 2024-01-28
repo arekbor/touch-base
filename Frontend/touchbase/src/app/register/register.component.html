@@ -1,7 +1,26 @@
 <div class="col-md-12 mt-5">
   <div class="card">
-    <div class="card-body">
-      <form *ngIf="!isUserLogged" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="card-body" *ngIf="!isRegistred">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Username</label>
+          <input
+            type="username"
+            class="form-control"
+            name="username"
+            formControlName="username"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              form.controls['username'].touched &&
+              form.controls['username'].hasError('required')
+            "
+          >
+            Username is required
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="email">Email</label>
           <input
@@ -47,23 +66,33 @@
           >
             Password is required
           </div>
+          <div
+            class="text-danger"
+            *ngIf="
+              form.controls['password'].touched &&
+              form.controls['password'].hasError('minlength')
+            "
+          >
+            Min length of password is 8
+          </div>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-primary btn-block" type="submit">Login</button>
+          <button class="btn btn-primary btn-block" type="submit">
+            Register
+          </button>
         </div>
       </form>
 
-      <div class="text-center" *ngIf="isLoginFailed">
+      <div class="text-center" *ngIf="isRegisterFailed">
         <div class="alert alert-danger d-block mb-2">{{ errorDetail }}</div>
         <ng-container *ngFor="let error of errors">
           <div class="alert alert-danger d-block mb-2">{{ error }}</div>
         </ng-container>
       </div>
-
-      <div *ngIf="isUserLogged" class="text-center alert alert-success">
-        Logged as {{ username }}
-      </div>
+    </div>
+    <div class="text-center alert alert-success" *ngIf="isRegistred">
+      Successfully registered!
     </div>
   </div>
 </div>

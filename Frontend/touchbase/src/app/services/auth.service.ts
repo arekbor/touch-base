@@ -21,6 +21,18 @@ export class AuthService {
     });
   }
 
+  register(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<void> {
+    return this.httpClient.post<void>(`${environment.apiUrl}/Users/register`, {
+      username: username,
+      email: email,
+      password: password,
+    });
+  }
+
   getValidAccessToken(): string | null {
     const accessToken = this.storageService.getAccessToken();
     if (accessToken && !this.jwtHelperService.isTokenExpired(accessToken)) {
