@@ -8,6 +8,9 @@ RUN npm run prod
 FROM nginx:latest AS ngi
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /usr/local/app/dist/touchbase /usr/share/nginx/html
-COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+
+WORKDIR /etc/nginx/template
+COPY default.conf.template /etc/nginx/templates/default.conf.template
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,39 +1,48 @@
-version: "3.4"
+version: "3.8"
 
 services:
-  touch-base-backend:
+  touch_base_client:
+    container_name: touch_base_client
+    restart: always
+    build:
+      context: ${TOUCH_BASE_CLIENT_PATH_DOCKERFILE}
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_HOST=touch_base_server
+      - SERVER_PORT=8080
+    ports:
+      - 4200:80
+    networks:
+      - touch_base_network
+    depends_on:
+      - touch_base_server
+
+  touch_base_server:
     container_name: touch_base_server
     restart: always
     build:
-      context: ./Backend/Arekbor.TouchBase
+      context: ${TOUCH_BASE_SERVER_PATH_DOCKERFILE}
+      dockerfile: Dockerfile
     environment:
       - Serilog__MinimumLevel__Default=${SERILOG_MINIMUMLEVEL_DEFAULT}
       - Serilog__MinimumLevel__Override__Microsoft=${SERILOG_MINIMUMLEVEL_OVERRIDE_MICROSOFT}
       - Serilog__MinimumLevel__Override__System=${SERILOG_MINIMUMLEVEL_OVERRIDE_SYSTEM}
-      - Persistence__Postgres=${DATABASE_CONN}
+      - Persistence__Postgres=Host=touch_base_database;Port=5432;Username=${DATABASE_USERNAME};Password=${DATABASE_PASSWORD};Database=${DATABASE_NAME}
       - Jwt__Secret=${JWT_SECRET}
       - Jwt__Issuer=${JWT_ISSUER}
       - Jwt__Audience=${JWT_AUDIENCE}
       - Jwt__ExpiresInSeconds=${JWT_EXPIRES_IN_SECONDS}
       - RefreshToken__ExpiresInSeconds=${REFRESH_TOKEN_EXPIRES_IN_SECONDS}
       - AllowedHosts=${ALLOWED_HOSTS}
-    depends_on:
-      - postgres
+    networks:
+      - touch_base_network
     env_file:
       - .env
-
-  touch-base-frontend:
-    container_name: touch_base
-    restart: always
-    build:
-      context: ./Frontend/touchbase
-    ports:
-      - 4200:80
     depends_on:
-      - touch-base-backend
+      - touch_base_database
 
-  postgres:
-    container_name: touch_base_postgres
+  touch_base_database:
+    container_name: touch_base_database
     image: postgres
     restart: always
     environment:
@@ -41,15 +50,15 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - touch_base_network
     env_file:
       - .env
+
+networks:
+  touch_base_network:
+    driver: bridge
 
 volumes:
   db:
     driver: local
-# - przekaz wszystkie environmenty z docker compose do appsettings.json
-# - sprobuj przekazac hosta i port do nginxa w touch-base-frontend
-# - odseparuj baze danych od reszty, mozna pingowac baze danych w kontenerze frontendowym
-# - zabezpiecz bardziej konfiguracje nginxa w touch-base-frontend
-# - zabezpiecz konfiguracje Dockerfilow, wylacz roota etc
-# - uzupenij plik .dockerignore
