@@ -1,5 +1,7 @@
 src/Api/bin
 src/Api/obj
+src/Api/appsettings.Development.json
+src/Api/Logs
 
 src/Application/bin
 src/Application/obj
