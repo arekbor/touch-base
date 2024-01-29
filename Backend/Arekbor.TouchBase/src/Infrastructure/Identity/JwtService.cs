@@ -37,7 +37,7 @@ public class JwtService : IJwtService
         var descriptor = new SecurityTokenDescriptor
         {
             Subject = (ClaimsIdentity)principal.Identity!,
-            Expires = DateTime.UtcNow.AddSeconds(_jwtOptions.ExpiresInSeconds),
+            Expires = DateTime.Now.AddSeconds(_jwtOptions.ExpiresInSeconds),
             Audience = _jwtOptions.Audience,
             Issuer = _jwtOptions.Issuer,
             SigningCredentials = secret
@@ -50,13 +50,15 @@ public class JwtService : IJwtService
 
     public RefreshToken GenerateRefreshToken(Guid userId)
     {
+        var utc = DateTime.UtcNow;
+
         var token = Convert
             .ToBase64String(RandomNumberGenerator.GetBytes(64));
         
         return new RefreshToken{
             UserId = userId,
             Token = token,
-            Expires = DateTime.Now.AddSeconds(_refreshTokenOptions.ExpiresInSeconds),
+            Expires = DateTime.UtcNow.AddSeconds(_refreshTokenOptions.ExpiresInSeconds),
         };
     }
 }

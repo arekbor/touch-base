@@ -24,13 +24,13 @@ public class ApplicationDbContext : DbContext
                 case EntityState.Deleted:
                 {
                     entry.Entity.Deleted = true;
-                    entry.Entity.ModifiedAt = DateTime.Now;
+                    entry.Entity.ModifiedAt = DateTime.UtcNow;
                     entry.State = EntityState.Modified;
                     break;
                 }
                 case EntityState.Modified:
                 {
-                    entry.Entity.ModifiedAt = DateTime.Now;
+                    entry.Entity.ModifiedAt = DateTime.UtcNow;
                     break;
                 }
             }

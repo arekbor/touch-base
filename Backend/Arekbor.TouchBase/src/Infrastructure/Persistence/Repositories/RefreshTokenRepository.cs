@@ -14,7 +14,7 @@ public class RefreshTokenRepository : BaseRepository<RefreshToken>, IRefreshToke
         return await Context.RefreshTokens
             .FirstOrDefaultAsync(x => 
                 x.Token == token && 
-                x.Expires >= DateTime.Now, cancellationToken
+                x.Expires.ToUniversalTime() >= DateTime.UtcNow, cancellationToken
         );
     }
 }
