@@ -50,8 +50,6 @@ public class JwtService : IJwtService
 
     public RefreshToken GenerateRefreshToken(Guid userId)
     {
-        var utc = DateTime.UtcNow;
-
         var token = Convert
             .ToBase64String(RandomNumberGenerator.GetBytes(64));
         
