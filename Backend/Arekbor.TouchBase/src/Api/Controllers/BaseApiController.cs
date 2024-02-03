@@ -13,7 +13,5 @@ public abstract class BaseApiController : ControllerBase
         ?? throw new Exception($"Error while getting {nameof(IMediator)} service");
 
     protected async Task<IActionResult> Send<TResult>(IRequest<TResult> request, CancellationToken cancellationToken)
-    {
-        return Ok(await Mediator.Send(request, cancellationToken));
-    }
+        => Ok(await Mediator.Send(request, cancellationToken));
 }
