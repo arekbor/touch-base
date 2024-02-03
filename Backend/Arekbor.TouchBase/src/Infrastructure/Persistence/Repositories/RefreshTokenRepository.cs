@@ -9,12 +9,10 @@ public class RefreshTokenRepository : BaseRepository<RefreshToken>, IRefreshToke
     public RefreshTokenRepository(ApplicationDbContext context) : base(context)
     {}
 
-    public async Task<RefreshToken?> GetRefreshTokenByToken(string token, CancellationToken cancellationToken)
+    public Task<RefreshToken?> GetRefreshTokenByToken(string token, CancellationToken cancellationToken)
     {
-        return await Context.RefreshTokens
+        return Context.RefreshTokens
             .FirstOrDefaultAsync(x => 
-                x.Token == token && 
-                x.Expires.ToUniversalTime() >= DateTime.UtcNow, cancellationToken
-        );
+                x.Token == token && x.Expires.ToUniversalTime() >= DateTime.UtcNow, cancellationToken);
     }
 }

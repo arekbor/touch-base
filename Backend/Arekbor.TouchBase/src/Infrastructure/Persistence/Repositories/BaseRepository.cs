@@ -13,21 +13,21 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity>
         Context = context;
     }
 
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
-        => await Context.Set<TEntity>().AddAsync(entity, cancellationToken);
+    public Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+        => Task.FromResult(Context.Set<TEntity>().AddAsync(entity, cancellationToken).AsTask());
 
     public void Delete(TEntity entity)
         => Context.Set<TEntity>().Remove(entity);
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
-        => await Context.Set<TEntity>().ToArrayAsync(cancellationToken);
+    public Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken)
+        => Context.Set<TEntity>().ToListAsync(cancellationToken);
 
-    public async Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
-        => await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
+        => Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public void Update(TEntity entity)
         => Context.Set<TEntity>().Update(entity);
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
-        => await Context.SaveChangesAsync(cancellationToken);
+    public Task SaveChangesAsync(CancellationToken cancellationToken)
+        => Context.SaveChangesAsync(cancellationToken);
 }

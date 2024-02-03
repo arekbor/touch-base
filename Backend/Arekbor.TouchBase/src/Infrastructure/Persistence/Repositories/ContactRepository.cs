@@ -9,9 +9,9 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
     public ContactRepository(ApplicationDbContext context) : base(context)
     {}
 
-    public async Task<IEnumerable<Contact>> GetContactsByUser(Guid userId, CancellationToken cancellationToken)
+    public Task<List<Contact>> GetContactsByUser(Guid userId, CancellationToken cancellationToken)
     {
-        return await Context.Contacts
+        return Context.Contacts
             .Where(x => x.UserId == userId)
             .ToListAsync(cancellationToken);
     }

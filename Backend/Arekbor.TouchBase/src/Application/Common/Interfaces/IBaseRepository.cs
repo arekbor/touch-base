@@ -7,7 +7,7 @@ public interface IBaseRepository<TEntity>
 {
     Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken);
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
-    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken);
     void Update(TEntity entity);
     void Delete(TEntity entity);
     Task SaveChangesAsync(CancellationToken cancellationToken);
