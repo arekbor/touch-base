@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Arekbor.TouchBase.Infrastructure.Persistence;
 using Arekbor.TouchBase.Infrastructure.Persistence.Repositories;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Arekbor.TouchBase.Infrastructure;
 
@@ -34,10 +35,10 @@ public static class DependencyInjection
         });
 
         //Repositories
-        services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddTransient<IUserRepository, UserRepository>();
-        services.AddTransient<IContactRepository, ContactRepository>();
-        services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.TryAddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.TryAddTransient<IUserRepository, UserRepository>();
+        services.TryAddTransient<IContactRepository, ContactRepository>();
+        services.TryAddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 
         //Auth
         var jwtOptions = services
@@ -71,8 +72,8 @@ public static class DependencyInjection
         services.AddAuthorizationBuilder();
 
         //Services
-        services.AddScoped<IIdentityService, IdentityService>();
-        services.AddScoped<IJwtService, JwtService>();
+        services.TryAddScoped<IIdentityService, IdentityService>();
+        services.TryAddScoped<IJwtService, JwtService>();
 
         return services;
     }
