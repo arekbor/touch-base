@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { StorageService } from "./core/services/storage.service";
-import { UserService } from "./core/services/user.service";
+import { AuthService } from "./core/services/auth.service";
 
 @Component({
   selector: "app-root",
@@ -10,24 +9,20 @@ export class AppComponent implements OnInit {
   isUserLogged = false;
   username = "";
 
-  constructor(
-    private userService: UserService,
-    private storageService: StorageService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initUser();
   }
 
   protected logout() {
-    this.storageService.removeAuthorizationTokens();
-    window.location.reload();
+    this.authService.logout();
   }
 
   private initUser(): void {
-    this.isUserLogged = this.userService.isLogged();
+    this.isUserLogged = this.authService.isLogged();
 
-    const claims = this.userService.getUserClaims();
+    const claims = this.authService.getUserClaims();
     if (claims) {
       this.username = claims.unique_name;
     }

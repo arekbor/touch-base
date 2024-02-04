@@ -1,33 +1,35 @@
 <div id="app">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a routerLink="home" class="navbar-brand">Touch base</a>
+    <a routerLink="home" role="button" class="navbar-brand">Touch base</a>
 
     <ul class="navbar-nav mr-auto" *ngIf="isUserLogged">
       <li class="nav-item">
-        <a class="nav-link" routerLink="home">Home</a>
+        <a class="nav-link" role="button" routerLink="home">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="contact/create">Create contact</a>
+        <a class="nav-link" role="button" routerLink="contact/create"
+          >Contact</a
+        >
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isUserLogged">
       <li class="nav-item">
-        <a class="nav-link" routerLink="auth/register">Sign Up</a>
+        <a class="nav-link" role="button" routerLink="auth/register">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="auth/login">Login</a>
+        <a class="nav-link" role="button" routerLink="auth/login">Login</a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isUserLogged">
       <li class="nav-item">
-        <a class="nav-link" routerLink="profile">{{ username }}</a>
+        <a class="nav-link" role="button" routerLink="profile">{{
+          username
+        }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()" routerLink="auth/login"
-          >Logout</a
-        >
+        <a class="nav-link" role="button" (click)="logout()">Logout</a>
       </li>
     </ul>
   </nav>

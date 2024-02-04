@@ -1,5 +1,139 @@
 <div class="col-md-12 mt-5">
   <div class="card">
-    <div class="card-body">Tu będzie formularz!</div>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="firstname">Firstname</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="firstname"
+              formControlName="firstname"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['firstname'].touched &&
+              form.controls['firstname'].hasError('required')
+            "
+          >
+            Firstname is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="surname">Surname</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="surname"
+              formControlName="surname"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['surname'].touched &&
+              form.controls['surname'].hasError('required')
+            "
+          >
+            Surname is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="company"
+              formControlName="company"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">+48</span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              name="phone"
+              formControlName="phone"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['phone'].touched &&
+              form.controls['phone'].hasError('invalidphone')
+            "
+          >
+            Invalid phone format
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">@</span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              formControlName="email"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['email'].touched &&
+              form.controls['email'].hasError('required')
+            "
+          >
+            Email is required
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['email'].touched &&
+              form.controls['email'].hasError('email')
+            "
+          >
+            Invalid email format
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="notes"
+              formControlName="notes"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="
+              form.controls['notes'].touched &&
+              form.controls['notes'].hasError('maxlength')
+            "
+          >
+            Max length of notes is 15
+          </small>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

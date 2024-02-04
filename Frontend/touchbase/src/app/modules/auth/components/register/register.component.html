@@ -4,13 +4,15 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Username</label>
-          <input
-            type="username"
-            class="form-control"
-            name="username"
-            formControlName="username"
-          />
-          <div
+          <div class="input-group">
+            <input
+              type="username"
+              class="form-control"
+              name="username"
+              formControlName="username"
+            />
+          </div>
+          <small
             class="text-danger"
             *ngIf="
               form.controls['username'].touched &&
@@ -18,18 +20,23 @@
             "
           >
             Username is required
-          </div>
+          </small>
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            name="email"
-            formControlName="email"
-          />
-          <div
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">@</span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              formControlName="email"
+            />
+          </div>
+          <small
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
@@ -37,8 +44,8 @@
             "
           >
             Email is required
-          </div>
-          <div
+          </small>
+          <small
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
@@ -46,18 +53,20 @@
             "
           >
             Invalid email format
-          </div>
+          </small>
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            formControlName="password"
-          />
-          <div
+          <div class="input-group">
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              formControlName="password"
+            />
+          </div>
+          <small
             class="text-danger"
             *ngIf="
               form.controls['password'].touched &&
@@ -65,8 +74,8 @@
             "
           >
             Password is required
-          </div>
-          <div
+          </small>
+          <small
             class="text-danger"
             *ngIf="
               form.controls['password'].touched &&
@@ -74,7 +83,7 @@
             "
           >
             Min length of password is 8
-          </div>
+          </small>
         </div>
 
         <div class="form-group">

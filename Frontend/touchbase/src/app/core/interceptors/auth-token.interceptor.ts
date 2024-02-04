@@ -6,7 +6,6 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import {
   BehaviorSubject,
   Observable,
@@ -33,8 +32,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
-    private storageService: StorageService,
-    private router: Router
+    private storageService: StorageService
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -88,8 +86,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
   }
 
   private handleError(err: string | HttpErrorResponse): Observable<never> {
-    this.storageService.removeAuthorizationTokens();
-    this.router.navigate(["auth/login"]);
+    this.authService.logout();
     return throwError(() => err);
   }
 

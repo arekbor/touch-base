@@ -6,7 +6,6 @@ import { BaseComponent } from "src/app/core/helpers/base.component";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { StorageService } from "src/app/core/services/storage.service";
-import { UserService } from "src/app/core/services/user.service";
 
 @Component({
   selector: "app-login",
@@ -22,7 +21,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private storageService: StorageService
   ) {
     super();
@@ -78,9 +76,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   private initUser(): void {
-    const claims = this.userService.getUserClaims();
+    this.isUserLogged = this.authService.isLogged();
+
+    const claims = this.authService.getUserClaims();
     if (claims) {
-      this.isUserLogged = !!claims;
       this.username = claims.unique_name;
     }
   }

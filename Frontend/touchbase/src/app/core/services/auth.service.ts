@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { Claims } from "../models/claims.model";
 import { Tokens } from "../models/tokens.model";
 import { StorageService } from "./storage.service";
 
@@ -23,6 +24,11 @@ export class AuthService {
     });
   }
 
+  logout(): void {
+    this.storageService.removeAuthorizationTokens();
+    window.location.reload();
+  }
+
   register(
     username: string,
     email: string,
@@ -33,6 +39,18 @@ export class AuthService {
       email: email,
       password: password,
     });
+  }
+
+  getUserClaims(): Claims | null {
+    const accessToken = this.storageService.getAccessToken();
+    if (accessToken) {
+      return this.jwtHelperService.decodeToken(accessToken);
+    }
+    return null;
+  }
+
+  isLogged(): boolean {
+    return this.getUserClaims() != null;
   }
 
   getValidAccessToken(): string | null {
