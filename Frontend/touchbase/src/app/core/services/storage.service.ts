@@ -5,7 +5,9 @@ enum StorageKeys {
   REFRESH_TOKEN = "refresh-token",
 }
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class StorageService {
   setAccessToken(token: string): void {
     window.localStorage.setItem(StorageKeys.ACCESS_TOKEN, token);

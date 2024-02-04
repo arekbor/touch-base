@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
   template: "",
 })
 export abstract class BaseComponent implements OnDestroy {
-  subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   ngOnDestroy(): void {
     this.subscriptions
@@ -13,7 +13,7 @@ export abstract class BaseComponent implements OnDestroy {
       .forEach((sub: Subscription) => sub.unsubscribe());
   }
 
-  safeSub(...sub: Subscription[]): void {
+  protected safeSub(...sub: Subscription[]): void {
     this.subscriptions = this.subscriptions.concat(sub);
   }
 }

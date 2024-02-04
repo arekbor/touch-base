@@ -6,7 +6,9 @@ import { environment } from "src/environments/environment";
 import { Tokens } from "../models/tokens.model";
 import { StorageService } from "./storage.service";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class AuthService {
   constructor(
     private httpClient: HttpClient,

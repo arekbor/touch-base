@@ -1,21 +1,22 @@
 <div id="app">
   <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">Touch base</a>
-    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+    <a routerLink="home" class="navbar-brand">Touch base</a>
+
+    <ul class="navbar-nav mr-auto" *ngIf="isUserLogged">
       <li class="nav-item">
         <a class="nav-link" routerLink="home">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="isUserLogged" routerLink="user">User</a>
+        <a class="nav-link" routerLink="contact/create">Create contact</a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="!isUserLogged">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/register">Sign Up</a>
+        <a class="nav-link" routerLink="auth/register">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="login">Login</a>
+        <a class="nav-link" routerLink="auth/login">Login</a>
       </li>
     </ul>
 
@@ -24,7 +25,9 @@
         <a class="nav-link" routerLink="profile">{{ username }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()">Logout</a>
+        <a class="nav-link" (click)="logout()" routerLink="auth/login"
+          >Logout</a
+        >
       </li>
     </ul>
   </nav>

@@ -1,0 +1,10 @@
+<div class="card mt-5">
+  <div class="card-body" *ngIf="user">
+    <span class="alert alert-info d-block text-center">
+      <small>Email: {{ user.email }}</small>
+    </span>
+    <span class="alert alert-info d-block text-center">
+      <small>Username: {{ user.username }}</small>
+    </span>
+  </div>
+</div>

@@ -17,8 +17,8 @@ import {
   take,
   throwError,
 } from "rxjs";
-import { AuthService } from "./auth.service";
-import { StorageService } from "./storage.service";
+import { AuthService } from "../services/auth.service";
+import { StorageService } from "../services/storage.service";
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
@@ -89,7 +89,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
   private handleError(err: string | HttpErrorResponse): Observable<never> {
     this.storageService.removeAuthorizationTokens();
-    this.router.navigate(["login"]);
+    this.router.navigate(["auth/login"]);
     return throwError(() => err);
   }
 

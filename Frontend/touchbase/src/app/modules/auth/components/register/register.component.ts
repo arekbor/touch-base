@@ -2,19 +2,19 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { catchError, map, throwError } from "rxjs";
-import { BaseComponent } from "../common/base.component";
-import { AuthService } from "../services/auth.service";
+import { BaseComponent } from "src/app/core/helpers/base.component";
+import { AuthService } from "src/app/core/services/auth.service";
 
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
-  form: FormGroup;
-  errorDetail: string;
-  errors: string[];
-  isRegisterFailed = false;
-  isRegistred = false;
+  protected form: FormGroup;
+  protected errorDetail: string;
+  protected errors: string[];
+  protected isRegisterFailed = false;
+  protected isRegistred = false;
 
   constructor(private authService: AuthService) {
     super();
@@ -24,7 +24,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     this.initForm();
   }
 
-  onSubmit() {
+  protected onSubmit() {
     this.form.markAllAsTouched();
     if (!this.form.valid) {
       return;

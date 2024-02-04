@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { StorageService } from "./services/storage.service";
-import { UserService } from "./services/user.service";
+import { StorageService } from "./core/services/storage.service";
+import { UserService } from "./core/services/user.service";
 
 @Component({
   selector: "app-root",
@@ -18,16 +18,17 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.initUser();
   }
-  
-  logout() {
+
+  protected logout() {
     this.storageService.removeAuthorizationTokens();
     window.location.reload();
   }
 
   private initUser(): void {
+    this.isUserLogged = this.userService.isLogged();
+
     const claims = this.userService.getUserClaims();
     if (claims) {
-      this.isUserLogged = !!claims;
       this.username = claims.unique_name;
     }
   }

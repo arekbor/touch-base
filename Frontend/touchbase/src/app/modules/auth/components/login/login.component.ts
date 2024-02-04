@@ -1,25 +1,24 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { EMPTY, catchError, map, throwError } from "rxjs";
-import { BaseComponent } from "../common/base.component";
-import { Tokens } from "../models/tokens.model";
-import { AuthService } from "../services/auth.service";
-import { StorageService } from "../services/storage.service";
-import { UserService } from "../services/user.service";
+import { catchError, map, of, throwError } from "rxjs";
+import { BaseComponent } from "src/app/core/helpers/base.component";
+import { Tokens } from "src/app/core/models/tokens.model";
+import { AuthService } from "src/app/core/services/auth.service";
+import { StorageService } from "src/app/core/services/storage.service";
+import { UserService } from "src/app/core/services/user.service";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-  form: FormGroup;
-
-  isUserLogged = false;
-  isLoginFailed = false;
-  username: string;
-  errorDetail: string;
-  errors: string[];
+  protected form: FormGroup;
+  protected isUserLogged = false;
+  protected isLoginFailed = false;
+  protected username: string;
+  protected errorDetail: string;
+  protected errors: string[];
 
   constructor(
     private authService: AuthService,
@@ -34,7 +33,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.initUser();
   }
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     this.form.markAllAsTouched();
     if (!this.form.valid) {
       return;
@@ -52,7 +51,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
               this.isLoginFailed = false;
               window.location.reload();
-              return EMPTY;
+              return of(null);
             }
             this.errorDetail = "Internal server error";
             this.isLoginFailed = true;

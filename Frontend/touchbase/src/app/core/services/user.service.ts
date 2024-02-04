@@ -19,7 +19,9 @@ export interface CustomData {
   customMessage: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class UserService {
   constructor(
     private storageService: StorageService,
@@ -35,23 +37,11 @@ export class UserService {
     return null;
   }
 
+  isLogged(): boolean {
+    return this.getUserClaims() != null;
+  }
+
   getUser(): Observable<User | null> {
     return this.httpClient.get<User>(`${environment.apiUrl}/Users/get`);
-  }
-
-  getSecret(): Observable<Secret | null> {
-    return this.httpClient.get<Secret>(`${environment.apiUrl}/Users/secret`);
-  }
-
-  getFakeData(): Observable<FakeData[] | null> {
-    return this.httpClient.get<FakeData[]>(
-      `${environment.apiUrl}/Users/fakeData`
-    );
-  }
-
-  getCustomData(): Observable<CustomData | null> {
-    return this.httpClient.get<CustomData>(
-      `${environment.apiUrl}/Users/customData`
-    );
   }
 }
