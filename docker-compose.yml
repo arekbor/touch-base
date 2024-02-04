@@ -11,7 +11,7 @@ services:
       - SERVER_HOST=touch_base_server
       - SERVER_PORT=8080
     ports:
-      - 4200:80
+      - 127.0.0.1:4200:80
     networks:
       - touch_base_network
     depends_on:
