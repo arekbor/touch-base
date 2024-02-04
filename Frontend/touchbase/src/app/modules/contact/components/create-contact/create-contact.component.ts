@@ -10,7 +10,6 @@ import { PhoneValidator } from "src/app/shared/validators/phone.validator";
 })
 export class CreateContactComponent implements OnInit {
   protected form: FormGroup;
-  protected isLoading = false;
   protected contactLabel: typeof ContactLabel = ContactLabel;
   protected contactRelationship: typeof ContactRelationship =
     ContactRelationship;
@@ -24,8 +23,6 @@ export class CreateContactComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-
-    const values = this.form.getRawValue();
   }
 
   private initForm() {

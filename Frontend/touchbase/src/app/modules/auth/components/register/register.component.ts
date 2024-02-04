@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { catchError, finalize, map, throwError } from "rxjs";
+import { catchError, map, throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { AuthService } from "src/app/core/services/auth.service";
 
@@ -15,7 +15,6 @@ export class RegisterComponent extends BaseComponent implements OnInit {
   protected errors: string[];
   protected isRegisterFailed = false;
   protected isRegistred = false;
-  protected isLoading = false;
 
   constructor(private authService: AuthService) {
     super();
@@ -32,8 +31,6 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     }
     const formValues = this.form.getRawValue();
 
-    this.isLoading = true;
-
     this.safeSub(
       this.authService
         .register(formValues.username, formValues.email, formValues.password)
@@ -49,9 +46,6 @@ export class RegisterComponent extends BaseComponent implements OnInit {
             this.isRegisterFailed = true;
 
             return throwError(() => error);
-          }),
-          finalize(() => {
-            this.isLoading = false;
           })
         )
         .subscribe()
