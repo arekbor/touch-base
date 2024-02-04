@@ -12,15 +12,15 @@
               formControlName="username"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['username'].touched &&
               form.controls['username'].hasError('required')
             "
           >
-            Username is required
-          </small>
+            <small>Username is required</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -36,24 +36,24 @@
               formControlName="email"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('required')
             "
           >
-            Email is required
-          </small>
-          <small
+            <small>Email is required</small>
+          </div>
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('email')
             "
           >
-            Invalid email format
-          </small>
+            <small>Invalid email format</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -66,24 +66,24 @@
               formControlName="password"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['password'].touched &&
               form.controls['password'].hasError('required')
             "
           >
-            Password is required
-          </small>
-          <small
+            <small>Password is required</small>
+          </div>
+          <div
             class="text-danger"
             *ngIf="
               form.controls['password'].touched &&
               form.controls['password'].hasError('minlength')
             "
           >
-            Min length of password is 8
-          </small>
+            <small>Min length of password is 8</small>
+          </div>
         </div>
 
         <div class="form-group">

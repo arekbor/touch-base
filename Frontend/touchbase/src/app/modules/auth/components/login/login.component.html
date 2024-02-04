@@ -15,24 +15,24 @@
               formControlName="email"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('required')
             "
           >
-            Email is required
-          </small>
-          <small
+            <small>Email is required</small>
+          </div>
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('email')
             "
           >
-            Invalid email format
-          </small>
+            <small>Invalid email format</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -45,15 +45,15 @@
               formControlName="password"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['password'].touched &&
               form.controls['password'].hasError('required')
             "
           >
-            Password is required
-          </small>
+            <small>Password is required</small>
+          </div>
         </div>
 
         <div class="form-group">

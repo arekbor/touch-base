@@ -12,15 +12,15 @@
               formControlName="firstname"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['firstname'].touched &&
               form.controls['firstname'].hasError('required')
             "
           >
-            Firstname is required
-          </small>
+            <small>Firstname is required</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -33,15 +33,15 @@
               formControlName="surname"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['surname'].touched &&
               form.controls['surname'].hasError('required')
             "
           >
-            Surname is required
-          </small>
+            <small>Surname is required</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -69,15 +69,15 @@
               formControlName="phone"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['phone'].touched &&
               form.controls['phone'].hasError('invalidphone')
             "
           >
-            Invalid phone format
-          </small>
+            <small>Invalid phone format</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -93,24 +93,24 @@
               formControlName="email"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('required')
             "
           >
-            Email is required
-          </small>
-          <small
+            <small>Email is required</small>
+          </div>
+          <div
             class="text-danger"
             *ngIf="
               form.controls['email'].touched &&
               form.controls['email'].hasError('email')
             "
           >
-            Invalid email format
-          </small>
+            <small>Invalid email format</small>
+          </div>
         </div>
 
         <div class="form-group">
@@ -123,15 +123,15 @@
               formControlName="notes"
             />
           </div>
-          <small
+          <div
             class="text-danger"
             *ngIf="
               form.controls['notes'].touched &&
               form.controls['notes'].hasError('maxlength')
             "
           >
-            Max length of notes is 15
-          </small>
+            <small>Max length of notes is 15</small>
+          </div>
         </div>
       </form>
     </div>
