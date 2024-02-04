@@ -1,0 +1,15 @@
+export enum ContactRelationship {
+  "Assistant",
+  "Brother",
+  "Child",
+  "Domestic partner",
+  "Father",
+  "Friend",
+  "Manager",
+  "Mother",
+  "Partner",
+  "Parent",
+  "Relative",
+  "Sister",
+  "Spouse",
+}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { PhoneValidator } from "src/app/core/validators/phone.validator";
+import { ContactLabel } from "src/app/core/enums/contactLabel.enum";
+import { ContactRelationship } from "src/app/core/enums/contactRelationship.enum";
+import { PhoneValidator } from "src/app/shared/validators/phone.validator";
 
 @Component({
   selector: "app-create-contact",
@@ -8,6 +10,10 @@ import { PhoneValidator } from "src/app/core/validators/phone.validator";
 })
 export class CreateContactComponent implements OnInit {
   protected form: FormGroup;
+  protected isLoading = false;
+  protected contactLabel: typeof ContactLabel = ContactLabel;
+  protected contactRelationship: typeof ContactRelationship =
+    ContactRelationship;
 
   ngOnInit(): void {
     this.initForm();
@@ -18,6 +24,8 @@ export class CreateContactComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
+
+    const values = this.form.getRawValue();
   }
 
   private initForm() {
@@ -26,10 +34,10 @@ export class CreateContactComponent implements OnInit {
       surname: new FormControl("", Validators.required),
       company: new FormControl(""),
       phone: new FormControl("", PhoneValidator),
-      label: new FormControl(""),
+      label: new FormControl(this.contactLabel["No label"]),
       email: new FormControl("", [Validators.email, Validators.required]),
       birthday: new FormControl(""),
-      relationship: new FormControl(""),
+      relationship: new FormControl(this.contactRelationship["Assistant"]),
       notes: new FormControl("", Validators.maxLength(15)),
     });
   }

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { catchError, map, of, throwError } from "rxjs";
+import { catchError, finalize, map, of, throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
@@ -15,6 +15,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup;
   protected isUserLogged = false;
   protected isLoginFailed = false;
+  protected isLoading = false;
   protected username: string;
   protected errorDetail: string;
   protected errors: string[];
@@ -37,6 +38,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
       return;
     }
     const formValues = this.form.getRawValue();
+
+    this.isLoading = true;
 
     this.safeSub(
       this.authService
@@ -62,6 +65,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
             this.isLoginFailed = true;
 
             return throwError(() => error);
+          }),
+          finalize(() => {
+            this.isLoading = false;
           })
         )
         .subscribe()

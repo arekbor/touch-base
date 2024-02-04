@@ -81,6 +81,24 @@
         </div>
 
         <div class="form-group">
+          <label for="label">Label</label>
+          <div class="input-group">
+            <select
+              class="form-control"
+              name="label"
+              id="label"
+              formControlName="label"
+            >
+              <option
+                *ngFor="let label of contactLabel | enumToArray"
+                [value]="label.index"
+                [label]="label.name"
+              ></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="email">Email</label>
           <div class="input-group">
             <div class="input-group-prepend">
@@ -114,6 +132,24 @@
         </div>
 
         <div class="form-group">
+          <label for="relationship">Relationship</label>
+          <div class="input-group">
+            <select
+              class="form-control"
+              name="relationship"
+              id="relationship"
+              formControlName="relationship"
+            >
+              <option
+                *ngFor="let contact of contactRelationship | enumToArray"
+                [value]="contact.index"
+                [label]="contact.name"
+              ></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="notes">Notes</label>
           <div class="input-group">
             <input
@@ -132,6 +168,16 @@
           >
             <small>Max length of notes is 15</small>
           </div>
+        </div>
+
+        <div class="form-group">
+          <button
+            class="btn btn-primary btn-block"
+            type="submit"
+            [disabled]="isLoading"
+          >
+            Create contact
+          </button>
         </div>
       </form>
     </div>

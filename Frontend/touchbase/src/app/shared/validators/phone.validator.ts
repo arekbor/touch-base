@@ -6,7 +6,6 @@ export const PhoneValidator: ValidatorFn = (
   const phonePattern = /^\d{9}$/;
 
   if (control.value && !phonePattern.test(control.value)) {
-    console.log("debug");
     return { invalidphone: true };
   }
 
