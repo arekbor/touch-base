@@ -1,11 +1,16 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { EMPTY, catchError, map, throwError } from "rxjs";
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
+import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
+import { handleErrors } from "src/app/core/helpers/handleErrors";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
-import { StorageService } from "src/app/core/services/storage.service";
 
 @Component({
   selector: "app-login",
@@ -13,59 +18,51 @@ import { StorageService } from "src/app/core/services/storage.service";
 })
 export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup;
-  protected isUserLogged = false;
-  protected isLoginFailed = false;
-  protected username: string;
-  protected errorDetail: string;
+  protected isLoading = false;
   protected errors: string[];
-
-  constructor(
-    private authService: AuthService,
-    private storageService: StorageService
-  ) {
+  constructor(private authService: AuthService) {
     super();
   }
 
   ngOnInit(): void {
     this.initForm();
-    this.initUser();
   }
 
-  protected onSubmit(): void {
+  protected onSubmit() {
     this.form.markAllAsTouched();
     if (!this.form.valid) {
       return;
     }
-    const formValues = this.form.getRawValue();
 
+    const value = this.form.getRawValue();
+    this.isLoading = true;
     this.safeSub(
-      this.authService
-        .login(formValues.email, formValues.password)
-        .pipe(
-          map((tokens: Tokens | null) => {
-            if (tokens) {
-              this.storageService.setAccessToken(tokens.accessToken);
-              this.storageService.setRefreshToken(tokens.refreshToken);
+      this.authService.login(value.email, value.password).subscribe({
+        next: (tokens: Tokens | null) => {
+          if (tokens) {
+            this.authService.setAuthTokens(tokens);
+            window.location.reload();
+            return;
+          }
 
-              this.isLoginFailed = false;
-              window.location.reload();
-              return EMPTY;
-            }
-            this.errorDetail = "Internal server error";
-            this.isLoginFailed = true;
-
-            return throwError(() => "Tokens not found");
-          }),
-          catchError((error: HttpErrorResponse) => {
-            this.errorDetail = error.error.detail ?? error.statusText;
-            this.errors = error.error.errors;
-            this.isLoginFailed = true;
-
-            return throwError(() => error);
-          })
-        )
-        .subscribe()
+          this.isLoading = false;
+          throwError(() => "Tokens not found");
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
+          this.errors = handleErrors(err);
+          throwError(() => err);
+        },
+      })
     );
+  }
+
+  protected getFieldErrors(field: string): ValidationErrors | null {
+    const control = this.form.get(field);
+    if (control && control.invalid && (control.dirty || control.touched)) {
+      return control.errors;
+    }
+    return null;
   }
 
   private initForm() {
@@ -73,14 +70,5 @@ export class LoginComponent extends BaseComponent implements OnInit {
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", Validators.required),
     });
-  }
-
-  private initUser(): void {
-    this.isUserLogged = this.authService.isLogged();
-
-    const claims = this.authService.getUserClaims();
-    if (claims) {
-      this.username = claims.unique_name;
-    }
   }
 }

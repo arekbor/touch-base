@@ -1,7 +1,11 @@
 <div class="col-md-12 mt-5">
   <div class="card">
+    <div class="card-header">
+      <h5>Login form</h5>
+    </div>
+
     <div class="card-body">
-      <form *ngIf="!isUserLogged" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email</label>
           <div class="input-group">
@@ -13,24 +17,19 @@
               class="form-control"
               name="email"
               formControlName="email"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('email')?.['required'] || 
+                getFieldErrors('email')?.['email'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['email'].touched &&
-              form.controls['email'].hasError('required')
-            "
+            *ngIf="getFieldErrors('email')?.['required']"
           >
             <small>Email is required</small>
           </div>
-          <div
-            class="text-danger"
-            *ngIf="
-              form.controls['email'].touched &&
-              form.controls['email'].hasError('email')
-            "
-          >
+          <div class="text-danger" *ngIf="getFieldErrors('email')?.['email']">
             <small>Invalid email format</small>
           </div>
         </div>
@@ -43,39 +42,27 @@
               class="form-control"
               name="password"
               formControlName="password"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('password')?.['required'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['password'].touched &&
-              form.controls['password'].hasError('required')
-            "
+            *ngIf="getFieldErrors('password')?.['required']"
           >
             <small>Password is required</small>
           </div>
         </div>
 
-        <div class="form-group">
-          <button
-            class="btn btn-primary btn-block"
-            type="submit"
-          >
-            Login
-          </button>
-        </div>
+        <app-spinner-btn [isLoading]="isLoading" [isFormValid]="form.valid"
+          >Login</app-spinner-btn
+        >
       </form>
+    </div>
 
-      <div class="text-center" *ngIf="isLoginFailed">
-        <div class="alert alert-danger d-block mb-2">{{ errorDetail }}</div>
-        <ng-container *ngFor="let error of errors">
-          <div class="alert alert-danger d-block mb-2">{{ error }}</div>
-        </ng-container>
-      </div>
-
-      <div *ngIf="isUserLogged" class="text-center alert alert-success">
-        Logged as {{ username }}
-      </div>
+    <div class="card-footer">
+      <app-errors [errors]="errors" />
     </div>
   </div>
 </div>

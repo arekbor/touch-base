@@ -53,6 +53,11 @@ export class AuthService {
     return this.getUserClaims() != null;
   }
 
+  setAuthTokens(tokens: Tokens): void {
+    this.storageService.setAccessToken(tokens.accessToken);
+    this.storageService.setRefreshToken(tokens.refreshToken);
+  }
+
   getValidAccessToken(): string | null {
     const accessToken = this.storageService.getAccessToken();
     if (accessToken && !this.jwtHelperService.isTokenExpired(accessToken)) {

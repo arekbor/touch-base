@@ -1,8 +1,15 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { catchError, map, throwError } from "rxjs";
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
+import { handleErrors } from "src/app/core/helpers/handleErrors";
 import { AuthService } from "src/app/core/services/auth.service";
 
 @Component({
@@ -11,12 +18,10 @@ import { AuthService } from "src/app/core/services/auth.service";
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
   protected form: FormGroup;
-  protected errorDetail: string;
+  protected isLoading = false;
   protected errors: string[];
-  protected isRegisterFailed = false;
-  protected isRegistred = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     super();
   }
 
@@ -29,27 +34,31 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
-    const formValues = this.form.getRawValue();
 
+    const value = this.form.getRawValue();
+    this.isLoading = true;
     this.safeSub(
       this.authService
-        .register(formValues.username, formValues.email, formValues.password)
-        .pipe(
-          map(() => {
-            this.isRegisterFailed = false;
-            this.isRegistred = true;
-          }),
-          catchError((error: HttpErrorResponse) => {
-            this.errorDetail = error.error.detail ?? error.statusText;
-            this.errors = error.error.errors;
-            this.isRegistred = false;
-            this.isRegisterFailed = true;
-
-            return throwError(() => error);
-          })
-        )
-        .subscribe()
+        .register(value.username, value.email, value.password)
+        .subscribe({
+          next: () => {
+            this.router.navigate(["auth/login"]);
+          },
+          error: (err: HttpErrorResponse) => {
+            this.isLoading = false;
+            this.errors = handleErrors(err);
+            throwError(() => err);
+          },
+        })
     );
+  }
+
+  protected getFieldErrors(field: string): ValidationErrors | null {
+    const control = this.form.get(field);
+    if (control && control.invalid && (control.dirty || control.touched)) {
+      return control.errors;
+    }
+    return null;
   }
 
   private initForm() {
