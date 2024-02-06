@@ -5,7 +5,6 @@ using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Infrastructure;
 using Arekbor.TouchBase.Infrastructure.Options;
 using Hellang.Middleware.ProblemDetails;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Serilog;
 
@@ -21,7 +20,7 @@ builder.Services.AddApiServices(builder.Environment);
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.TryAddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 
 var app = builder.Build();
