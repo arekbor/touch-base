@@ -1,3 +1,10 @@
-<div class="alert alert-danger d-block mb-2 text-center" *ngIf="errors">
-  <small *ngFor="let error of errors">{{ error }}</small>
+<div
+  class="alert alert-danger d-block mb-2 text-center"
+  *ngIf="errors && errors.length"
+>
+  <ul class="list-unstyled mb-0">
+    <li *ngFor="let error of errors">
+      <small>{{ error }}</small>
+    </li>
+  </ul>
 </div>
