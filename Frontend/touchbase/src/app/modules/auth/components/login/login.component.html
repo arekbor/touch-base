@@ -55,14 +55,14 @@
           </div>
         </div>
 
-        <app-spinner-btn [isLoading]="isLoading" [isFormValid]="form.valid"
-          >Login</app-spinner-btn
+        <app-spinner-button [isLoading]="isLoading" [isFormValid]="form.valid"
+          >Login</app-spinner-button
         >
       </form>
     </div>
 
     <div class="card-footer">
-      <app-errors [errors]="errors" />
+      <app-http-error [errors]="errors" />
     </div>
   </div>
 </div>

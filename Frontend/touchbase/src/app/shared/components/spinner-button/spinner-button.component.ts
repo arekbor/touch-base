@@ -1,10 +1,10 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-spinner-btn",
-  templateUrl: "./spinner-btn.component.html",
+  selector: "app-spinner-button",
+  templateUrl: "./spinner-button.component.html",
 })
-export class SpinnerBtnComponent {
+export class SpinnerButtonComponent {
   @Input({ required: true }) isLoading: boolean;
   @Input({ required: true }) isFormValid: boolean;
 }

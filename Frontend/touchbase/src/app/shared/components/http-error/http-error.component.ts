@@ -1,9 +1,9 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-errors",
-  templateUrl: "./errors.component.html",
+  selector: "app-http-error",
+  templateUrl: "./http-error.component.html",
 })
-export class ErrorsComponent {
+export class HttpErrorComponent {
   @Input({ required: true }) errors: string[];
 }
