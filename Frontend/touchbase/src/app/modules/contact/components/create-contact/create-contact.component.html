@@ -10,14 +10,14 @@
               class="form-control"
               name="firstname"
               formControlName="firstname"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('firstname')?.['required'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['firstname'].touched &&
-              form.controls['firstname'].hasError('required')
-            "
+            *ngIf="getFieldErrors('firstname')?.['required']"
           >
             <small>Firstname is required</small>
           </div>
@@ -31,14 +31,14 @@
               class="form-control"
               name="surname"
               formControlName="surname"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('surname')?.['required'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['surname'].touched &&
-              form.controls['surname'].hasError('required')
-            "
+            *ngIf="getFieldErrors('surname')?.['required']"
           >
             <small>Surname is required</small>
           </div>
@@ -67,14 +67,14 @@
               class="form-control"
               name="phone"
               formControlName="phone"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('phone')?.['invalidphone'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['phone'].touched &&
-              form.controls['phone'].hasError('invalidphone')
-            "
+            *ngIf="getFieldErrors('phone')?.['invalidphone']"
           >
             <small>Invalid phone format</small>
           </div>
@@ -83,12 +83,7 @@
         <div class="form-group">
           <label for="label">Label</label>
           <div class="input-group">
-            <select
-              class="form-control"
-              name="label"
-              id="label"
-              formControlName="label"
-            >
+            <select class="form-control" name="label" formControlName="label">
               <option
                 *ngFor="let label of contactLabel | enumToArray"
                 [value]="label.index"
@@ -109,25 +104,35 @@
               class="form-control"
               name="email"
               formControlName="email"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('email')?.['required'] || 
+                getFieldErrors('email')?.['email'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['email'].touched &&
-              form.controls['email'].hasError('required')
-            "
+            *ngIf="getFieldErrors('email')?.['required']"
           >
             <small>Email is required</small>
           </div>
-          <div
-            class="text-danger"
-            *ngIf="
-              form.controls['email'].touched &&
-              form.controls['email'].hasError('email')
-            "
-          >
+          <div class="text-danger" *ngIf="getFieldErrors('email')?.['email']">
             <small>Invalid email format</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="birthday">Birthday</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              type="date"
+              name="birthday"
+              formControlName="birthday"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('birthday')?.['invaliddatebirth']
+              }"
+            />
           </div>
         </div>
 
@@ -137,7 +142,6 @@
             <select
               class="form-control"
               name="relationship"
-              id="relationship"
               formControlName="relationship"
             >
               <option
@@ -157,25 +161,25 @@
               class="form-control"
               name="notes"
               formControlName="notes"
+              [ngClass]="{ 'is-invalid': 
+                getFieldErrors('notes')?.['maxlength'] 
+              }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="
-              form.controls['notes'].touched &&
-              form.controls['notes'].hasError('maxlength')
-            "
+            *ngIf="getFieldErrors('notes')?.['maxlength']"
           >
             <small>Max length of notes is 15</small>
           </div>
         </div>
 
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" type="submit">
-            Create contact
-          </button>
-        </div>
+        <app-spinner-button [isLoading]="isLoading">Register</app-spinner-button>
       </form>
+    </div>
+
+    <div class="card-footer">
+      <app-http-error [errors]="errors" />
     </div>
   </div>
 </div>

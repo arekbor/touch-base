@@ -10,7 +10,9 @@ export function handleErrors(err: HttpErrorResponse): string[] {
 
   const otherErrors = err.error.errors;
   if (otherErrors) {
-    errors.push(...otherErrors);
+    Object.keys(otherErrors).forEach((key) => {
+      errors.push(otherErrors[key]);
+    });
   }
 
   return errors;

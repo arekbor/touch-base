@@ -4,6 +4,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {
@@ -44,15 +45,18 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
     return next.handle(this.setAuthorizationHeader(req)).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          return this.handle401Error(req, next);
+        if (err.status === HttpStatusCode.Unauthorized) {
+          return this.handleUnauthorizedError(req, next);
         }
         return throwError(() => err);
       })
     );
   }
 
-  private handle401Error(req: HttpRequest<unknown>, next: HttpHandler) {
+  private handleUnauthorizedError(
+    req: HttpRequest<unknown>,
+    next: HttpHandler
+  ) {
     if (this.isRefreshingToken) {
       return this.tokenRefreshed$.pipe(
         filter(Boolean),
@@ -75,7 +79,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
         }
         return this.handleError("Tokens not found");
       }),
-      catchError((err) => {
+      catchError((err: HttpErrorResponse) => {
         return this.handleError(err);
       }),
       finalize(() => {
@@ -85,7 +89,12 @@ export class AuthTokenInterceptor implements HttpInterceptor {
   }
 
   private handleError(err: string | HttpErrorResponse): Observable<never> {
-    this.authService.logout();
+    if (
+      err instanceof HttpErrorResponse &&
+      err.status === HttpStatusCode.Unauthorized
+    ) {
+      this.authService.logout();
+    }
     return throwError(() => err);
   }
 

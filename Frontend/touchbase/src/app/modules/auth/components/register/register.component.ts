@@ -9,7 +9,9 @@ import {
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
+import { ControlsOf } from "src/app/core/helpers/controlsOf";
 import { handleErrors } from "src/app/core/helpers/handleErrors";
+import { Register } from "src/app/core/models/register.model";
 import { AuthService } from "src/app/core/services/auth.service";
 
 @Component({
@@ -17,7 +19,7 @@ import { AuthService } from "src/app/core/services/auth.service";
   templateUrl: "./register.component.html",
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
-  protected form: FormGroup;
+  protected form: FormGroup<ControlsOf<Register>>;
   protected isLoading = false;
   protected errors: string[];
 
@@ -35,21 +37,19 @@ export class RegisterComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    const value = this.form.getRawValue();
+    const register = this.form.getRawValue();
     this.isLoading = true;
     this.safeSub(
-      this.authService
-        .register(value.username, value.email, value.password)
-        .subscribe({
-          next: () => {
-            this.router.navigate(["auth/login"]);
-          },
-          error: (err: HttpErrorResponse) => {
-            this.isLoading = false;
-            this.errors = handleErrors(err);
-            throwError(() => err);
-          },
-        })
+      this.authService.register(register).subscribe({
+        next: () => {
+          this.router.navigate(["auth/login"]);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
+          this.errors = handleErrors(err);
+          throwError(() => err);
+        },
+      })
     );
   }
 
@@ -62,13 +62,19 @@ export class RegisterComponent extends BaseComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup({
-      username: new FormControl("", Validators.required),
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
+    this.form = new FormGroup<ControlsOf<Register>>({
+      username: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      email: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(8)],
+      }),
     });
   }
 }

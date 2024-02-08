@@ -1,8 +1,4 @@
-<button
-  class="btn btn-primary btn-block"
-  type="submit"
-  [disabled]="isLoading || !isFormValid"
->
+<button class="btn btn-primary btn-block" type="submit" [disabled]="isLoading">
   <ng-container *ngIf="!isLoading; else loadingContent">
     <ng-content></ng-content>
   </ng-container>

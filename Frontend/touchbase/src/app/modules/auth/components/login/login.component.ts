@@ -8,7 +8,9 @@ import {
 } from "@angular/forms";
 import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
+import { ControlsOf } from "src/app/core/helpers/controlsOf";
 import { handleErrors } from "src/app/core/helpers/handleErrors";
+import { Login } from "src/app/core/models/login.model";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
 
@@ -17,7 +19,7 @@ import { AuthService } from "src/app/core/services/auth.service";
   templateUrl: "./login.component.html",
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-  protected form: FormGroup;
+  protected form: FormGroup<ControlsOf<Login>>;
   protected isLoading = false;
   protected errors: string[];
   constructor(private authService: AuthService) {
@@ -34,10 +36,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    const value = this.form.getRawValue();
+    const login = this.form.getRawValue();
     this.isLoading = true;
     this.safeSub(
-      this.authService.login(value.email, value.password).subscribe({
+      this.authService.login(login).subscribe({
         next: (tokens: Tokens | null) => {
           if (tokens) {
             this.authService.setAuthTokens(tokens);
@@ -66,9 +68,15 @@ export class LoginComponent extends BaseComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup({
-      email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", Validators.required),
+    this.form = new FormGroup<ControlsOf<Login>>({
+      email: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
+      }),
+      password: new FormControl("", {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
     });
   }
 }

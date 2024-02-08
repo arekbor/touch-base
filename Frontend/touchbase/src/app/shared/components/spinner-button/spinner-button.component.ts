@@ -6,5 +6,4 @@ import { Component, Input } from "@angular/core";
 })
 export class SpinnerButtonComponent {
   @Input({ required: true }) isLoading: boolean;
-  @Input({ required: true }) isFormValid: boolean;
 }

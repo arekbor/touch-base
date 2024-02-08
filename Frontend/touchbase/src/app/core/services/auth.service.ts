@@ -4,6 +4,8 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Claims } from "../models/claims.model";
+import { Login } from "../models/login.model";
+import { Register } from "../models/register.model";
 import { Tokens } from "../models/tokens.model";
 import { StorageService } from "./storage.service";
 
@@ -17,11 +19,11 @@ export class AuthService {
     private jwtHelperService: JwtHelperService
   ) {}
 
-  login(email: string, password: string): Observable<Tokens | null> {
-    return this.httpClient.post<Tokens>(`${environment.apiUrl}/Users/login`, {
-      email: email,
-      password: password,
-    });
+  login(login: Login): Observable<Tokens | null> {
+    return this.httpClient.post<Tokens>(
+      `${environment.apiUrl}/Users/login`,
+      login
+    );
   }
 
   logout(): void {
@@ -29,16 +31,11 @@ export class AuthService {
     window.location.reload();
   }
 
-  register(
-    username: string,
-    email: string,
-    password: string
-  ): Observable<void> {
-    return this.httpClient.post<void>(`${environment.apiUrl}/Users/register`, {
-      username: username,
-      email: email,
-      password: password,
-    });
+  register(register: Register): Observable<void> {
+    return this.httpClient.post<void>(
+      `${environment.apiUrl}/Users/register`,
+      register
+    );
   }
 
   getUserClaims(): Claims | null {
