@@ -4,32 +4,33 @@ namespace Arekbor.TouchBase.Domain.Entities;
 
 public enum ContactLabel
 {
-    NoLabel,
-    Mobile,
-    Work,
-    Home,
-    Main,
-    WorkFax,
-    HomeFax,
-    Pager,
-    Other
+    NoLabel = 0,
+    Mobile = 1,
+    Work = 2,
+    Home = 3,
+    Main = 4,
+    WorkFax = 5,
+    HomeFax = 6,
+    Pager = 7,
+    Other = 8
 }
 
 public enum ContactRelationship
 {
-    Assistant,
-    Brother,
-    Child,
-    DomesticPartner,
-    Father,
-    Friend,
-    Manager,
-    Mother,
-    Partner,
-    Parent,
-    Relative,
-    Sister,
-    Spouse
+    NoRelation = 0,
+    Assistant = 1,
+    Brother = 2,
+    Child = 3,
+    DomesticPartner = 4,
+    Father = 5,
+    Friend = 6,
+    Manager = 7,
+    Mother = 8,
+    Partner = 9,
+    Parent = 10,
+    Relative = 11,
+    Sister = 12,
+    Spouse = 13
 }
 
 public class Contact: AuditEntity
@@ -40,7 +41,7 @@ public class Contact: AuditEntity
     public string? Phone { get; set; }
     public ContactLabel Label { get; set; }
     public string? Email { get; set; }
-    public DateTime Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
     public ContactRelationship Relationship { get; set; }
     public string? Notes { get; set; }
     public Guid UserId { get; set; }

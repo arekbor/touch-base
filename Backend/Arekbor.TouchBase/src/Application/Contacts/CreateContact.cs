@@ -9,13 +9,13 @@ namespace Arekbor.TouchBase.Application.Contacts;
 public record CreateContactCommand(
     string Firstname, 
     string Surname, 
-    string Company, 
-    string Phone,
+    string? Company, 
+    string? Phone,
     ContactLabel Label,
     string Email,
-    DateTime Birthday,
+    DateTime? Birthday,
     ContactRelationship Relationship,
-    string Notes
+    string? Notes
 ) : IRequest<Unit>;
 
 public class CreateContactCommandValidator : AbstractValidator<CreateContactCommand>
