@@ -9,7 +9,7 @@ public class ContactsController : BaseApiController
     public async Task<IActionResult> Create([FromBody] CreateContactCommand command, CancellationToken cancellationToken) 
         => await Send(command, cancellationToken);
 
-    [HttpGet("contacts")]
+    [HttpGet("list")]
     public async Task<IActionResult> Get([FromQuery] GetContactsQuery query, CancellationToken cancellationToken)
         => await Send(query, cancellationToken);
 }
