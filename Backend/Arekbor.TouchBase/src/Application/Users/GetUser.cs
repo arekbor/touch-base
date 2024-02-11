@@ -23,11 +23,8 @@ internal class GetUserHandler : IRequestHandler<GetUserQuery, UserResult>
 
     public async Task<UserResult> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var id = _currentUserService.Id;
-        if (id is null)
-        {
-            throw new NotFoundException($"User with ID: {id} not found");
-        }
+        var id = _currentUserService.Id 
+            ?? throw new BadRequestException("User is not logged in");
 
         var user = await _userRepository
             .GetAsync(Guid.Parse(id), cancellationToken);

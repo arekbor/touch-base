@@ -8,4 +8,8 @@ public class ContactsController : BaseApiController
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateContactCommand command, CancellationToken cancellationToken) 
         => await Send(command, cancellationToken);
+
+    [HttpGet("contacts")]
+    public async Task<IActionResult> Get([FromQuery] GetContactsQuery query, CancellationToken cancellationToken)
+        => await Send(query, cancellationToken);
 }
