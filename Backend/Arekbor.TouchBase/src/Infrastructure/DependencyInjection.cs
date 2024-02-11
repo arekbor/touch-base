@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Arekbor.TouchBase.Infrastructure.Persistence;
 using Arekbor.TouchBase.Infrastructure.Persistence.Repositories;
+using Arekbor.TouchBase.Infrastructure.Persistence.Extensions;
 
 namespace Arekbor.TouchBase.Infrastructure;
 
@@ -22,6 +23,7 @@ public static class DependencyInjection
         services.Configure<CorsOptions>(configuration.GetSection(CorsOptions.Position));
         services.Configure<PersistenceOptions>(configuration.GetSection(PersistenceOptions.Position));
         services.Configure<RefreshTokenOptions>(configuration.GetSection(RefreshTokenOptions.Position));
+        services.Configure<PaginationOptions>(configuration.GetSection(PaginationOptions.Position));
 
         //Databases
         var persistenceOptions = services
@@ -69,6 +71,13 @@ public static class DependencyInjection
         });
 
         services.AddAuthorizationBuilder();
+
+        //Pagination
+        var paginationOptions = services
+            .BuildServiceProvider()
+            .GetRequiredService<IOptions<PaginationOptions>>();
+
+        PaginatedListExtension.Configure(paginationOptions);
 
         //Services
         services.AddScoped<IIdentityService, IdentityService>();

@@ -1,0 +1,96 @@
+<div class="col-md-12 mt-5">
+  <div class="card" *ngIf="contacts">
+    <div class="card-header">
+      <h5>Contact list</h5>
+      <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-success" (click)="onCreate()">
+          Create
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Firstname</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts.items">
+            <td>{{ contact.firstname }}</td>
+            <td>{{ contact.surname }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>{{ contact.email }}</td>
+            <td>
+              <div class="btn-group btn-group-sm">
+                <button
+                  type="button"
+                  class="btn btn-info"
+                  (click)="onDetails(contact.id)"
+                >
+                  Details
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  (click)="onEdit(contact.id)"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onDelete(contact.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-6">
+          <div class="d-flex justify-content-center align-items-center">
+            <ul class="pagination pagination-sm m-0">
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  [disabled]="!contacts.hasPreviousPage"
+                  (click)="onPrevious()"
+                >
+                  Previous
+                </button>
+              </li>
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  [disabled]="!contacts.hasNextPage"
+                  (click)="onNext()"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="d-flex justify-content-center align-items-center">
+            <select class="form-select" (change)="onPageSizeChange($event)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

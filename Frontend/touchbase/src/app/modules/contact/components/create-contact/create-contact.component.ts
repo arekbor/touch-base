@@ -6,6 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { ContactLabel } from "src/app/core/enums/contactLabel.enum";
 import { ContactRelationship } from "src/app/core/enums/contactRelationship.enum";
@@ -30,7 +31,7 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
   protected contactRelationship: typeof ContactRelationship =
     ContactRelationship;
 
-  constructor(private contactService: ContactService) {
+  constructor(private contactService: ContactService, private router: Router) {
     super();
   }
 
@@ -50,7 +51,7 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
     this.safeSub(
       this.contactService.create(createContact).subscribe({
         next: () => {
-          window.location.reload();
+          this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading = false;

@@ -1,8 +1,9 @@
+using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Entities;
 
 namespace Arekbor.TouchBase.Application.Common.Interfaces;
 
 public interface IContactRepository : IBaseRepository<Contact>
 {
-    Task<List<Contact>> GetContactsByUser(Guid userId, CancellationToken cancellationToken);
+    Task<PaginatedList<Contact>> GetContactsByUser(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken);
 }
