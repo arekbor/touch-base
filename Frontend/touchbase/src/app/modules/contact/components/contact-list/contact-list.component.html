@@ -57,31 +57,39 @@
     </div>
 
     <div class="card-footer">
-      <div class="d-flex justify-content-center align-items-center">
-        <ul class="pagination pagination-sm m-0">
-          <li class="page-item">
-            <button
-              class="page-link"
-              [disabled]="!contacts.hasPreviousPage"
-              (click)="onPrevious()"
-            >
-              Previous
-            </button>
-          </li>
-          <li class="page-item">
-            <button
-              class="page-link"
-              [disabled]="!contacts.hasNextPage"
-              (click)="onNext()"
-            >
-              Next
-            </button>
-          </li>
-        </ul>
-        <select class="form-select" (change)="onPageSizeChange($event)">
-          <option value="5">5</option>
-          <option value="10">10</option>
-        </select>
+      <div class="row">
+        <div class="col-6">
+          <div class="d-flex justify-content-center align-items-center">
+            <ul class="pagination pagination-sm m-0">
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  [disabled]="!contacts.hasPreviousPage"
+                  (click)="onPrevious()"
+                >
+                  Previous
+                </button>
+              </li>
+              <li class="page-item">
+                <button
+                  class="page-link"
+                  [disabled]="!contacts.hasNextPage"
+                  (click)="onNext()"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="d-flex justify-content-center align-items-center">
+            <select class="form-select" (change)="onPageSizeChange($event)">
+              <option value="5">5</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   </div>
