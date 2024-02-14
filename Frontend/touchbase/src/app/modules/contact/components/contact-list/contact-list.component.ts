@@ -11,8 +11,8 @@ import { ContactService } from "src/app/core/services/contact.service";
 })
 export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
+  protected isLoading = false;
   private pageNumber = 1;
-  private pageSize = 5;
 
   constructor(private contactService: ContactService, private router: Router) {
     super();
@@ -31,12 +31,6 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.fetchContacts();
   }
 
-  onPageSizeChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.pageSize = parseInt(value);
-    this.fetchContacts();
-  }
-
   onDetails(id: string): void {}
 
   onEdit(id: string): void {}
@@ -48,9 +42,11 @@ export class ContactListComponent extends BaseComponent implements OnInit {
   }
 
   private fetchContacts() {
-    this.contactService.getContacts(this.pageNumber, this.pageSize).subscribe({
+    this.isLoading = true;
+    this.contactService.getContacts(this.pageNumber, 10).subscribe({
       next: (contacts: PaginatedList<Contact>) => {
         this.contacts = contacts;
+        this.isLoading = false;
       },
     });
   }

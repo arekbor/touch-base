@@ -1,5 +1,5 @@
 <div class="col-md-12 mt-5">
-  <div class="card" *ngIf="contacts">
+  <div class="card">
     <div class="card-header">
       <h5>Contact list</h5>
       <div class="btn-group btn-group-sm">
@@ -9,8 +9,8 @@
       </div>
     </div>
 
-    <div class="card-body">
-      <table class="table">
+    <div class="card-body card-body-wrap">
+      <table class="table" *ngIf="!isLoading">
         <thead>
           <tr>
             <th scope="col">Firstname</th>
@@ -54,42 +54,36 @@
           </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-center" *ngIf="isLoading">
+        <div class="spinner-border"></div>
+      </div>
     </div>
 
     <div class="card-footer">
-      <div class="row">
-        <div class="col-6">
-          <div class="d-flex justify-content-center align-items-center">
-            <ul class="pagination pagination-sm m-0">
-              <li class="page-item">
-                <button
-                  class="page-link"
-                  [disabled]="!contacts.hasPreviousPage"
-                  (click)="onPrevious()"
-                >
-                  Previous
-                </button>
-              </li>
-              <li class="page-item">
-                <button
-                  class="page-link"
-                  [disabled]="!contacts.hasNextPage"
-                  (click)="onNext()"
-                >
-                  Next
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="d-flex justify-content-center align-items-center">
-            <select class="form-select" (change)="onPageSizeChange($event)">
-              <option value="5">5</option>
-              <option value="10">10</option>
-            </select>
-          </div>
-        </div>
+      <div
+        class="d-flex justify-content-center align-items-center"
+        *ngIf="!isLoading"
+      >
+        <ul class="pagination pagination-sm m-0">
+          <li class="page-item">
+            <button
+              class="page-link"
+              [disabled]="!contacts.hasPreviousPage"
+              (click)="onPrevious()"
+            >
+              Previous
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              class="page-link"
+              [disabled]="!contacts.hasNextPage"
+              (click)="onNext()"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
