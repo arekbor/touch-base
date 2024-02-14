@@ -10,7 +10,8 @@
     </div>
 
     <div class="card-body card-body-wrap">
-      <table class="table" *ngIf="!isLoading">
+      <app-http-error [errors]="errors" />
+      <table class="table" *ngIf="!isLoading && contacts">
         <thead>
           <tr>
             <th scope="col">Firstname</th>
@@ -62,7 +63,7 @@
     <div class="card-footer">
       <div
         class="d-flex justify-content-center align-items-center"
-        *ngIf="!isLoading"
+        *ngIf="!isLoading && contacts"
       >
         <ul class="pagination pagination-sm m-0">
           <li class="page-item">
