@@ -16,6 +16,7 @@ import { handleErrors } from "src/app/core/helpers/handleErrors";
 import { CreateContact } from "src/app/core/models/createContact.model";
 import { ContactService } from "src/app/core/services/contact.service";
 import { DatebirthValidator } from "src/app/shared/validators/datebirth.validator";
+import { NameValidator } from "src/app/shared/validators/name.validator";
 import { PhoneValidator } from "src/app/shared/validators/phone.validator";
 
 @Component({
@@ -74,20 +75,33 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
     this.form = new FormGroup<ControlsOf<CreateContact>>({
       firstname: new FormControl("", {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [
+          Validators.required,
+          Validators.maxLength(40),
+          NameValidator,
+        ],
       }),
       surname: new FormControl("", {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [
+          Validators.required,
+          Validators.maxLength(40),
+          NameValidator,
+        ],
       }),
-      company: new FormControl(""),
+      company: new FormControl("", Validators.maxLength(40)),
+
       phone: new FormControl("", PhoneValidator),
       label: new FormControl(0, {
         nonNullable: true,
       }),
       email: new FormControl("", {
         nonNullable: true,
-        validators: [Validators.email, Validators.required],
+        validators: [
+          Validators.email,
+          Validators.required,
+          Validators.maxLength(40),
+        ],
       }),
       birthday: new FormControl(null, DatebirthValidator),
       relationship: new FormControl(0, {

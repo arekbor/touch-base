@@ -10,16 +10,26 @@
               class="form-control"
               name="firstname"
               formControlName="firstname"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('firstname')?.['required'] 
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('firstname') }"
             />
           </div>
           <div
             class="text-danger"
             *ngIf="getFieldErrors('firstname')?.['required']"
           >
-            <small>Firstname is required</small>
+            <small>Firstname is required.</small>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('firstname')?.['maxlength']"
+          >
+            <small>Firstname length must be at most 40.</small>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('firstname')?.['invalidname']"
+          >
+            <small>Firstname can only contain letters.</small>
           </div>
         </div>
 
@@ -31,16 +41,26 @@
               class="form-control"
               name="surname"
               formControlName="surname"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('surname')?.['required'] 
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('surname') }"
             />
           </div>
           <div
             class="text-danger"
             *ngIf="getFieldErrors('surname')?.['required']"
           >
-            <small>Surname is required</small>
+            <small>Surname is required.</small>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('surname')?.['maxlength']"
+          >
+            <small>Surname length must be at most 40.</small>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('surname')?.['invalidname']"
+          >
+            <small>Surname can only contain letters.</small>
           </div>
         </div>
 
@@ -52,7 +72,14 @@
               class="form-control"
               name="company"
               formControlName="company"
+              [ngClass]="{ 'is-invalid': getFieldErrors('company') }"
             />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('company')?.['maxlength']"
+          >
+            <small>Company length must be at most 40.</small>
           </div>
         </div>
 
@@ -67,16 +94,14 @@
               class="form-control"
               name="phone"
               formControlName="phone"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('phone')?.['invalidphone'] 
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('phone') }"
             />
           </div>
           <div
             class="text-danger"
             *ngIf="getFieldErrors('phone')?.['invalidphone']"
           >
-            <small>Invalid phone format</small>
+            <small>Invalid phone format.</small>
           </div>
         </div>
 
@@ -104,20 +129,23 @@
               class="form-control"
               name="email"
               formControlName="email"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('email')?.['required'] || 
-                getFieldErrors('email')?.['email'] 
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('email') }"
             />
           </div>
           <div
             class="text-danger"
             *ngIf="getFieldErrors('email')?.['required']"
           >
-            <small>Email is required</small>
+            <small>Email is required.</small>
           </div>
           <div class="text-danger" *ngIf="getFieldErrors('email')?.['email']">
-            <small>Invalid email format</small>
+            <small>Invalid email format.</small>
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('email')?.['maxlength']"
+          >
+            <small>Email length must be at most 40.</small>
           </div>
         </div>
 
@@ -129,10 +157,14 @@
               type="date"
               name="birthday"
               formControlName="birthday"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('birthday')?.['invaliddatebirth']
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('birthday') }"
             />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="getFieldErrors('birthday')?.['invaliddatebirth']"
+          >
+            <small>Invalid date of birth.</small>
           </div>
         </div>
 
@@ -161,20 +193,20 @@
               class="form-control"
               name="notes"
               formControlName="notes"
-              [ngClass]="{ 'is-invalid': 
-                getFieldErrors('notes')?.['maxlength'] 
-              }"
+              [ngClass]="{ 'is-invalid': getFieldErrors('notes') }"
             />
           </div>
           <div
             class="text-danger"
             *ngIf="getFieldErrors('notes')?.['maxlength']"
           >
-            <small>Max length of notes is 15</small>
+            <small>Max length of notes is 15.</small>
           </div>
         </div>
 
-        <app-spinner-button [isLoading]="isLoading">Register</app-spinner-button>
+        <app-spinner-button [isLoading]="isLoading"
+          >Register</app-spinner-button
+        >
       </form>
     </div>
 

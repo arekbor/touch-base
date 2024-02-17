@@ -11,25 +11,33 @@ public record RegisterUserCommand(string Email, string Username, string Password
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserCommandValidator()
-    {   
+    {  
+        RuleFor(x => x.Username)
+            .NotNull()
+            .NotEmpty()
+            .MaximumLength(40)
+            .WithMessage("{PropertyName} length must be at most 40.");
+         
         RuleFor(x => x.Email)
-            .EmailAddress();
+            .EmailAddress()
+            .MaximumLength(40)
+            .WithMessage("{PropertyName} length must be at most 40.");
 
         RuleFor(x => x.Password)
             .NotEmpty()
-            .NotNull();
-
-        RuleFor(x => x.Password)
+            .NotNull()
             .MinimumLength(8)
             .WithMessage("{PropertyName} length must be at least 8.")
+            .MaximumLength(40)
+            .WithMessage("{PropertyName} length must be at most 40.")
             .Matches(@"[A-Z]+")
             .WithMessage("{PropertyName} must contain at least one uppercase letter.")
             .Matches(@"[a-z]+")
             .WithMessage("{PropertyName} must contain at least one lowercase letter.")
             .Matches(@"[0-9]+")
             .WithMessage("{PropertyName} must contain at least one number.")
-            .Matches(@"[\!\?\*\.]+")
-            .WithMessage("{PropertyName} must contain at least one (!? *.).");
+            .Matches(@"[][""!@#$%^&*(){}:;<>,.?/+_=|'~\\-]")
+            .WithMessage("{PropertyName} must contain one or more special characters.");
     }
 }
 
