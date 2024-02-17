@@ -55,9 +55,7 @@
           </tr>
         </tbody>
       </table>
-      <div class="d-flex justify-content-center" *ngIf="isLoading">
-        <div class="spinner-border"></div>
-      </div>
+      <app-spinner [isLoading]="isLoading" />
     </div>
 
     <div class="card-footer">
