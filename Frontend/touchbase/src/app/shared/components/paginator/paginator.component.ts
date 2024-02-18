@@ -23,10 +23,6 @@ export class PaginatorComponent implements OnChanges {
   protected pages: number[] = [];
 
   ngOnChanges(): void {
-    console.log(this.pageNumber, "currentPage");
-    console.log(this.hasPreviousPage, "hasPreviousPage");
-    console.log(this.hasNextPage, "hasNextPage");
-
     this.generatePageNumbers();
   }
 
