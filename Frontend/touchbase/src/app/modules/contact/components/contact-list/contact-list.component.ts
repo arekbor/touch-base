@@ -16,38 +16,32 @@ export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
   protected errors: string[];
   protected isLoading = false;
-  private pageNumber = 1;
 
   constructor(private contactService: ContactService, private router: Router) {
     super();
   }
+
   ngOnInit(): void {
-    this.fetchContacts();
+    this.fetchContacts(1);
   }
 
-  onPrevious(): void {
-    this.pageNumber--;
-    this.fetchContacts();
+  protected onPageChange(page: number) {
+    this.fetchContacts(page);
   }
 
-  onNext(): void {
-    this.pageNumber++;
-    this.fetchContacts();
-  }
-
-  onDetails(id: string): void {}
-
-  onEdit(id: string): void {}
-
-  onDelete(id: string): void {}
-
-  onCreate(): void {
+  protected onCreate(): void {
     this.router.navigate(["contact/create"]);
   }
 
-  private fetchContacts() {
+  protected onDetails(id: string): void {}
+
+  protected onEdit(id: string): void {}
+
+  protected onDelete(id: string): void {}
+
+  private fetchContacts(pageNumber: number) {
     this.isLoading = true;
-    this.contactService.getContacts(this.pageNumber, 10).subscribe({
+    this.contactService.getContacts(pageNumber, 10).subscribe({
       next: (contacts: PaginatedList<Contact>) => {
         this.contacts = contacts;
         this.isLoading = false;

@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { HttpErrorComponent } from "./components/http-error/http-error.component";
+import { PaginatorComponent } from "./components/paginator/paginator.component";
 import { SpinnerButtonComponent } from "./components/spinner-button/spinner-button.component";
 import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { EnumToArray } from "./pipes/enumToArray.pipe";
@@ -14,6 +15,7 @@ import { EnumToArray } from "./pipes/enumToArray.pipe";
     SpinnerButtonComponent,
     HttpErrorComponent,
     SpinnerComponent,
+    PaginatorComponent,
   ],
   imports: [CommonModule],
   exports: [
@@ -25,6 +27,7 @@ import { EnumToArray } from "./pipes/enumToArray.pipe";
     SpinnerButtonComponent,
     HttpErrorComponent,
     SpinnerComponent,
+    PaginatorComponent,
   ],
 })
 export class SharedModule {}

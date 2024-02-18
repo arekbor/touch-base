@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-center align-items-center">
+  <ul *ngIf="totalPages > 0" class="pagination pagination-sm">
+    <li class="page-item">
+      <button
+        class="page-link"
+        (click)="goToPage(1)"
+        [disabled]="!hasPreviousPage"
+      >
+        First
+      </button>
+    </li>
+    <li class="page-item">
+      <button
+        class="page-link"
+        (click)="goToPrevPage()"
+        [disabled]="!hasPreviousPage"
+      >
+        &laquo;
+      </button>
+    </li>
+
+    <li
+      *ngFor="let page of pages"
+      class="page-item"
+      [ngClass]="{ active: page === pageNumber }"
+    >
+      <button
+        class="page-link"
+        (click)="goToPage(page)"
+        [disabled]="page === pageNumber"
+      >
+        {{ page }}
+      </button>
+    </li>
+
+    <li class="page-item">
+      <button
+        class="page-link"
+        (click)="goToNextPage()"
+        [disabled]="!hasNextPage"
+      >
+        &raquo;
+      </button>
+    </li>
+    <li class="page-item">
+      <button
+        class="page-link"
+        (click)="goToPage(this.totalPages)"
+        [disabled]="!hasNextPage"
+      >
+        Last
+      </button>
+    </li>
+  </ul>
+</div>

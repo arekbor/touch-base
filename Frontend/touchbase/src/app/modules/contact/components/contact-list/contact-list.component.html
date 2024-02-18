@@ -59,31 +59,14 @@
     </div>
 
     <div class="card-footer">
-      <div
-        class="d-flex justify-content-center align-items-center"
+      <app-paginator
         *ngIf="!isLoading && contacts"
-      >
-        <ul class="pagination pagination-sm m-0">
-          <li class="page-item">
-            <button
-              class="page-link"
-              [disabled]="!contacts.hasPreviousPage"
-              (click)="onPrevious()"
-            >
-              Previous
-            </button>
-          </li>
-          <li class="page-item">
-            <button
-              class="page-link"
-              [disabled]="!contacts.hasNextPage"
-              (click)="onNext()"
-            >
-              Next
-            </button>
-          </li>
-        </ul>
-      </div>
+        [totalPages]="contacts.totalPages"
+        [pageNumber]="contacts.pageNumber"
+        [hasPreviousPage]="contacts.hasPreviousPage"
+        [hasNextPage]="contacts.hasNextPage"
+        (pageChange)="onPageChange($event)"
+      />
     </div>
   </div>
 </div>
