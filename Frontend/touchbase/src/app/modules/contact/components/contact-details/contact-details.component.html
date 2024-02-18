@@ -1,0 +1,25 @@
+<div class="col-md-12 mt-5">
+  <div class="card-header">
+    <h5>Contact details</h5>
+  </div>
+
+  <div class="card-body card-body-wrap">
+    <app-http-error [errors]="errors" />
+    <app-spinner [isLoading]="isLoading" />
+
+    <ul class="list-group" *ngIf="contact">
+      <li class="list-group-item">Id: {{ contact.id }}</li>
+      <li class="list-group-item">Firstname: {{ contact.firstname }}</li>
+      <li class="list-group-item">Surname: {{ contact.surname }}</li>
+      <li class="list-group-item">Phone: {{ contact.phone }}</li>
+      <li class="list-group-item">Email: {{ contact.email }}</li>
+      <li class="list-group-item">Company: {{ contact.company }}</li>
+      <li class="list-group-item">Label: {{ contact.label }}</li>
+      <li class="list-group-item">
+        Birth of day: {{ contact.birthday | date }}
+      </li>
+      <li class="list-group-item">Relationship: {{ contact.relationship }}</li>
+      <li class="list-group-item">Notes: {{ contact.notes }}</li>
+    </ul>
+  </div>
+</div>

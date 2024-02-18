@@ -1,27 +1,22 @@
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Models;
-using Arekbor.TouchBase.Domain.Entities;
 using Mapster;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record UserContactResult(
+public record GetContactsResult(
+    Guid Id,
     string? Firstname, 
     string? Surname, 
-    string? Company, 
     string? Phone,
-    ContactLabel Label,
-    string? Email,
-    DateTime? Birthday,
-    ContactRelationship Relationship,
-    string? Notes
+    string? Email
 );
 
-public record GetContactsQuery(int PageNumber, int PageSize) : IRequest<PaginatedList<UserContactResult>>;
+public record GetContactsQuery(int PageNumber, int PageSize) : IRequest<PaginatedList<GetContactsResult>>;
 
-internal class GetUserContactsHandler : IRequestHandler<GetContactsQuery, PaginatedList<UserContactResult>>
+internal class GetUserContactsHandler : IRequestHandler<GetContactsQuery, PaginatedList<GetContactsResult>>
 {
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
@@ -33,14 +28,14 @@ internal class GetUserContactsHandler : IRequestHandler<GetContactsQuery, Pagina
         _currentUserService = currentUserService;
     }
 
-    public async Task<PaginatedList<UserContactResult>> Handle(GetContactsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<GetContactsResult>> Handle(GetContactsQuery request, CancellationToken cancellationToken)
     {
         var id = _currentUserService.Id 
             ?? throw new BadRequestException("User is not logged in");
 
         var pagiantedList = await _contactRepository
-            .GetContactsByUser(Guid.Parse(id), request.PageNumber, request.PageSize, cancellationToken);
+            .GetUserContacts(Guid.Parse(id), request.PageNumber, request.PageSize, cancellationToken);
 
-        return pagiantedList.Adapt<PaginatedList<UserContactResult>>();
+        return pagiantedList.Adapt<PaginatedList<GetContactsResult>>();
     }
 }

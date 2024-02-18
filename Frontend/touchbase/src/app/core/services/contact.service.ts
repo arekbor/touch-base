@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { ContactDetails } from "../models/contact-details.model";
 import { Contact } from "../models/contact.model";
 import { CreateContact } from "../models/createContact.model";
 import { PaginatedList } from "../models/paginatedList";
@@ -29,6 +30,17 @@ export class ContactService {
         params: {
           pageNumber,
           pageSize,
+        },
+      }
+    );
+  }
+
+  getContact(id: string): Observable<ContactDetails> {
+    return this.httpClient.get<ContactDetails>(
+      `${environment.apiUrl}/Contacts/details`,
+      {
+        params: {
+          id: id,
         },
       }
     );

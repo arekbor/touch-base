@@ -33,7 +33,9 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.router.navigate(["contact/create"]);
   }
 
-  protected onDetails(id: string): void {}
+  protected onDetails(id: string): void {
+    this.router.navigate(["/contact/details", id]);
+  }
 
   protected onEdit(id: string): void {}
 
@@ -41,16 +43,18 @@ export class ContactListComponent extends BaseComponent implements OnInit {
 
   private fetchContacts(pageNumber: number) {
     this.isLoading = true;
-    this.contactService.getContacts(pageNumber, 10).subscribe({
-      next: (contacts: PaginatedList<Contact>) => {
-        this.contacts = contacts;
-        this.isLoading = false;
-      },
-      error: (err: HttpErrorResponse) => {
-        this.isLoading = false;
-        this.errors = handleErrors(err);
-        throwError(() => err);
-      },
-    });
+    this.safeSub(
+      this.contactService.getContacts(pageNumber, 10).subscribe({
+        next: (contacts: PaginatedList<Contact>) => {
+          this.contacts = contacts;
+          this.isLoading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isLoading = false;
+          this.errors = handleErrors(err);
+          throwError(() => err);
+        },
+      })
+    );
   }
 }

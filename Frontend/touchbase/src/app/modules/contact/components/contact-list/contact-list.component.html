@@ -11,6 +11,7 @@
 
     <div class="card-body card-body-wrap">
       <app-http-error [errors]="errors" />
+      <app-spinner [isLoading]="isLoading" />
       <table class="table" *ngIf="!isLoading && contacts">
         <thead>
           <tr>
@@ -55,7 +56,6 @@
           </tr>
         </tbody>
       </table>
-      <app-spinner [isLoading]="isLoading" />
     </div>
 
     <div class="card-footer">
