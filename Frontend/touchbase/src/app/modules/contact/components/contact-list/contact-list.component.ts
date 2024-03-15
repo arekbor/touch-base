@@ -15,7 +15,6 @@ import { ContactService } from "src/app/core/services/contact.service";
 export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
   protected errors: string[];
-  protected isLoading = false;
 
   constructor(private contactService: ContactService, private router: Router) {
     super();
@@ -37,20 +36,13 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.router.navigate(["/contact/details", id]);
   }
 
-  protected onEdit(id: string): void {}
-
-  protected onDelete(id: string): void {}
-
   private fetchContacts(pageNumber: number) {
-    this.isLoading = true;
     this.safeSub(
       this.contactService.getContacts(pageNumber, 10).subscribe({
         next: (contacts: PaginatedList<Contact>) => {
           this.contacts = contacts;
-          this.isLoading = false;
         },
         error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
           this.errors = handleErrors(err);
           throwError(() => err);
         },

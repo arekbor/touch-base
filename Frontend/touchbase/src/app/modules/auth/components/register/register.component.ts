@@ -21,7 +21,6 @@ import { PasswordValidator } from "src/app/shared/validators/password.validator"
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<ControlsOf<Register>>;
-  protected isLoading = false;
   protected errors: string[];
 
   constructor(private authService: AuthService, private router: Router) {
@@ -39,14 +38,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     }
 
     const register = this.form.getRawValue();
-    this.isLoading = true;
     this.safeSub(
       this.authService.register(register).subscribe({
         next: () => {
           this.router.navigate(["auth/login"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
           this.errors = handleErrors(err);
           throwError(() => err);
         },
@@ -68,6 +65,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(40)],
       }),
+
       email: new FormControl("", {
         nonNullable: true,
         validators: [
@@ -76,6 +74,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           Validators.maxLength(40),
         ],
       }),
+      
       password: new FormControl("", {
         nonNullable: true,
         validators: [

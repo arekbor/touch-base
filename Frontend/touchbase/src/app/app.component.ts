@@ -1,22 +1,34 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "./core/services/auth.service";
+import { LoadingService } from "./core/services/loading.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
-  isUserLogged = false;
-  username = "";
+  protected isUserLogged = false;
+  protected loading = false;
+  protected username = "";
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     this.initUser();
+    this.loadingListener();
   }
 
   protected logout() {
     this.authService.logout();
+  }
+
+  private loadingListener(): void {
+    this.loadingService.loadingSub.subscribe((loading) => {
+      this.loading = loading;
+    });
   }
 
   private initUser(): void {

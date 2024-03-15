@@ -1,7 +1,7 @@
-<div class="overlay-spinner" *ngIf="isLoading">
-  <div class="d-flex justify-content-center">
+<ng-container *ngIf="isLoading">
+  <div class="d-flex justify-content-center overlay-spinner">
     <div class="spinner-border">
-      <span class="sr-only">Loading...</span>
+      <span class="sr-only"></span>
     </div>
   </div>
-</div>
+</ng-container>

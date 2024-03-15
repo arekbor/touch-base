@@ -45,4 +45,15 @@ export class ContactService {
       }
     );
   }
+
+  deleteContact(id: string): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/Contacts/delete`,
+      {
+        params: {
+          id: id,
+        },
+      }
+    );
+  }
 }

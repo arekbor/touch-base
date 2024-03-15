@@ -3,8 +3,10 @@ import { NgModule } from "@angular/core";
 import { JWT_OPTIONS, JwtHelperService } from "@auth0/angular-jwt";
 import { SharedModule } from "../shared/shared.module";
 import { AuthTokenInterceptor } from "./interceptors/auth-token.interceptor";
+import { LoadingInterceptor } from "./interceptors/loading.interceptor";
 
 const HttpInterceptors = [
+  { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
 ];
 

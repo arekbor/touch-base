@@ -25,7 +25,6 @@ import { PhoneValidator } from "src/app/shared/validators/phone.validator";
 })
 export class CreateContactComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<ControlsOf<CreateContact>>;
-  protected isLoading = false;
   protected errors: string[];
 
   protected contactLabel: typeof ContactLabel = ContactLabel;
@@ -47,7 +46,6 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
     }
 
     const createContact = this.form.getRawValue();
-    this.isLoading = true;
 
     this.safeSub(
       this.contactService.create(createContact).subscribe({
@@ -55,7 +53,6 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
           this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
           this.errors = handleErrors(err);
           throwError(() => err);
         },
@@ -81,6 +78,7 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
           NameValidator,
         ],
       }),
+
       surname: new FormControl("", {
         nonNullable: true,
         validators: [
@@ -89,12 +87,15 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
           NameValidator,
         ],
       }),
+
       company: new FormControl("", Validators.maxLength(40)),
 
       phone: new FormControl("", PhoneValidator),
+
       label: new FormControl(0, {
         nonNullable: true,
       }),
+
       email: new FormControl("", {
         nonNullable: true,
         validators: [
@@ -103,10 +104,13 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
           Validators.maxLength(40),
         ],
       }),
+
       birthday: new FormControl(null, DatebirthValidator),
+
       relationship: new FormControl(0, {
         nonNullable: true,
       }),
+
       notes: new FormControl("", Validators.maxLength(15)),
     });
   }

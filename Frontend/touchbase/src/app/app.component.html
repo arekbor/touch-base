@@ -32,7 +32,9 @@
     </ul>
   </nav>
 
-  <div class="container">
+  <div class="container position-relative">
+    <app-spinner [isLoading]="loading" />
+
     <router-outlet />
   </div>
 </div>

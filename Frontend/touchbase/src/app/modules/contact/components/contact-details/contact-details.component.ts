@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { handleErrors } from "src/app/core/helpers/handleErrors";
@@ -15,12 +15,12 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
   protected contact: ContactDetails;
   private contactId: string;
 
-  protected isLoading = false;
   protected errors: string[];
 
   constructor(
     private contactService: ContactService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
     super();
   }
@@ -29,8 +29,25 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
     this.fetchContact();
   }
 
+  protected onList(): void {
+    this.router.navigate(["contact/list"]);
+  }
+
+  protected onDelete(): void {
+    this.safeSub(
+      this.contactService.deleteContact(this.contactId).subscribe({
+        next: () => {
+          this.router.navigate(["contact/list"]);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errors = handleErrors(err);
+          throwError(() => err);
+        },
+      })
+    );
+  }
+
   private fetchContact(): void {
-    this.isLoading = true;
     this.safeSub(
       this.activatedRoute.params.subscribe((params) => {
         this.contactId = params["id"];
@@ -39,10 +56,8 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
       this.contactService.getContact(this.contactId).subscribe({
         next: (contact: ContactDetails) => {
           this.contact = contact;
-          this.isLoading = false;
         },
         error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
           this.errors = handleErrors(err);
           throwError(() => err);
         },

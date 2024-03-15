@@ -1,11 +1,18 @@
 <div class="col-md-12 mt-5">
   <div class="card-header">
     <h5>Contact details</h5>
+    <div class="btn-group btn-group-sm">
+      <button type="button" class="btn btn-primary" (click)="onList()">
+        Contact List
+      </button>
+      <button type="button" class="btn btn-danger" (click)="onDelete()">
+        Delete
+      </button>
+    </div>
   </div>
 
   <div class="card-body card-body-wrap">
     <app-http-error [errors]="errors" />
-    <app-spinner [isLoading]="isLoading" />
 
     <ul class="list-group" *ngIf="contact">
       <li class="list-group-item">Id: {{ contact.id }}</li>

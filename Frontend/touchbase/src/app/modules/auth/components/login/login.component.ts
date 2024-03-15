@@ -20,7 +20,6 @@ import { AuthService } from "src/app/core/services/auth.service";
 })
 export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<ControlsOf<Login>>;
-  protected isLoading = false;
   protected errors: string[];
   constructor(private authService: AuthService) {
     super();
@@ -37,7 +36,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     const login = this.form.getRawValue();
-    this.isLoading = true;
     this.safeSub(
       this.authService.login(login).subscribe({
         next: (tokens: Tokens | null) => {
@@ -47,11 +45,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
             return;
           }
 
-          this.isLoading = false;
           throwError(() => "Tokens not found");
         },
         error: (err: HttpErrorResponse) => {
-          this.isLoading = false;
           this.errors = handleErrors(err);
           throwError(() => err);
         },
@@ -73,6 +69,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required, Validators.email],
       }),
+      
       password: new FormControl("", {
         nonNullable: true,
         validators: [Validators.required],

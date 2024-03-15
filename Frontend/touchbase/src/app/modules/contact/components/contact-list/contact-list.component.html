@@ -11,8 +11,8 @@
 
     <div class="card-body card-body-wrap">
       <app-http-error [errors]="errors" />
-      <app-spinner [isLoading]="isLoading" />
-      <table class="table" *ngIf="!isLoading && contacts">
+
+      <table class="table" *ngIf="contacts">
         <thead>
           <tr>
             <th scope="col">Firstname</th>
@@ -37,20 +37,6 @@
                 >
                   Details
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  (click)="onEdit(contact.id)"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="onDelete(contact.id)"
-                >
-                  Delete
-                </button>
               </div>
             </td>
           </tr>
@@ -60,7 +46,7 @@
 
     <div class="card-footer">
       <app-paginator
-        *ngIf="!isLoading && contacts"
+        *ngIf="contacts"
         [totalPages]="contacts.totalPages"
         [pageNumber]="contacts.pageNumber"
         [hasPreviousPage]="contacts.hasPreviousPage"
