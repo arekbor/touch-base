@@ -1,16 +1,11 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { ContactLabel } from "src/app/core/enums/contactLabel.enum";
 import { ContactRelationship } from "src/app/core/enums/contactRelationship.enum";
-import { BaseComponent } from "src/app/core/helpers/base.component";
+import { BaseFormComponent } from "src/app/core/helpers/baseForm.component";
 import { ControlsOf } from "src/app/core/helpers/controlsOf";
 import { handleErrors } from "src/app/core/helpers/handleErrors";
 import { CreateContact } from "src/app/core/models/createContact.model";
@@ -23,7 +18,10 @@ import { PhoneValidator } from "src/app/shared/validators/phone.validator";
   selector: "app-create-contact",
   templateUrl: "./create-contact.component.html",
 })
-export class CreateContactComponent extends BaseComponent implements OnInit {
+export class CreateContactComponent
+  extends BaseFormComponent
+  implements OnInit
+{
   protected form: FormGroup<ControlsOf<CreateContact>>;
   protected errors: string[];
 
@@ -45,10 +43,10 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    const createContact = this.form.getRawValue();
+    const rawValue = this.form.getRawValue();
 
     this.safeSub(
-      this.contactService.create(createContact).subscribe({
+      this.contactService.create(rawValue).subscribe({
         next: () => {
           this.router.navigate(["contact/list"]);
         },
@@ -58,14 +56,6 @@ export class CreateContactComponent extends BaseComponent implements OnInit {
         },
       })
     );
-  }
-
-  protected getFieldErrors(field: string): ValidationErrors | null {
-    const control = this.form.get(field);
-    if (control && control.invalid && (control.dirty || control.touched)) {
-      return control.errors;
-    }
-    return null;
   }
 
   private initForm() {

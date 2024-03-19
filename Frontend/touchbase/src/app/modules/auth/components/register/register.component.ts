@@ -1,14 +1,9 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { BaseComponent } from "src/app/core/helpers/base.component";
+import { BaseFormComponent } from "src/app/core/helpers/baseForm.component";
 import { ControlsOf } from "src/app/core/helpers/controlsOf";
 import { handleErrors } from "src/app/core/helpers/handleErrors";
 import { Register } from "src/app/core/models/register.model";
@@ -19,7 +14,7 @@ import { PasswordValidator } from "src/app/shared/validators/password.validator"
   selector: "app-register",
   templateUrl: "./register.component.html",
 })
-export class RegisterComponent extends BaseComponent implements OnInit {
+export class RegisterComponent extends BaseFormComponent implements OnInit {
   protected form: FormGroup<ControlsOf<Register>>;
   protected errors: string[];
 
@@ -37,9 +32,10 @@ export class RegisterComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    const register = this.form.getRawValue();
+    const rawValue = this.form.getRawValue();
+
     this.safeSub(
-      this.authService.register(register).subscribe({
+      this.authService.register(rawValue).subscribe({
         next: () => {
           this.router.navigate(["auth/login"]);
         },
@@ -49,14 +45,6 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         },
       })
     );
-  }
-
-  protected getFieldErrors(field: string): ValidationErrors | null {
-    const control = this.form.get(field);
-    if (control && control.invalid && (control.dirty || control.touched)) {
-      return control.errors;
-    }
-    return null;
   }
 
   private initForm() {
@@ -74,7 +62,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           Validators.maxLength(40),
         ],
       }),
-      
+
       password: new FormControl("", {
         nonNullable: true,
         validators: [

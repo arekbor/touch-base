@@ -14,18 +14,18 @@
               class="form-control"
               name="username"
               formControlName="username"
-              [ngClass]="{ 'is-invalid': getFieldErrors('username') }"
+              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'username') }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('username')?.['required']"
+            *ngIf="getFormFieldErrors(form, 'username')?.['required']"
           >
             <small>Username is required.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('username')?.['maxlength']"
+            *ngIf="getFormFieldErrors(form, 'username')?.['maxlength']"
           >
             <small>Username length must be at most 40.</small>
           </div>
@@ -42,21 +42,24 @@
               class="form-control"
               name="email"
               formControlName="email"
-              [ngClass]="{ 'is-invalid': getFieldErrors('email') }"
+              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('email')?.['required']"
+            *ngIf="getFormFieldErrors(form, 'email')?.['required']"
           >
             <small>Email is required.</small>
           </div>
-          <div class="text-danger" *ngIf="getFieldErrors('email')?.['email']">
+          <div
+            class="text-danger"
+            *ngIf="getFormFieldErrors(form, 'email')?.['email']"
+          >
             <small>Invalid email format.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('email')?.['maxlength']"
+            *ngIf="getFormFieldErrors(form, 'email')?.['maxlength']"
           >
             <small>Email length must be at most 40.</small>
           </div>
@@ -70,48 +73,48 @@
               class="form-control"
               name="password"
               formControlName="password"
-              [ngClass]="{ 'is-invalid': getFieldErrors('password') }"
+              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'password') }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['required']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['required']"
           >
             <small>Password is required.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['minlength']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['minlength']"
           >
             <small>Password length must be at least 8.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['maxlength']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['maxlength']"
           >
             <small>Password length must be at most 40.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['invaliduppercaseletter']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['invaliduppercaseletter']"
           >
             <small>Password must contain at least one uppercase letter.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['invalidlowercaseletter']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['invalidlowercaseletter']"
           >
             <small>Password must contain at least one lowercase letter.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['invalidnumber']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['invalidnumber']"
           >
             <small>Password must contain at least one number.</small>
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['invalidspecialcharacter']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['invalidspecialcharacter']"
           >
             <small>Password must contain one or more special characters.</small>
           </div>

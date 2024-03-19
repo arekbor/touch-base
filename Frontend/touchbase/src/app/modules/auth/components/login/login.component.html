@@ -17,16 +17,19 @@
               class="form-control"
               name="email"
               formControlName="email"
-              [ngClass]="{ 'is-invalid': getFieldErrors('email') }"
+              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('email')?.['required']"
+            *ngIf="getFormFieldErrors(form, 'email')?.['required']"
           >
             <small>Email is required.</small>
           </div>
-          <div class="text-danger" *ngIf="getFieldErrors('email')?.['email']">
+          <div
+            class="text-danger"
+            *ngIf="getFormFieldErrors(form, 'email')?.['email']"
+          >
             <small>Invalid email format.</small>
           </div>
         </div>
@@ -39,12 +42,12 @@
               class="form-control"
               name="password"
               formControlName="password"
-              [ngClass]="{ 'is-invalid': getFieldErrors('password') }"
+              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'password') }"
             />
           </div>
           <div
             class="text-danger"
-            *ngIf="getFieldErrors('password')?.['required']"
+            *ngIf="getFormFieldErrors(form, 'password')?.['required']"
           >
             <small>Password is required.</small>
           </div>
