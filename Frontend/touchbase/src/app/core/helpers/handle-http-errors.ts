@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 
-export function handleErrors(err: HttpErrorResponse): string[] {
+export function handleHttpErrors(err: HttpErrorResponse): string[] {
   const errors: string[] = [];
 
   const detail = err.error.detail || err.statusText;

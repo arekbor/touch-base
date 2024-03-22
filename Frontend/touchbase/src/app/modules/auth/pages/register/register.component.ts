@@ -3,9 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { BaseFormComponent } from "src/app/core/helpers/baseForm.component";
-import { ControlsOf } from "src/app/core/helpers/controlsOf";
-import { handleErrors } from "src/app/core/helpers/handleErrors";
+import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
+import { FormGroupControl } from "src/app/core/helpers/form-group-control";
+import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Register } from "src/app/core/models/register.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { PasswordValidator } from "src/app/shared/validators/password.validator";
@@ -15,7 +15,7 @@ import { PasswordValidator } from "src/app/shared/validators/password.validator"
   templateUrl: "./register.component.html",
 })
 export class RegisterComponent extends BaseFormComponent implements OnInit {
-  protected form: FormGroup<ControlsOf<Register>>;
+  protected form: FormGroup<FormGroupControl<Register>>;
   protected errors: string[];
 
   constructor(private authService: AuthService, private router: Router) {
@@ -40,7 +40,7 @@ export class RegisterComponent extends BaseFormComponent implements OnInit {
           this.router.navigate(["auth/login"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleErrors(err);
+          this.errors = handleHttpErrors(err);
           throwError(() => err);
         },
       })
@@ -48,7 +48,7 @@ export class RegisterComponent extends BaseFormComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup<ControlsOf<Register>>({
+    this.form = new FormGroup<FormGroupControl<Register>>({
       username: new FormControl("", {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(40)],

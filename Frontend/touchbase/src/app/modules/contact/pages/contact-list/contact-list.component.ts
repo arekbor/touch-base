@@ -3,9 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
-import { handleErrors } from "src/app/core/helpers/handleErrors";
+import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Contact } from "src/app/core/models/contact.model";
-import { PaginatedList } from "src/app/core/models/paginatedList";
+import { PaginatedList } from "src/app/core/models/paginated-list";
 import { ContactService } from "src/app/core/services/contact.service";
 
 @Component({
@@ -43,7 +43,7 @@ export class ContactListComponent extends BaseComponent implements OnInit {
           this.contacts = contacts;
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleErrors(err);
+          this.errors = handleHttpErrors(err);
           throwError(() => err);
         },
       })
