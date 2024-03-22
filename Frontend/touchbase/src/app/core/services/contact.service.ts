@@ -4,8 +4,8 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ContactDetails } from "../models/contact-details.model";
 import { Contact } from "../models/contact.model";
-import { CreateContact } from "../models/createContact.model";
-import { PaginatedList } from "../models/paginatedList";
+import { ContactForm } from "../models/contact-form.model";
+import { PaginatedList } from "../models/paginated-list";
 
 @Injectable({
   providedIn: "root",
@@ -13,7 +13,7 @@ import { PaginatedList } from "../models/paginatedList";
 export class ContactService {
   constructor(private httpClient: HttpClient) {}
 
-  create(createContact: CreateContact): Observable<void> {
+  create(createContact: ContactForm): Observable<void> {
     return this.httpClient.post<void>(
       `${environment.apiUrl}/Contacts/create`,
       createContact

@@ -2,9 +2,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { throwError } from "rxjs";
-import { BaseFormComponent } from "src/app/core/helpers/baseForm.component";
-import { ControlsOf } from "src/app/core/helpers/controlsOf";
-import { handleErrors } from "src/app/core/helpers/handleErrors";
+import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
+import { FormGroupControl } from "src/app/core/helpers/form-group-control";
+import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Login } from "src/app/core/models/login.model";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
@@ -14,7 +14,7 @@ import { AuthService } from "src/app/core/services/auth.service";
   templateUrl: "./login.component.html",
 })
 export class LoginComponent extends BaseFormComponent implements OnInit {
-  protected form: FormGroup<ControlsOf<Login>>;
+  protected form: FormGroup<FormGroupControl<Login>>;
   protected errors: string[];
 
   constructor(private authService: AuthService) {
@@ -45,7 +45,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
           throwError(() => "Tokens not found");
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleErrors(err);
+          this.errors = handleHttpErrors(err);
           throwError(() => err);
         },
       })
@@ -53,7 +53,7 @@ export class LoginComponent extends BaseFormComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup<ControlsOf<Login>>({
+    this.form = new FormGroup<FormGroupControl<Login>>({
       email: new FormControl("", {
         nonNullable: true,
         validators: [Validators.required, Validators.email],

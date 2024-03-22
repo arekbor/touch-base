@@ -1,0 +1,15 @@
+<div class="col-md-12 mt-5 mb-5">
+  <div class="card">
+    <div class="card-header">
+      <h5>Create contact</h5>
+    </div>
+
+    <div class="card-body">
+      <app-contact-form (contactFormChange)="onContactFormChange($event)" />
+    </div>
+
+    <div class="card-footer">
+      <app-http-error [errors]="errors" />
+    </div>
+  </div>
+</div>

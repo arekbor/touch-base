@@ -9,8 +9,8 @@ namespace Arekbor.TouchBase.Application.Contacts;
 
 public record GetContactResult(
     Guid Id,
-    string? Firstname, 
-    string? Surname, 
+    string? Firstname,
+    string? Surname,
     string? Phone,
     string? Email,
     string? Company,

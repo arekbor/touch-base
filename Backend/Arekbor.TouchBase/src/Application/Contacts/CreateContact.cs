@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
@@ -7,17 +8,20 @@ using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record CreateContactCommand(
-    string Firstname, 
-    string Surname, 
-    string? Company, 
-    string? Phone,
-    ContactLabel Label,
-    string Email,
-    DateTime? Birthday,
-    ContactRelationship Relationship,
-    string? Notes
-) : IRequest<Unit>;
+public record CreateContactCommand : IRequest<Unit>
+{
+    public required string Firstname { get; set; }
+    public required string Surname { get; set; }
+    public string? Company { get; set; }
+    public string? Phone { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public ContactLabel Label { get; set; }
+    public required string Email { get; set; }
+    public DateTime? Birthday { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public ContactRelationship Relationship { get; set; }
+    public string? Notes { get; set; }
+}
 
 public class CreateContactCommandValidator : AbstractValidator<CreateContactCommand>
 {

@@ -1,5 +1,5 @@
-import { ContactLabel } from "../enums/contactLabel.enum";
-import { ContactRelationship } from "../enums/contactRelationship.enum";
+import { ContactLabel } from "../enums/contact-label.enum";
+import { ContactRelationship } from "../enums/contact-relationship.enum";
 
 export interface ContactDetails {
   id: string;

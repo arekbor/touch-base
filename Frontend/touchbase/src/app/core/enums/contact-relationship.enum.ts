@@ -1,0 +1,33 @@
+export enum ContactRelationship {
+  NoRelation = 0,
+  Assistant = 1,
+  Brother = 2,
+  Child = 3,
+  DomesticPartner = 4,
+  Father = 5,
+  Friend = 6,
+  Manager = 7,
+  Mother = 8,
+  Partner = 9,
+  Parent = 10,
+  Relative = 11,
+  Sister = 12,
+  Spouse = 13,
+}
+
+export const ContactRelationshipMap: Record<ContactRelationship, string> = {
+  [ContactRelationship.NoRelation]: "No relation",
+  [ContactRelationship.Assistant]: "Assistant",
+  [ContactRelationship.Brother]: "Brother",
+  [ContactRelationship.Child]: "Child",
+  [ContactRelationship.DomesticPartner]: "Domestic partner",
+  [ContactRelationship.Father]: "Father",
+  [ContactRelationship.Friend]: "Friend",
+  [ContactRelationship.Manager]: "Manager",
+  [ContactRelationship.Mother]: "Mother",
+  [ContactRelationship.Partner]: "Partner",
+  [ContactRelationship.Parent]: "Parent",
+  [ContactRelationship.Relative]: "Relative",
+  [ContactRelationship.Sister]: "Sister",
+  [ContactRelationship.Spouse]: "Spouse",
+};
