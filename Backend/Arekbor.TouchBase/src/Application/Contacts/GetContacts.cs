@@ -16,11 +16,11 @@ public record GetContactsResult(
 
 public record GetContactsQuery(int PageNumber, int PageSize) : IRequest<PaginatedList<GetContactsResult>>;
 
-internal class GetUserContactsHandler : IRequestHandler<GetContactsQuery, PaginatedList<GetContactsResult>>
+internal class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, PaginatedList<GetContactsResult>>
 {
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
-    public GetUserContactsHandler(
+    public GetContactsQueryHandler(
         IContactRepository contactRepository, 
         ICurrentUserService currentUserService)
     {

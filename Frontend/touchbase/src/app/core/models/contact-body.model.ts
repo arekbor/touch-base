@@ -1,7 +1,7 @@
 import { ContactLabel } from "../enums/contact-label.enum";
 import { ContactRelationship } from "../enums/contact-relationship.enum";
 
-export interface ContactForm {
+export interface ContactBody {
   firstname: string;
   surname: string;
   company: string | null;

@@ -41,11 +41,11 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     }
 }
 
-internal class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Unit>
+internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Unit>
 {
     private readonly IUserRepository _userRepository;
     private readonly IIdentityService _identityService;
-    public RegisterUserHandler(
+    public RegisterUserCommandHandler(
         IUserRepository userRepository,
         IIdentityService identityService) 
     {

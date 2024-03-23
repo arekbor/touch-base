@@ -9,11 +9,11 @@ public record UserResult(string Email, string Username);
 
 public record GetUserQuery() : IRequest<UserResult>;
 
-internal class GetUserHandler : IRequestHandler<GetUserQuery, UserResult>
+internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResult>
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IUserRepository _userRepository;
-    public GetUserHandler(
+    public GetUserQueryHandler(
         ICurrentUserService currentUserService,
         IUserRepository userRepository) 
     {

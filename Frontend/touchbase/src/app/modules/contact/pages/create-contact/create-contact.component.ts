@@ -6,7 +6,7 @@ import { ContactLabel } from "src/app/core/enums/contact-label.enum";
 import { ContactRelationship } from "src/app/core/enums/contact-relationship.enum";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
-import { ContactForm } from "src/app/core/models/contact-form.model";
+import { ContactBody } from "src/app/core/models/contact-body.model";
 import { ContactService } from "src/app/core/services/contact.service";
 
 @Component({
@@ -24,9 +24,9 @@ export class CreateContactComponent extends BaseComponent {
     super();
   }
 
-  protected onContactFormChange(contactForm: ContactForm) {
+  protected onContactBodyChange(contactBody: ContactBody) {
     this.safeSub(
-      this.contactService.create(contactForm).subscribe({
+      this.contactService.create(contactBody).subscribe({
         next: () => {
           this.router.navigate(["contact/list"]);
         },

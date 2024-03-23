@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
+import { ContactBody } from "src/app/core/models/contact-body.model";
 import { ContactDetails } from "src/app/core/models/contact-details.model";
-import { ContactForm } from "src/app/core/models/contact-form.model";
 import { ContactService } from "src/app/core/services/contact.service";
 
 @Component({
@@ -16,7 +16,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
   private contactId: string;
   protected errors: string[];
 
-  protected contactForm: ContactForm;
+  protected contactBody: ContactBody;
 
   constructor(
     private contactService: ContactService,
@@ -30,10 +30,22 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
     this.fetchContact();
   }
 
-  protected onContactFormChange(contactForm: ContactForm) {}
-
   protected onList(): void {
     this.router.navigate(["contact/list"]);
+  }
+
+  protected onContactBodyChange(contactBody: ContactBody) {
+    this.safeSub(
+      this.contactService.update(contactBody, this.contactId).subscribe({
+        next: () => {
+          this.router.navigate(["contact/list"]);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.errors = handleHttpErrors(err);
+          throwError(() => err);
+        },
+      })
+    );
   }
 
   protected onDelete(): void {
@@ -58,7 +70,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
 
       this.contactService.getContact(this.contactId).subscribe({
         next: (contact: ContactDetails) => {
-          this.contactForm = {
+          this.contactBody = {
             firstname: contact.firstname,
             surname: contact.surname,
             company: contact.company,

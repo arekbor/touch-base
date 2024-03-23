@@ -6,12 +6,12 @@ namespace Arekbor.TouchBase.Application.Contacts;
 
 public record DeleteContactCommand(Guid Id): IRequest<Unit>;
 
-internal class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Unit>
+internal class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand, Unit>
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IContactRepository _contactRepository;
 
-    public DeleteContactHandler(
+    public DeleteContactCommandHandler(
         ICurrentUserService currentUserService,
         IContactRepository contactRepository)
     {
@@ -21,17 +21,12 @@ internal class DeleteContactHandler : IRequestHandler<DeleteContactCommand, Unit
 
     public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.Id
+        var id = _currentUserService.Id
             ?? throw new BadRequestException("User is not logged in");
-            
+ 
         var contact = await _contactRepository
-            .GetUserContactById(request.Id, Guid.Parse(userId), cancellationToken)
+            .GetUserContactById(request.Id, Guid.Parse(id), cancellationToken)
             ?? throw new NotFoundException($"Contact ${request.Id} not found");
-
-        if (contact.UserId != Guid.Parse(userId)) 
-        {
-            throw new UnauthorizedException();
-        }
 
         _contactRepository.Delete(contact);
         await _contactRepository.SaveChangesAsync(cancellationToken);
