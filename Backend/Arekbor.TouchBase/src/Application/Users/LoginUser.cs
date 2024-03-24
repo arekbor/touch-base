@@ -21,11 +21,11 @@ public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
     }
 }
 
-internal class LoginUserHandler : IRequestHandler<LoginUserQuery, TokensResult>
+internal class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, TokensResult>
 {
     private readonly IUserRepository _userRepository;
     private readonly IIdentityService _identityService;
-    public LoginUserHandler(
+    public LoginUserQueryHandler(
         IUserRepository userRepository,
         IIdentityService identityService)
     {

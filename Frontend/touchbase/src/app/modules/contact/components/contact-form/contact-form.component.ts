@@ -10,7 +10,7 @@ import {
 } from "src/app/core/enums/contact-relationship.enum";
 import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
 import { FormGroupControl } from "src/app/core/helpers/form-group-control";
-import { ContactForm } from "src/app/core/models/contact-form.model";
+import { ContactBody } from "src/app/core/models/contact-body.model";
 import { DatebirthValidator } from "src/app/shared/validators/datebirth.validator";
 import { NameValidator } from "src/app/shared/validators/name.validator";
 import { PhoneValidator } from "src/app/shared/validators/phone.validator";
@@ -20,9 +20,9 @@ import { PhoneValidator } from "src/app/shared/validators/phone.validator";
   templateUrl: "./contact-form.component.html",
 })
 export class ContactFormComponent extends BaseFormComponent implements OnInit {
-  @Input() contactForm?: ContactForm;
-  @Output() contactFormChange: EventEmitter<ContactForm> =
-    new EventEmitter<ContactForm>();
+  @Input() contactBody?: ContactBody;
+  @Output() contactBodyChange: EventEmitter<ContactBody> =
+    new EventEmitter<ContactBody>();
 
   protected ContactLabelMap = ContactLabelMap;
   protected contactLabels = Object.values(ContactLabel).filter(
@@ -34,7 +34,7 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
     (x) => typeof x === "number"
   ) as ContactRelationship[];
 
-  protected form: FormGroup<FormGroupControl<ContactForm>>;
+  protected form: FormGroup<FormGroupControl<ContactBody>>;
 
   ngOnInit(): void {
     this.initForm();
@@ -46,12 +46,12 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
       return;
     }
 
-    this.contactFormChange.emit(this.form.getRawValue());
+    this.contactBodyChange.emit(this.form.getRawValue());
   }
 
   private initForm() {
-    this.form = new FormGroup<FormGroupControl<ContactForm>>({
-      firstname: new FormControl(this.contactForm?.firstname ?? "", {
+    this.form = new FormGroup<FormGroupControl<ContactBody>>({
+      firstname: new FormControl(this.contactBody?.firstname ?? "", {
         nonNullable: true,
         validators: [
           Validators.required,
@@ -60,7 +60,7 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
         ],
       }),
 
-      surname: new FormControl(this.contactForm?.surname ?? "", {
+      surname: new FormControl(this.contactBody?.surname ?? "", {
         nonNullable: true,
         validators: [
           Validators.required,
@@ -70,17 +70,17 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
       }),
 
       company: new FormControl(
-        this.contactForm?.company ?? "",
+        this.contactBody?.company ?? "",
         Validators.maxLength(40)
       ),
 
-      phone: new FormControl(this.contactForm?.phone ?? "", PhoneValidator),
+      phone: new FormControl(this.contactBody?.phone ?? "", PhoneValidator),
 
-      label: new FormControl(this.contactForm?.label ?? ContactLabel.NoLabel, {
+      label: new FormControl(this.contactBody?.label ?? ContactLabel.NoLabel, {
         nonNullable: true,
       }),
 
-      email: new FormControl(this.contactForm?.email ?? "", {
+      email: new FormControl(this.contactBody?.email ?? "", {
         nonNullable: true,
         validators: [
           Validators.email,
@@ -90,19 +90,19 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
       }),
 
       birthday: new FormControl(
-        this.contactForm?.birthday ?? null,
+        this.contactBody?.birthday ?? null,
         DatebirthValidator
       ),
 
       relationship: new FormControl(
-        this.contactForm?.relationship ?? ContactRelationship.NoRelation,
+        this.contactBody?.relationship ?? ContactRelationship.NoRelation,
         {
           nonNullable: true,
         }
       ),
 
       notes: new FormControl(
-        this.contactForm?.notes ?? "",
+        this.contactBody?.notes ?? "",
         Validators.maxLength(15)
       ),
     });

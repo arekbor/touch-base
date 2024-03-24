@@ -31,12 +31,12 @@ public class GetContactQueryValidator : AbstractValidator<GetContactQuery>
     }
 }
 
-internal class GetContactHandler : IRequestHandler<GetContactQuery, GetContactResult>
+internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetContactResult>
 {
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
 
-    public GetContactHandler(
+    public GetContactQueryHandler(
         IContactRepository contactRepository,
         ICurrentUserService currentUserService)
     {

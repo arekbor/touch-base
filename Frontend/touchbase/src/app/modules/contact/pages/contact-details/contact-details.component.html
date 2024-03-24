@@ -48,9 +48,9 @@
 
     <div class="card-body">
       <app-contact-form
-        *ngIf="contactForm"
-        [contactForm]="contactForm"
-        (contactFormChange)="onContactFormChange($event)"
+        *ngIf="contactBody"
+        [contactBody]="contactBody"
+        (contactBodyChange)="onContactBodyChange($event)"
       />
     </div>
 

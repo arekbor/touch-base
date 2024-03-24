@@ -1,3 +1,4 @@
+using Arekbor.TouchBase.Application.Common.Dtos;
 using Arekbor.TouchBase.Application.Contacts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,10 @@ public class ContactsController : BaseApiController
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateContactCommand command, CancellationToken cancellationToken) 
         => await Send(command, cancellationToken);
+
+    [HttpPut("update")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] ContactBody contactBody, CancellationToken cancellationToken)
+        => await Send(new UpdateContactCommand(id, contactBody), cancellationToken);
 
     [HttpGet("list")]
     public async Task<IActionResult> List([FromQuery] GetContactsQuery query, CancellationToken cancellationToken)

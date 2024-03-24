@@ -6,10 +6,10 @@ namespace Arekbor.TouchBase.Application.Users;
 
 public record RefreshTokenQuery(string RefreshToken) : IRequest<TokensResult>;
 
-internal class RefreshTokenHandler : IRequestHandler<RefreshTokenQuery, TokensResult>
+internal class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, TokensResult>
 {
     private readonly IIdentityService _identityService;
-    public RefreshTokenHandler(IIdentityService identityService)
+    public RefreshTokenQueryHandler(IIdentityService identityService)
     {
         _identityService = identityService;
     }
