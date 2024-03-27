@@ -12,7 +12,7 @@ public record ContactBody
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ContactLabel Label { get; set; }
     public required string Email { get; set; }
-    public DateTime? Birthday { get; set; }
+    public DateOnly? Birthday { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ContactRelationship Relationship { get; set; }
     public string? Notes { get; set; }

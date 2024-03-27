@@ -57,7 +57,7 @@ namespace Infrastructure.Persistence.Migrations
                     Phone = table.Column<string>(type: "text", nullable: true),
                     Label = table.Column<int>(type: "integer", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
-                    Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Birthday = table.Column<DateOnly>(type: "date", nullable: true),
                     Relationship = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),

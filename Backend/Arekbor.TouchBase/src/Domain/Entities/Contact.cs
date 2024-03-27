@@ -41,7 +41,7 @@ public class Contact: AuditEntity
     public string? Phone { get; set; }
     public ContactLabel Label { get; set; }
     public string? Email { get; set; }
-    public DateTime? Birthday { get; set; }
+    public DateOnly? Birthday { get; set; }
     public ContactRelationship Relationship { get; set; }
     public string? Notes { get; set; }
     public Guid UserId { get; set; }
