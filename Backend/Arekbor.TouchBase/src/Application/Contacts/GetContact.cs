@@ -7,7 +7,8 @@ using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record GetContactResult(
+public record GetContactResult
+(
     Guid Id,
     string? Firstname,
     string? Surname,
@@ -15,7 +16,7 @@ public record GetContactResult(
     string? Email,
     string? Company,
     ContactLabel Label,
-    DateTime? Birthday,
+    DateOnly? Birthday,
     ContactRelationship Relationship,
     string? Notes
 );

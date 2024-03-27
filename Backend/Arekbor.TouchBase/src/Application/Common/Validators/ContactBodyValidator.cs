@@ -37,7 +37,7 @@ public class ContactBodyValidator : AbstractValidator<ContactBody>
             .IsInEnum();
 
         RuleFor(x => x.Birthday)
-            .Must(x => x <= DateTime.Now)
+            .Must(x => x <= DateOnly.FromDateTime(DateTime.Now))
             .When(x => x.Birthday.HasValue)
             .WithMessage("{PropertyName} is invalid.");
         

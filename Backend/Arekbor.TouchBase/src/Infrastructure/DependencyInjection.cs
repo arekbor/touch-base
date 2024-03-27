@@ -32,7 +32,7 @@ public static class DependencyInjection
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         services.AddDbContext<ApplicationDbContext>(options => {
-            options.UseNpgsql(persistenceOptions.Postgres);
+            options.UseNpgsql(persistenceOptions.Postgres, o => o.UseNodaTime());
         });
 
         //Repositories
