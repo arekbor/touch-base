@@ -1,5 +1,5 @@
+using Arekbor.TouchBase.Application.Common.Dtos;
 using Arekbor.TouchBase.Application.Common.Interfaces;
-using Arekbor.TouchBase.Application.Users.Dtos;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Users;

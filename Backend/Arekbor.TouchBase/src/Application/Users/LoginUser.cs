@@ -1,6 +1,6 @@
+using Arekbor.TouchBase.Application.Common.Dtos;
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
-using Arekbor.TouchBase.Application.Users.Dtos;
 using FluentValidation;
 using MediatR;
 

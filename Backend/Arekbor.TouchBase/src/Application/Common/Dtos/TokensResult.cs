@@ -1,3 +1,3 @@
-namespace Arekbor.TouchBase.Application.Users.Dtos;
+namespace Arekbor.TouchBase.Application.Common.Dtos;
 
 public record TokensResult(string AccessToken, string RefreshToken);
