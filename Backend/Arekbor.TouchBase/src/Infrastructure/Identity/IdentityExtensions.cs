@@ -9,7 +9,7 @@ namespace Arekbor.TouchBase.Infrastructure.Identity;
 
 public static class IdentityExtensions
 {
-    public static IServiceCollection AddIdentityConfigure(this IServiceCollection services)
+    public static IServiceCollection AddIdentityConfiguration(this IServiceCollection services)
     {
         var jwtOptions = services
             .BuildServiceProvider()

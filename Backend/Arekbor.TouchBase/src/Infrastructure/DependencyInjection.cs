@@ -13,9 +13,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     { 
-        services.AddOptionsConfigure();
-        services.AddPersistenceConfigure();
-        services.AddIdentityConfigure();
+        services.AddOptionsConfiguration();
+        services.AddPersistenceConfiguration();
+        services.AddIdentityConfiguration();
 
         //Repositories
         services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));

@@ -4,7 +4,7 @@ namespace Arekbor.TouchBase.Infrastructure.Options;
 
 public static class OptionsExtensions 
 {
-    public static IServiceCollection AddOptionsConfigure(this IServiceCollection services)
+    public static IServiceCollection AddOptionsConfiguration(this IServiceCollection services)
     {
         services
             .AddOptions<JwtOptions>()

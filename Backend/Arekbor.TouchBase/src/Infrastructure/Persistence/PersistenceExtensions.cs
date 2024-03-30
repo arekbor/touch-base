@@ -7,7 +7,7 @@ namespace Arekbor.TouchBase.Infrastructure.Persistence;
 
 public static class PersistenceExtensions
 {
-    public static IServiceCollection AddPersistenceConfigure(this IServiceCollection services) 
+    public static IServiceCollection AddPersistenceConfiguration(this IServiceCollection services) 
     {
         var persistenceOptions = services
             .BuildServiceProvider()
