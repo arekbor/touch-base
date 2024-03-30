@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { throwError } from "rxjs";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { switchMap, throwError } from "rxjs";
 import { BaseComponent } from "src/app/core/helpers/base.component";
 import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { ContactBody } from "src/app/core/models/contact-body.model";
@@ -13,7 +13,7 @@ import { ContactService } from "src/app/core/services/contact.service";
   templateUrl: "./contact-details.component.html",
 })
 export class ContactDetailsComponent extends BaseComponent implements OnInit {
-  private contactId: string;
+  protected contactId: string;
   protected errors: string[];
 
   protected contactBody: ContactBody;
@@ -63,13 +63,16 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
   }
 
   private fetchContact(): void {
-    this.safeSub(
-      this.activatedRoute.params.subscribe((params) => {
-        this.contactId = params["id"];
-      }),
-
-      this.contactService.getContact(this.contactId).subscribe({
+    this.activatedRoute.params
+      .pipe(
+        switchMap((params: Params) => {
+          return this.contactService.getContact(params["id"]);
+        })
+      )
+      .subscribe({
         next: (contact: ContactDetails) => {
+          this.contactId = contact.id;
+
           this.contactBody = {
             firstname: contact.firstname,
             surname: contact.surname,
@@ -86,7 +89,6 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
           this.errors = handleHttpErrors(err);
           throwError(() => err);
         },
-      })
-    );
+      });
   }
 }
