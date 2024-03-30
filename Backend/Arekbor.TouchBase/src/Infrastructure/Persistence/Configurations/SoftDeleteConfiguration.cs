@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using Ardalis.GuardClauses;
 using Arekbor.TouchBase.Domain.Common;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -12,26 +13,20 @@ public static class SoftDeleteConfiguration
         var methodInfo = typeof(SoftDeleteConfiguration)
             .GetMethod(nameof(GetSoftDeleteFilter), BindingFlags.NonPublic | BindingFlags.Static)?
             .MakeGenericMethod(entityType.ClrType);
-        if (methodInfo is null)
-        {
-            throw new Exception($"Error while getting {nameof(methodInfo)}");
-        }
+
+        Guard.Against.Null(methodInfo);
 
         var filter = methodInfo.Invoke(null, [])!;
-        if (filter is null) 
-        {
-            throw new Exception($"Error while invoking {nameof(methodInfo)}");
-        }
+
+        Guard.Against.Null(filter);
 
         entityType.SetQueryFilter((LambdaExpression)filter);
 
         var deletedProperty = entityType.FindProperty(nameof(AuditEntity.Deleted));
-        if (deletedProperty is null)
-        {
-            throw new Exception($"Error while getting property: {nameof(AuditEntity.Deleted)} from {nameof(AuditEntity)}");
-        } 
+
+        Guard.Against.Null(deletedProperty);
+
         entityType.AddIndex(deletedProperty);
-        
     }
 
     private static LambdaExpression GetSoftDeleteFilter<TEntity>()

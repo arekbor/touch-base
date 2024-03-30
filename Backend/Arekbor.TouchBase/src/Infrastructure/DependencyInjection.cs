@@ -1,7 +1,6 @@
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Arekbor.TouchBase.Infrastructure.Identity;
@@ -16,14 +15,39 @@ namespace Arekbor.TouchBase.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     { 
         //Options
-        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
-        services.Configure<CorsOptions>(configuration.GetSection(CorsOptions.Position));
-        services.Configure<PersistenceOptions>(configuration.GetSection(PersistenceOptions.Position));
-        services.Configure<RefreshTokenOptions>(configuration.GetSection(RefreshTokenOptions.Position));
-        services.Configure<PaginationOptions>(configuration.GetSection(PaginationOptions.Position));
+        services
+            .AddOptions<JwtOptions>()
+            .BindConfiguration(JwtOptions.Position)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services
+            .AddOptions<CorsOptions>()
+            .BindConfiguration(CorsOptions.Position)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        
+        services
+            .AddOptions<PersistenceOptions>()
+            .BindConfiguration(PersistenceOptions.Position)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services
+            .AddOptions<RefreshTokenOptions>()
+            .BindConfiguration(RefreshTokenOptions.Position)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services
+            .AddOptions<PaginationOptions>()
+            .BindConfiguration(PaginationOptions.Position)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        
 
         //Databases
         var persistenceOptions = services
@@ -46,10 +70,7 @@ public static class DependencyInjection
             .BuildServiceProvider()
             .GetRequiredService<IOptions<JwtOptions>>().Value;
 
-        var secretOption = jwtOptions.Secret
-            ?? throw new Exception("Secret option not found while creating the Authentication");
-
-        var keyBytes = Encoding.ASCII.GetBytes(secretOption);
+        var keyBytes = Encoding.ASCII.GetBytes(jwtOptions.Secret);
 
         services.AddAuthentication(options => {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

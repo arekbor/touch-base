@@ -27,11 +27,7 @@ public class JwtService : IJwtService
         var identity = new ClaimsIdentity(claims);
         var principal = new ClaimsPrincipal(identity);
 
-        var secretOption = _jwtOptions.Secret 
-            ?? throw new Exception("Secret option not found while creating an access token");
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretOption));
-        
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret));
         var secret = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
 
         var descriptor = new SecurityTokenDescriptor

@@ -14,7 +14,7 @@ builder.Host.UseSerilog((ctx, config) => {
     config.ReadFrom.Configuration(ctx.Configuration);
 });
 
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddApiServices(builder.Environment);
 
@@ -42,9 +42,9 @@ app.UseCors(builder => {
         builder.DisallowCredentials();
     }
 
-    builder.WithOrigins(corsOptions.AllowedOrigins ?? string.Empty)
-        .WithMethods(corsOptions.AllowedMethods ?? string.Empty)
-        .WithHeaders(corsOptions.AllowedHeaders ?? string.Empty)
+    builder.WithOrigins(corsOptions.AllowedOrigins)
+        .WithMethods(corsOptions.AllowedMethods)
+        .WithHeaders(corsOptions.AllowedHeaders)
         .SetPreflightMaxAge(TimeSpan.FromSeconds(corsOptions.MaxAgeInSeconds));
 });
 

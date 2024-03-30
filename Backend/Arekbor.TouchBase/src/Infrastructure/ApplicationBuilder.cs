@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using Arekbor.TouchBase.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +11,9 @@ public static class ApplicationBuilder
     public static void ApplyMigrations(this IApplicationBuilder app)
     {
         using var services = app.ApplicationServices.CreateScope();
-        var dbContext = services.ServiceProvider.GetService<ApplicationDbContext>() 
-            ?? throw new Exception($"Error while applying migrations. Cannot find {nameof(ApplicationDbContext)} service.");
+        var dbContext = services.ServiceProvider.GetService<ApplicationDbContext>();
+        
+        Guard.Against.Null(dbContext, $"Error while applying migrations. Cannot find {nameof(ApplicationDbContext)} service.");
 
         if (dbContext.Database.GetPendingMigrations().Any())
         {

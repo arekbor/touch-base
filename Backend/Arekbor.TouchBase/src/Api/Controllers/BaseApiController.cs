@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace Arekbor.TouchBase.Api.Controllers;
 public abstract class BaseApiController : ControllerBase
 {
     private IMediator Mediator => HttpContext.RequestServices.GetService<IMediator>() 
-        ?? throw new Exception($"Error while getting {nameof(IMediator)} service");
+        ?? Guard.Against.Null(Mediator);
 
     protected async Task<IActionResult> Send<TResult>(IRequest<TResult> request, CancellationToken cancellationToken)
         => Ok(await Mediator.Send(request, cancellationToken));

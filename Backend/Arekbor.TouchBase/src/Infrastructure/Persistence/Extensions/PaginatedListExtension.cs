@@ -1,3 +1,4 @@
+using Ardalis.GuardClauses;
 using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Common;
 using Arekbor.TouchBase.Infrastructure.Options;
@@ -19,10 +20,9 @@ public static class PaginatedListExtension
         (this IQueryable<TDestination> query, int pageNumber, int pageSize, CancellationToken cancellationToken) 
             where TDestination : BaseEntity
     {
-        var options = _paginationOptions 
-            ?? throw new Exception($"Could not resolve {nameof(PaginationOptions)}");
-            
-        var maxPageSize = options.Value.MaxPageSize;
+        Guard.Against.Null(_paginationOptions);
+
+        var maxPageSize = _paginationOptions.Value.MaxPageSize;
 
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
         pageSize = pageSize <= 0 ? 1 : pageSize;
