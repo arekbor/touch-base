@@ -5,7 +5,6 @@ namespace Arekbor.TouchBase.Infrastructure.Options;
 public class CorsOptions
 {
     public const string Position = "Cors";
-    [Url]
     public string AllowedOrigins { get; init; } = "";
     public string AllowedMethods { get; init; } = "";
     public string AllowedHeaders { get; init; } = "";
