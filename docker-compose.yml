@@ -34,7 +34,6 @@ services:
       - Jwt__ExpiresInSeconds=${JWT_EXPIRES_IN_SECONDS}
       - RefreshToken__ExpiresInSeconds=${REFRESH_TOKEN_EXPIRES_IN_SECONDS}
       - AllowedHosts=${ALLOWED_HOSTS}
-      - Pagination__MaxPageSize=${MAX_PAGE_SIZE}
     networks:
       - touch_base_network
     env_file:

@@ -29,12 +29,6 @@ public static class OptionsExtensions
             .BindConfiguration(RefreshTokenOptions.Position)
             .ValidateDataAnnotations()
             .ValidateOnStart();
-
-        services
-            .AddOptions<PaginationOptions>()
-            .BindConfiguration(PaginationOptions.Position)
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
             
         return services;
     }
