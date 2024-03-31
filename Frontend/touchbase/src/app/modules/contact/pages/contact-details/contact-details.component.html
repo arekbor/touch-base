@@ -31,7 +31,9 @@
   <div class="card">
     <div class="card-header" *ngIf="contactId">
       <h5>Contact details</h5>
-      <h6>Contact ID: {{ contactId }}</h6>
+      <div>
+        <small>Contact ID: {{ contactId }}</small>
+      </div>
       <div class="btn-group btn-group-sm">
         <button type="button" class="btn btn-primary" (click)="onList()">
           Contact List
