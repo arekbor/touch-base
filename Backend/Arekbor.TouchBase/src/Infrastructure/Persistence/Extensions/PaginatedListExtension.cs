@@ -1,32 +1,19 @@
-using Ardalis.GuardClauses;
 using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Common;
-using Arekbor.TouchBase.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-
 namespace Arekbor.TouchBase.Infrastructure.Persistence.Extensions;
 
 public static class PaginatedListExtension
 {
-    private static IOptions<PaginationOptions>? _paginationOptions;
-
-    public static void Configure(IOptions<PaginationOptions> paginationOptions)
-    {
-        _paginationOptions = paginationOptions;
-    }
+    private const int MaxPageSize = 10;
 
     public static async Task<PaginatedList<TDestination>> ToPaginatedListAsync<TDestination>
         (this IQueryable<TDestination> query, int pageNumber, int pageSize, CancellationToken cancellationToken) 
             where TDestination : BaseEntity
     {
-        Guard.Against.Null(_paginationOptions);
-
-        var maxPageSize = _paginationOptions.Value.MaxPageSize;
-
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
         pageSize = pageSize <= 0 ? 1 : pageSize;
-        pageSize = pageSize > maxPageSize ? maxPageSize : pageSize;
+        pageSize = pageSize > MaxPageSize ? MaxPageSize : pageSize;
 
         var count = await query.CountAsync(cancellationToken);
 
