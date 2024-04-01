@@ -20,11 +20,7 @@ export class AppComponent implements OnInit {
     this.initUser();
     this.loadingListener();
   }
-
-  protected logout() {
-    this.authService.logout();
-  }
-
+  
   private loadingListener(): void {
     this.loadingService.loadingSub.subscribe((loading) => {
       this.loading = loading;
