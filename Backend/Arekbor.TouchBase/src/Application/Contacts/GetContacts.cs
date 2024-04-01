@@ -1,30 +1,30 @@
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Models;
-using Mapster;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record GetContactsResult(
-    Guid Id,
-    string? Firstname, 
-    string? Surname, 
-    string? Phone,
-    string? Email
-);
+public class GetContactsResult
+{
+    public Guid Id { get; set; }
+    public string? Firstname { get; set; }
+    public string? Surname { get; set; }
+    public string? Phone { get; set; }
+    public string? Email { get; set; }
+}
 
 public record GetContactsQuery(int PageNumber, int PageSize) : IRequest<PaginatedList<GetContactsResult>>;
 
 internal class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, PaginatedList<GetContactsResult>>
 {
-    private readonly IContactRepository _contactRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
     private readonly ICurrentUserService _currentUserService;
     public GetContactsQueryHandler(
-        IContactRepository contactRepository, 
+        IApplicationDbContext applicationDbContext, 
         ICurrentUserService currentUserService)
     {
-        _contactRepository = contactRepository;
+        _applicationDbContext = applicationDbContext;
         _currentUserService = currentUserService;
     }
 
@@ -33,9 +33,19 @@ internal class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, Pagin
         var id = _currentUserService.Id 
             ?? throw new BadRequestException("User is not logged in");
 
-        var pagiantedList = await _contactRepository
-            .GetUserContacts(Guid.Parse(id), request.PageNumber, request.PageSize, cancellationToken);
+        var query = _applicationDbContext
+            .Contacts
+            .Where(c => c.UserId == Guid.Parse(id))
+            .Select(c => new GetContactsResult
+            {
+                Id = c.Id,
+                Firstname = c.Firstname,
+                Surname = c.Surname,
+                Phone = c.Phone,
+                Email = c.Email
+            });
 
-        return pagiantedList.Adapt<PaginatedList<GetContactsResult>>();
+        return await PaginatedList<GetContactsResult>
+            .CreateAsync(query, request.PageNumber, request.PageSize, cancellationToken);
     }
 }

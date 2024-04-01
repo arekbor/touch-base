@@ -1,28 +1,27 @@
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 {
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
-    private readonly IUserRepository _userRepository;
+    private IApplicationDbContext _applicationDbContext;
     private readonly IJwtService _jwtService;
     public IdentityService(
-        IRefreshTokenRepository refreshTokenRepository,
-        IUserRepository userRepository,
+        IApplicationDbContext applicationDbContext,
         IJwtService jwtService) 
     {
-        _refreshTokenRepository = refreshTokenRepository;
-        _userRepository = userRepository;
+        _applicationDbContext = applicationDbContext;
         _jwtService = jwtService;
     }
 
     public async Task<(string accessToken, string refreshToken)> Authorize(Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetAsync(userId, cancellationToken)
-            ?? throw new UnauthorizedException();
+        var user = await _applicationDbContext.Users
+            .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken)
+                ?? throw new UnauthorizedException();
 
         var claims = new List<Claim>
         {
@@ -35,27 +34,27 @@ public class IdentityService : IIdentityService
         var accessToken = _jwtService.GenerateAccessToken(claims);
 
         var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+        
         if (refreshToken.Token is null)
-        {
             throw new UnauthorizedException();
-        }
 
-        await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
-        await _refreshTokenRepository.SaveChangesAsync(cancellationToken);
+        await _applicationDbContext.RefreshTokens.AddAsync(refreshToken, cancellationToken);
+        await _applicationDbContext.SaveChangesAsync(cancellationToken);
 
         return (accessToken, refreshToken.Token);
     }
 
     public async Task<(string accessToken, string refreshToken)> Refresh(string oldToken, CancellationToken cancellationToken)
     {
-        var refreshToken = await _refreshTokenRepository
-            .GetRefreshTokenByToken(oldToken, cancellationToken) 
-                ?? throw new UnauthorizedException();
+        var refreshToken = await _applicationDbContext.RefreshTokens
+            .FirstOrDefaultAsync(rt => rt.Token == oldToken 
+                && rt.Expires.ToUniversalTime() >= DateTime.UtcNow, cancellationToken)
+                    ?? throw new UnauthorizedException();
         
         var tokens = await Authorize(refreshToken.UserId, cancellationToken);
 
-        _refreshTokenRepository.Delete(refreshToken);
-        await _refreshTokenRepository.SaveChangesAsync(cancellationToken);
+        _applicationDbContext.RefreshTokens.Remove(refreshToken);
+        await _applicationDbContext.SaveChangesAsync(cancellationToken);
 
         return tokens;
     }

@@ -4,6 +4,7 @@ using Arekbor.TouchBase.Domain.Entities;
 using FluentValidation;
 using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
@@ -34,14 +35,14 @@ public class GetContactQueryValidator : AbstractValidator<GetContactQuery>
 
 internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetContactResult>
 {
-    private readonly IContactRepository _contactRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
     private readonly ICurrentUserService _currentUserService;
 
     public GetContactQueryHandler(
-        IContactRepository contactRepository,
+        IApplicationDbContext applicationDbContext,
         ICurrentUserService currentUserService)
     {
-        _contactRepository = contactRepository;
+        _applicationDbContext = applicationDbContext;
         _currentUserService = currentUserService;
     }
 
@@ -50,9 +51,9 @@ internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetCont
         var userId = _currentUserService.Id
             ?? throw new BadRequestException("User is not logged in");
 
-        var contact = await _contactRepository
-            .GetUserContactById(request.Id, Guid.Parse(userId), cancellationToken)
-            ?? throw new NotFoundException($"Contact ${request.Id} not found");
+        var contact = await _applicationDbContext.Contacts
+            .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == Guid.Parse(userId), cancellationToken)
+                ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
         return contact.Adapt<GetContactResult>();
     }
