@@ -3,6 +3,7 @@ using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Application.Users;
 
@@ -23,25 +24,24 @@ public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
 
 internal class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, TokensResult>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
     private readonly IIdentityService _identityService;
     public LoginUserQueryHandler(
-        IUserRepository userRepository,
+        IApplicationDbContext applicationDbContext,
         IIdentityService identityService)
     {
-        _userRepository = userRepository;
+        _applicationDbContext = applicationDbContext;
         _identityService = identityService;
     }
     
     public async Task<TokensResult> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken) 
-            ?? throw new BadRequestException("Email or password is invalid");
+        var user = await _applicationDbContext.Users
+            .FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken)
+                ?? throw new BadRequestException("Email or password is invalid");
 
         if (!_identityService.VerifyPasswordHash(user.Password!, request.Password))
-        {
             throw new BadRequestException("Email or password is invalid");
-        }
 
         var (accessToken, refreshToken) = await _identityService
             .Authorize(user.Id, cancellationToken);

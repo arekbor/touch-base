@@ -1,3 +1,4 @@
+using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Domain.Common;
 using Arekbor.TouchBase.Domain.Entities;
 using Arekbor.TouchBase.Infrastructure.Persistence.Configurations;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -35,6 +36,7 @@ public class ApplicationDbContext : DbContext
                 }
             }
         }
+        
         return base.SaveChangesAsync(cancellationToken);
     }
 
@@ -47,6 +49,7 @@ public class ApplicationDbContext : DbContext
                 entityType.AddSoftDelete();
             }
         }
+
         base.OnModelCreating(modelBuilder);
     }
 }

@@ -2,6 +2,7 @@ using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Application.Users;
 
@@ -11,14 +12,14 @@ public record GetUserQuery() : IRequest<UserResult>;
 
 internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResult>
 {
+    private IApplicationDbContext _applicationDbContext;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IUserRepository _userRepository;
     public GetUserQueryHandler(
-        ICurrentUserService currentUserService,
-        IUserRepository userRepository) 
+        IApplicationDbContext applicationDbContext,
+        ICurrentUserService currentUserService) 
     {
+        _applicationDbContext = applicationDbContext;
         _currentUserService = currentUserService;
-        _userRepository = userRepository;
     }
 
     public async Task<UserResult> Handle(GetUserQuery request, CancellationToken cancellationToken)
@@ -26,8 +27,9 @@ internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResult>
         var id = _currentUserService.Id 
             ?? throw new BadRequestException("User is not logged in");
 
-        var user = await _userRepository
-            .GetAsync(Guid.Parse(id), cancellationToken);
+        var user = await _applicationDbContext
+            .Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(id), cancellationToken)
+                ?? throw new NotFoundException($"User ${Guid.Parse(id)} not found");
         
         return user.Adapt<UserResult>();
     }
