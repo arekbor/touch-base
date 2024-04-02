@@ -4,7 +4,6 @@ using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Validators;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
@@ -21,13 +20,13 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateContactComm
 
 internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, Unit>
 {
-    private readonly IApplicationDbContext _applicationDbContext;
+    private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
     public UpdateContactCommandHandler(
-        IApplicationDbContext applicationDbContext,
+        IContactRepository contactRepository,
         ICurrentUserService currentUserService) 
     {
-        _applicationDbContext = applicationDbContext;
+        _contactRepository = contactRepository;
         _currentUserService = currentUserService;
     }
 
@@ -36,9 +35,9 @@ internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactComman
         var userId = _currentUserService.Id 
             ?? throw new BadRequestException("User is not logged in");
 
-        var contact = await _applicationDbContext.Contacts
-            .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == Guid.Parse(userId), cancellationToken)
-                ?? throw new NotFoundException($"Contact ${request.Id} not found");
+        var contact = await _contactRepository
+            .GetUserContactById(request.Id, Guid.Parse(userId), cancellationToken)
+            ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
         contact.Firstname = request.ContactBody.Firstname;
         contact.Surname = request.ContactBody.Surname;
@@ -50,8 +49,8 @@ internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactComman
         contact.Relationship = request.ContactBody.Relationship;
         contact.Notes = request.ContactBody.Notes;
 
-        _applicationDbContext.Contacts.Update(contact);
-        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+        _contactRepository.Update(contact);
+        await _contactRepository.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

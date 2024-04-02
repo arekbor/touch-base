@@ -3,7 +3,6 @@ using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Domain.Entities;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Application.Users;
 
@@ -44,21 +43,19 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
 
 internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Unit>
 {
-    private readonly IApplicationDbContext _applicationDbContext;
+    private readonly IUserRepository _userRepository;
     private readonly IIdentityService _identityService;
     public RegisterUserCommandHandler(
-        IApplicationDbContext applicationDbContext,
+        IUserRepository userRepository,
         IIdentityService identityService) 
     {
-        _applicationDbContext = applicationDbContext;
+        _userRepository = userRepository;
         _identityService = identityService;
     }
 
     public async Task<Unit> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _applicationDbContext.Users
-            .FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
-
+        var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
         if (user != null)
         {
             throw new BadRequestException($"User with email: {request.Email} already exists");
@@ -73,8 +70,8 @@ internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
             Password = hashedPassword
         };
 
-        await _applicationDbContext.Users.AddAsync(newUser, cancellationToken);
-        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+        await _userRepository.AddAsync(newUser, cancellationToken);
+        await _userRepository.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

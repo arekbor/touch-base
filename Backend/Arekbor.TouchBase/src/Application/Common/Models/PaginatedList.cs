@@ -1,31 +1,25 @@
 
-using Microsoft.EntityFrameworkCore;
-
 namespace Arekbor.TouchBase.Application.Common.Models;
 
 public sealed class PaginatedList<T>
 {
-    public IReadOnlyCollection<T> Items { get; }
-    public int PageNumber { get; }
-    public int TotalPages { get; }
-    public int TotalCount { get; }
+    public IEnumerable<T> Items { get; set; } = [];
+    public int PageNumber { get; set; }
+    public int TotalPages { get; set; }
+    public int TotalCount { get; set; }
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;
-
-    public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
+    
+    public PaginatedList()
     {
-        PageNumber = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        TotalCount = count;
-        Items = items;
+        
     }
 
-    public static async Task<PaginatedList<T>> CreateAsync
-        (IQueryable<T> source, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public PaginatedList(IEnumerable<T> items, int totalCount, int pageNumber, int pageSize)
     {
-        var count = await source.CountAsync(cancellationToken);
-        var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
-
-        return new PaginatedList<T>(items, count, pageNumber, pageSize);
+        PageNumber = pageNumber;
+        TotalCount = totalCount;
+        TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+        Items = items;
     }
 }

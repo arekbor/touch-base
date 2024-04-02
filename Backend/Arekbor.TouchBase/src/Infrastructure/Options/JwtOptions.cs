@@ -12,6 +12,6 @@ public class JwtOptions
     [Required]
     public string Audience { get; set; } = "";
     [Required]
-    [Range(1, 3600)]
+    [Range(10, 3600)]
     public int ExpiresInSeconds { get; set; }
 }

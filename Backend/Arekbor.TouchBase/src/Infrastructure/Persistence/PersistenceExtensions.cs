@@ -1,4 +1,3 @@
-using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,9 +17,6 @@ public static class PersistenceExtensions
         services.AddDbContext<ApplicationDbContext>(options => {
             options.UseNpgsql(persistenceOptions.Postgres, o => o.UseNodaTime());
         });
-
-        services.AddScoped<IApplicationDbContext>(sp =>
-            sp.GetRequiredService<ApplicationDbContext>());
         
         return services;
     }
