@@ -1,6 +1,7 @@
 using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Common;
 using Microsoft.EntityFrameworkCore;
+
 namespace Arekbor.TouchBase.Infrastructure.Persistence.Extensions;
 
 public static class PaginatedListExtension

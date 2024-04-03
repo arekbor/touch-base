@@ -1,5 +1,4 @@
 using Arekbor.TouchBase.Application.Common.Dtos;
-using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Validators;
 using Arekbor.TouchBase.Domain.Entities;
@@ -35,12 +34,9 @@ internal class CreateContactCommandHandler : IRequestHandler<CreateContactComman
 
     public async Task<Unit> Handle(CreateContactCommand request, CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.Id 
-            ?? throw new BadRequestException("User is not logged in");
-
         var contact = new Contact
         {
-            UserId = Guid.Parse(userId),
+            UserId = _currentUserService.GetId(),
             Firstname = request.Firstname,
             Surname = request.Surname,
             Company = request.Company,

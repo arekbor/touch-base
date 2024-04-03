@@ -1,4 +1,3 @@
-using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Mapster;
 using MediatR;
@@ -23,11 +22,8 @@ internal class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResult>
 
     public async Task<UserResult> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var id = _currentUserService.Id 
-            ?? throw new BadRequestException("User is not logged in");
-
         var user = await _userRepository
-            .GetAsync(Guid.Parse(id), cancellationToken);
+            .GetAsync(_currentUserService.GetId(), cancellationToken);
         
         return user.Adapt<UserResult>();
     }

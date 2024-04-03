@@ -24,12 +24,9 @@ internal class DeleteContactCommandHandler : IRequestHandler<DeleteContactComman
 
     public async Task<Unit> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.Id
-            ?? throw new BadRequestException("User is not logged in");
- 
         var contact = await _contactRepository
-            .GetUserContactById(request.Id, Guid.Parse(userId), cancellationToken)
-            ?? throw new NotFoundException($"Contact ${request.Id} not found");
+            .GetUserContactById(request.Id, _currentUserService.GetId(), cancellationToken)
+                ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
         _contactRepository.Delete(contact);
 

@@ -47,12 +47,9 @@ internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetCont
 
     public async Task<GetContactResult> Handle(GetContactQuery request, CancellationToken cancellationToken)
     {
-        var userId = _currentUserService.Id
-            ?? throw new BadRequestException("User is not logged in");
-
         var contact = await _contactRepository
-            .GetUserContactById(request.Id, Guid.Parse(userId), cancellationToken)
-            ?? throw new NotFoundException($"Contact ${request.Id} not found");
+            .GetUserContactById(request.Id, _currentUserService.GetId(), cancellationToken)
+                ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
         return contact.Adapt<GetContactResult>();
     }
