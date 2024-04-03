@@ -27,7 +27,4 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity>
 
     public void Update(TEntity entity)
         => Context.Set<TEntity>().Update(entity);
-
-    public Task SaveChangesAsync(CancellationToken cancellationToken)
-        => Context.SaveChangesAsync(cancellationToken);
 }

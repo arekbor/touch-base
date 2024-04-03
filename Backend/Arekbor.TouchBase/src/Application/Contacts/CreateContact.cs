@@ -20,12 +20,15 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 
 internal class CreateContactCommandHandler : IRequestHandler<CreateContactCommand, Unit>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
     public CreateContactCommandHandler(
+        IUnitOfWork unitOfWork,
         IContactRepository contactRepository,
         ICurrentUserService currentUserService) 
     {
+        _unitOfWork = unitOfWork;
         _contactRepository = contactRepository;
         _currentUserService = currentUserService;
     }
@@ -50,7 +53,8 @@ internal class CreateContactCommandHandler : IRequestHandler<CreateContactComman
         };
 
         await _contactRepository.AddAsync(contact, cancellationToken);
-        await _contactRepository.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Unit.Value;
     }

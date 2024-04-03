@@ -43,12 +43,15 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
 
 internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Unit>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IIdentityService _identityService;
     public RegisterUserCommandHandler(
+        IUnitOfWork unitOfWork,
         IUserRepository userRepository,
         IIdentityService identityService) 
     {
+        _unitOfWork = unitOfWork;
         _userRepository = userRepository;
         _identityService = identityService;
     }
@@ -71,7 +74,8 @@ internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         };
 
         await _userRepository.AddAsync(newUser, cancellationToken);
-        await _userRepository.SaveChangesAsync(cancellationToken);
+        
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Unit.Value;
     }

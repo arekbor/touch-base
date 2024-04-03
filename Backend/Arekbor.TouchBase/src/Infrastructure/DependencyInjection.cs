@@ -16,10 +16,11 @@ public static class DependencyInjection
         services.AddIdentityConfiguration();
 
         //Repositories
-        services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddTransient<IUserRepository, UserRepository>();
-        services.AddTransient<IContactRepository, ContactRepository>();
-        services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
         //Services
         services.AddScoped<IIdentityService, IdentityService>();

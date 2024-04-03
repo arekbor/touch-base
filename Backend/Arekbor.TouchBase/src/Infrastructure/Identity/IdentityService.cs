@@ -6,14 +6,17 @@ namespace Arekbor.TouchBase.Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
     public IdentityService(
+        IUnitOfWork unitOfWork,
         IRefreshTokenRepository refreshTokenRepository,
         IUserRepository userRepository,
         IJwtService jwtService) 
     {
+        _unitOfWork = unitOfWork;
         _refreshTokenRepository = refreshTokenRepository;
         _userRepository = userRepository;
         _jwtService = jwtService;
@@ -41,7 +44,8 @@ public class IdentityService : IIdentityService
         }
 
         await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
-        await _refreshTokenRepository.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return (accessToken, refreshToken.Token);
     }
@@ -55,7 +59,8 @@ public class IdentityService : IIdentityService
         var tokens = await Authorize(refreshToken.UserId, cancellationToken);
 
         _refreshTokenRepository.Delete(refreshToken);
-        await _refreshTokenRepository.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return tokens;
     }

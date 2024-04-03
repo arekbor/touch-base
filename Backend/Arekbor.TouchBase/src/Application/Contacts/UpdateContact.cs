@@ -20,12 +20,15 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateContactComm
 
 internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, Unit>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
     public UpdateContactCommandHandler(
+        IUnitOfWork unitOfWork,
         IContactRepository contactRepository,
         ICurrentUserService currentUserService) 
     {
+        _unitOfWork = unitOfWork;
         _contactRepository = contactRepository;
         _currentUserService = currentUserService;
     }
@@ -50,7 +53,8 @@ internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactComman
         contact.Notes = request.ContactBody.Notes;
 
         _contactRepository.Update(contact);
-        await _contactRepository.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Unit.Value;
     }

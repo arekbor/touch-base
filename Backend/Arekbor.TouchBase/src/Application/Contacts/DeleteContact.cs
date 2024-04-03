@@ -8,13 +8,16 @@ public record DeleteContactCommand(Guid Id): IRequest<Unit>;
 
 internal class DeleteContactCommandHandler : IRequestHandler<DeleteContactCommand, Unit>
 {
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUserService _currentUserService;
     private readonly IContactRepository _contactRepository;
 
     public DeleteContactCommandHandler(
+        IUnitOfWork unitOfWork,
         ICurrentUserService currentUserService,
         IContactRepository contactRepository)
     {
+        _unitOfWork =  unitOfWork;
         _currentUserService = currentUserService;
         _contactRepository = contactRepository;
     }
@@ -29,7 +32,8 @@ internal class DeleteContactCommandHandler : IRequestHandler<DeleteContactComman
             ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
         _contactRepository.Delete(contact);
-        await _contactRepository.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Unit.Value;
     }
