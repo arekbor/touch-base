@@ -3,6 +3,7 @@ using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Validators;
 using FluentValidation;
+using Mapster;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
@@ -39,15 +40,7 @@ internal class UpdateContactCommandHandler : IRequestHandler<UpdateContactComman
             .GetUserContactById(request.Id, _currentUserService.GetId(), cancellationToken)
                 ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
-        contact.Firstname = request.ContactBody.Firstname;
-        contact.Surname = request.ContactBody.Surname;
-        contact.Company = request.ContactBody.Company;
-        contact.Phone = request.ContactBody.Phone;
-        contact.Label = request.ContactBody.Label;
-        contact.Email = request.ContactBody.Email;
-        contact.Birthday = request.ContactBody.Birthday;
-        contact.Relationship = request.ContactBody.Relationship;
-        contact.Notes = request.ContactBody.Notes;
+        contact = request.ContactBody.Adapt(contact);
 
         _contactRepository.Update(contact);
 

@@ -3,6 +3,7 @@ using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Validators;
 using Arekbor.TouchBase.Domain.Entities;
 using FluentValidation;
+using Mapster;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
@@ -34,19 +35,9 @@ internal class CreateContactCommandHandler : IRequestHandler<CreateContactComman
 
     public async Task<Unit> Handle(CreateContactCommand request, CancellationToken cancellationToken)
     {
-        var contact = new Contact
-        {
-            UserId = _currentUserService.GetId(),
-            Firstname = request.Firstname,
-            Surname = request.Surname,
-            Company = request.Company,
-            Phone = request.Phone,
-            Label = request.Label,
-            Email = request.Email,
-            Birthday = request.Birthday,
-            Relationship = request.Relationship,
-            Notes = request.Notes
-        };
+        var contact = request.Adapt<Contact>();
+        
+        contact.UserId = _currentUserService.GetId();
 
         await _contactRepository.AddAsync(contact, cancellationToken);
 
