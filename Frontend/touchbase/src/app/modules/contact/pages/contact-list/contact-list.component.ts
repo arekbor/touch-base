@@ -16,12 +16,20 @@ export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
   protected errors: string[];
 
+  private readonly maxPageSize = 10;
+
   constructor(private contactService: ContactService, private router: Router) {
     super();
   }
 
   ngOnInit(): void {
     this.fetchContacts(1);
+  }
+
+  protected onSearchTermChange(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value;
+
+    this.fetchContacts(1, searchTerm);
   }
 
   protected onPageChange(page: number) {
@@ -36,17 +44,19 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.router.navigate(["/contact/details", id]);
   }
 
-  private fetchContacts(pageNumber: number) {
+  private fetchContacts(pageNumber: number, searchTerm?: string) {
     this.safeSub(
-      this.contactService.getContacts(pageNumber, 10).subscribe({
-        next: (contacts: PaginatedList<Contact>) => {
-          this.contacts = contacts;
-        },
-        error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
-          throwError(() => err);
-        },
-      })
+      this.contactService
+        .getContacts(pageNumber, this.maxPageSize, searchTerm)
+        .subscribe({
+          next: (contacts: PaginatedList<Contact>) => {
+            this.contacts = contacts;
+          },
+          error: (err: HttpErrorResponse) => {
+            this.errors = handleHttpErrors(err);
+            throwError(() => err);
+          },
+        })
     );
   }
 }

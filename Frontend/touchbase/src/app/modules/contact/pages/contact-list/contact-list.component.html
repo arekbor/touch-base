@@ -7,6 +7,18 @@
           Create
         </button>
       </div>
+
+      <div class="input-group mt-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search-term-input">Search</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          aria-describedby="search-term-input"
+          (input)="onSearchTermChange($event)"
+        />
+      </div>
     </div>
 
     <div class="card-body card-body-wrap">

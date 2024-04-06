@@ -1,10 +1,11 @@
+using System.Linq.Expressions;
 using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Arekbor.TouchBase.Infrastructure.Persistence.Extensions;
 
-public static class PaginatedListExtension
+public static class QueryableExtension
 {
     private const int MaxPageSize = 10;
 
@@ -24,4 +25,8 @@ public static class PaginatedListExtension
 
         return new PaginatedList<TDestination>(items, count, pageNumber, pageSize);
     }
+
+    public static IQueryable<TSource> WhereIf<TSource>
+        (this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, bool condition)
+            => condition ? source.Where(predicate) : source;
 }

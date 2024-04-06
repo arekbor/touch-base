@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -30,15 +30,22 @@ export class ContactService {
 
   getContacts(
     pageNumber: number,
-    pageSize: number
+    pageSize: number,
+    searchTerm?: string
   ): Observable<PaginatedList<Contact>> {
+    let params = new HttpParams();
+
+    params = params.append("pageNumber", pageNumber);
+    params = params.append("pageSize", pageSize);
+
+    if (searchTerm) {
+      params = params.append("searchTerm", searchTerm);
+    }
+
     return this.httpClient.get<PaginatedList<Contact>>(
       `${environment.apiUrl}/Contacts/list`,
       {
-        params: {
-          pageNumber,
-          pageSize,
-        },
+        params: params,
       }
     );
   }

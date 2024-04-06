@@ -5,6 +5,7 @@ namespace Arekbor.TouchBase.Application.Common.Interfaces;
 
 public interface IContactRepository : IBaseRepository<Contact>
 {
-    Task<PaginatedList<Contact>> GetUserContacts(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<PaginatedList<Contact>> GetUserContacts
+        (Guid userId, int pageNumber, int pageSize, string? searchTerm, CancellationToken cancellationToken);
     Task<Contact?> GetUserContactById(Guid contactId, Guid userId, CancellationToken cancellationToken);
 }

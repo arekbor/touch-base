@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using Arekbor.TouchBase.Application.Common.Models;
 using Arekbor.TouchBase.Domain.Entities;
@@ -11,16 +12,24 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
     public ContactRepository(ApplicationDbContext context) : base(context)
     {}
 
-    public Task<PaginatedList<Contact>> GetUserContacts(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    public Task<PaginatedList<Contact>> GetUserContacts
+        (Guid userId, int pageNumber, int pageSize, string? searchTerm, CancellationToken cancellationToken)
     {
+        Expression<Func<Contact, bool>> searchContactExpression = c =>
+            (c.Firstname != null && c.Firstname.Contains(searchTerm ?? string.Empty)) ||
+            (c.Surname != null && c.Surname.Contains(searchTerm ?? string.Empty)) ||
+            (c.Email != null && c.Email.Contains(searchTerm ?? string.Empty)) ||
+            (c.Company != null && c.Company.Contains(searchTerm ?? string.Empty)) ||
+            (c.Notes != null && c.Notes.Contains(searchTerm ?? string.Empty)) ||
+            (c.Phone != null && c.Phone.Contains(searchTerm ?? string.Empty));
+
         return Context.Contacts
             .Where(x => x.UserId == userId)
+            .WhereIf(searchContactExpression, !string.IsNullOrWhiteSpace(searchTerm))
             .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public Task<Contact?> GetUserContactById(Guid contactId, Guid userId, CancellationToken cancellationToken)
-    {
-        return Context.Contacts
+        => Context.Contacts
             .FirstOrDefaultAsync(x => x.Id == contactId && x.UserId == userId, cancellationToken);
-    }
 }
