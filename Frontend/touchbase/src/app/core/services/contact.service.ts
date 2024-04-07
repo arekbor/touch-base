@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { ContactBody } from "../models/contact-body.model";
 import { ContactDetails } from "../models/contact-details.model";
 import { Contact } from "../models/contact.model";
+import { ContactsInfo } from "../models/contacts-info.model";
 import { PaginatedList } from "../models/paginated-list";
 
 @Injectable({
@@ -69,6 +70,12 @@ export class ContactService {
           id: id,
         },
       }
+    );
+  }
+
+  getContactsInfo(): Observable<ContactsInfo> {
+    return this.httpClient.get<ContactsInfo>(
+      `${environment.apiUrl}/Contacts/info`
     );
   }
 }

@@ -16,6 +16,9 @@ export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
   protected errors: string[];
 
+  protected pageNumber: number = 1;
+  protected searchTerm?: string;
+
   private readonly maxPageSize = 10;
 
   constructor(private contactService: ContactService, private router: Router) {
@@ -23,17 +26,19 @@ export class ContactListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchContacts(1);
+    this.fetchContacts();
   }
 
   protected onSearchTermChange(event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value;
+    this.searchTerm = (event.target as HTMLInputElement).value;
 
-    this.fetchContacts(1, searchTerm);
+    this.fetchContacts();
   }
 
-  protected onPageChange(page: number) {
-    this.fetchContacts(page);
+  protected onPageChange(pageNumber: number) {
+    this.pageNumber = pageNumber;
+
+    this.fetchContacts();
   }
 
   protected onCreate(): void {
@@ -44,10 +49,10 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.router.navigate(["/contact/details", id]);
   }
 
-  private fetchContacts(pageNumber: number, searchTerm?: string) {
+  private fetchContacts() {
     this.safeSub(
       this.contactService
-        .getContacts(pageNumber, this.maxPageSize, searchTerm)
+        .getContacts(this.pageNumber, this.maxPageSize, this.searchTerm)
         .subscribe({
           next: (contacts: PaginatedList<Contact>) => {
             this.contacts = contacts;

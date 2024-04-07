@@ -32,4 +32,16 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
     public Task<Contact?> GetUserContactById(Guid contactId, Guid userId, CancellationToken cancellationToken)
         => Context.Contacts
             .FirstOrDefaultAsync(x => x.Id == contactId && x.UserId == userId, cancellationToken);
+
+    public Task<int> GetUserContactsCount(Guid userId, CancellationToken cancellationToken)
+        => Context.Contacts
+            .Where(c => c.UserId == userId).CountAsync(cancellationToken);
+
+    public Task<Contact?> GetLastCreatedContact(Guid userId, CancellationToken cancellationToken)
+    {
+        return Context.Contacts
+            .Where(c => c.UserId == userId)
+            .OrderByDescending(x => x.CreatedAt)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

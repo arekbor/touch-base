@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record GetContactResult
+public record ContactDetailResult
 (
     Guid Id,
     string? Firstname,
@@ -21,7 +21,7 @@ public record GetContactResult
     string? Notes
 );
 
-public record GetContactQuery(Guid Id): IRequest<GetContactResult>;
+public record GetContactQuery(Guid Id): IRequest<ContactDetailResult>;
 
 public class GetContactQueryValidator : AbstractValidator<GetContactQuery>
 {
@@ -32,7 +32,7 @@ public class GetContactQueryValidator : AbstractValidator<GetContactQuery>
     }
 }
 
-internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetContactResult>
+internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, ContactDetailResult>
 {
     private readonly IContactRepository _contactRepository;
     private readonly ICurrentUserService _currentUserService;
@@ -45,12 +45,12 @@ internal class GetContactQueryHandler : IRequestHandler<GetContactQuery, GetCont
         _currentUserService = currentUserService;
     }
 
-    public async Task<GetContactResult> Handle(GetContactQuery request, CancellationToken cancellationToken)
+    public async Task<ContactDetailResult> Handle(GetContactQuery request, CancellationToken cancellationToken)
     {
         var contact = await _contactRepository
             .GetUserContactById(request.Id, _currentUserService.GetId(), cancellationToken)
                 ?? throw new NotFoundException($"Contact ${request.Id} not found");
 
-        return contact.Adapt<GetContactResult>();
+        return contact.Adapt<ContactDetailResult>();
     }
 }

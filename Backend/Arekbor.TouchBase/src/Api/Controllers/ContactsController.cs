@@ -25,5 +25,8 @@ public class ContactsController : BaseApiController
     [HttpDelete("delete")]
     public async Task<IActionResult> Delete([FromQuery] DeleteContactCommand command, CancellationToken cancellationToken)
         => await Send(command, cancellationToken);
-    
+
+    [HttpGet("info")]
+    public async Task<IActionResult> Info(CancellationToken cancellationToken)
+        => await Send(new GetContactsInfoQuery(), cancellationToken);
 }

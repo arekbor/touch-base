@@ -1,7 +1,29 @@
-<div class="card mt-5">
+<div class="card mt-5" *ngIf="contactsInfo">
   <div class="card-body">
-    <ul>
-      <li>Przenieś tworzenie kontaktu do details component</li>
-    </ul>
+    <div class="alert alert-info d-block text-center">
+      <small
+        >Total number of your contacts:
+        {{ contactsInfo.countOfContacts }}</small
+      >
+    </div>
+
+    <div
+      class="alert alert-info d-block text-center"
+      *ngIf="contactsInfo.lastCreatedContact"
+    >
+      <small>
+        Most recent contact:
+        <a
+          class="nav-item"
+          role="button"
+          (click)="onContactDetails(contactsInfo.lastCreatedContact.id)"
+        >
+          <span
+            >{{ contactsInfo.lastCreatedContact.firstname }}
+            {{ contactsInfo.lastCreatedContact.surname }}</span
+          >
+        </a>
+      </small>
+    </div>
   </div>
 </div>
