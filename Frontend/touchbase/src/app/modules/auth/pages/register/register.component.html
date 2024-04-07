@@ -6,14 +6,16 @@
 
     <div class="card-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="email">Username</label>
+        <div class="form-group required">
+          <label for="email" class="control-label">User Name</label>
           <div class="input-group">
             <input
               type="username"
               class="form-control"
               name="username"
               formControlName="username"
+              autocomplete="off"
+              placeholder="Enter user name"
               [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'username') }"
             />
           </div>
@@ -21,18 +23,18 @@
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'username')?.['required']"
           >
-            <small>Username is required.</small>
+            <small>User Name is required.</small>
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'username')?.['maxlength']"
           >
-            <small>Username length must be at most 40.</small>
+            <small>User Name cannot contain more than 40 characters.</small>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
+        <div class="form-group required">
+          <label for="email" class="control-label">Email</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">@</span>
@@ -42,6 +44,8 @@
               class="form-control"
               name="email"
               formControlName="email"
+              autocomplete="off"
+              placeholder="Enter email address"
               [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
             />
           </div>
@@ -61,18 +65,20 @@
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'email')?.['maxlength']"
           >
-            <small>Email length must be at most 40.</small>
+            <small>Email cannot contain more than 40 characters.</small>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="form-group required">
+          <label for="password" class="control-label">Password</label>
           <div class="input-group">
             <input
               type="password"
               class="form-control"
               name="password"
               formControlName="password"
+              autocomplete="new-password"
+              placeholder="Enter password"
               [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'password') }"
             />
           </div>
@@ -86,37 +92,43 @@
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['minlength']"
           >
-            <small>Password length must be at least 8.</small>
+            <small>Your password must be at least 8 characters long.</small>
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['maxlength']"
           >
-            <small>Password length must be at most 40.</small>
+            <small>Your password cannot contain more than 40 characters.</small>
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['invaliduppercaseletter']"
           >
-            <small>Password must contain at least one uppercase letter.</small>
+            <small
+              >Your password must contain at least one uppercase letter.</small
+            >
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['invalidlowercaseletter']"
           >
-            <small>Password must contain at least one lowercase letter.</small>
+            <small
+              >Your password must contain at least one lowercase letter.</small
+            >
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['invalidnumber']"
           >
-            <small>Password must contain at least one number.</small>
+            <small>Your password must contain at least one number.</small>
           </div>
           <div
             class="text-danger"
             *ngIf="getFormFieldErrors(form, 'password')?.['invalidspecialcharacter']"
           >
-            <small>Password must contain one or more special characters.</small>
+            <small
+              >Your password must contain at least one special character.</small
+            >
           </div>
         </div>
 

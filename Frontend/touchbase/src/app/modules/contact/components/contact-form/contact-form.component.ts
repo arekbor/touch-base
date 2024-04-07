@@ -60,7 +60,7 @@ export class ContactFormComponent extends BaseFormComponent implements OnInit {
         ],
       }),
 
-      surname: new FormControl(this.contactBody?.surname ?? "", {
+      lastname: new FormControl(this.contactBody?.lastname ?? "", {
         nonNullable: true,
         validators: [
           Validators.required,

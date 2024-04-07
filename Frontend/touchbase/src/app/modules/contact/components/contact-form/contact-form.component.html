@@ -1,6 +1,6 @@
 <form [formGroup]="form">
-  <div class="form-group">
-    <label for="firstname">Firstname</label>
+  <div class="form-group required">
+    <label for="firstname" class="control-label">First Name</label>
     <div class="input-group">
       <input
         type="text"
@@ -16,50 +16,50 @@
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'firstname')?.['required']"
     >
-      <small>Firstname is required.</small>
+      <small>First Name is required.</small>
     </div>
     <div
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'firstname')?.['maxlength']"
     >
-      <small>Firstname length must be at most 40.</small>
+      <small>First Name cannot contain more than 40 characters.</small>
     </div>
     <div
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'firstname')?.['invalidname']"
     >
-      <small>Firstname can only contain letters.</small>
+      <small>First Name can only contain letters.</small>
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="surname">Surname</label>
+  <div class="form-group required">
+    <label for="lastname" class="control-label">Last Name</label>
     <div class="input-group">
       <input
         type="text"
         class="form-control"
-        name="surname"
-        formControlName="surname"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'surname') }"
+        name="lastname"
+        formControlName="lastname"
+        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'lastname') }"
       />
     </div>
     <div
       class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'surname')?.['required']"
+      *ngIf="getFormFieldErrors(form, 'lastname')?.['required']"
     >
-      <small>Surname is required.</small>
+      <small>Last Name is required.</small>
     </div>
     <div
       class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'surname')?.['maxlength']"
+      *ngIf="getFormFieldErrors(form, 'lastname')?.['maxlength']"
     >
-      <small>Surname length must be at most 40.</small>
+      <small>Last Name cannot contain more than 40 characters.</small>
     </div>
     <div
       class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'surname')?.['invalidname']"
+      *ngIf="getFormFieldErrors(form, 'lastname')?.['invalidname']"
     >
-      <small>Surname can only contain letters.</small>
+      <small>Last Name can only contain letters.</small>
     </div>
   </div>
 
@@ -78,12 +78,12 @@
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'company')?.['maxlength']"
     >
-      <small>Company length must be at most 40.</small>
+      <small>Company cannot contain more than 40 characters.</small>
     </div>
   </div>
 
   <div class="form-group">
-    <label for="phone">Phone</label>
+    <label for="phone">Phone number</label>
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">+48</span>
@@ -100,7 +100,7 @@
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'phone')?.['invalidphone']"
     >
-      <small>Invalid phone format.</small>
+      <small>Invalid phone number format.</small>
     </div>
   </div>
 
@@ -118,8 +118,8 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label for="email">Email</label>
+  <div class="form-group required">
+    <label for="email" class="control-label">Email</label>
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text">@</span>
@@ -148,7 +148,7 @@
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'email')?.['maxlength']"
     >
-      <small>Email length must be at most 40.</small>
+      <small>Email cannot contain more than 40 characters.</small>
     </div>
   </div>
 
@@ -204,7 +204,7 @@
       class="text-danger"
       *ngIf="getFormFieldErrors(form, 'notes')?.['maxlength']"
     >
-      <small>Max length of notes is 15.</small>
+      <small>Notes cannot contain more than 15 characters.</small>
     </div>
   </div>
 

@@ -1,9 +1,16 @@
 <div class="card mt-5" *ngIf="contactsInfo">
   <div class="card-body">
     <div class="alert alert-info d-block text-center">
+      <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-success" (click)="onAddContact()">
+          Add contact
+        </button>
+      </div>
+    </div>
+
+    <div class="alert alert-info d-block text-center">
       <small
-        >Total number of your contacts:
-        {{ contactsInfo.countOfContacts }}</small
+        >Total number of contacts: {{ contactsInfo.countOfContacts }}</small
       >
     </div>
 
@@ -12,7 +19,7 @@
       *ngIf="contactsInfo.lastCreatedContact"
     >
       <small>
-        Most recent contact:
+        Recently added contact:
         <a
           class="nav-item"
           role="button"
@@ -20,7 +27,7 @@
         >
           <span
             >{{ contactsInfo.lastCreatedContact.firstname }}
-            {{ contactsInfo.lastCreatedContact.surname }}</span
+            {{ contactsInfo.lastCreatedContact.lastname }}</span
           >
         </a>
       </small>

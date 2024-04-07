@@ -36,7 +36,7 @@ public enum ContactRelationship
 public class Contact: AuditEntity
 {
     public string? Firstname { get; set; }
-    public string? Surname { get; set; }
+    public string? Lastname { get; set; }
     public string? Company { get; set; }
     public string? Phone { get; set; }
     public ContactLabel Label { get; set; }

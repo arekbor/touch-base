@@ -6,7 +6,7 @@ namespace Arekbor.TouchBase.Application.Common.Dtos;
 public record ContactBody
 {
     public required string Firstname { get; set; }
-    public required string Surname { get; set; }
+    public required string Lastname { get; set; }
     public string? Company { get; set; }
     public string? Phone { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]

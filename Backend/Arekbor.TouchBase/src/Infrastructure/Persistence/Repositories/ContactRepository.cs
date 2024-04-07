@@ -17,7 +17,7 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
     {
         Expression<Func<Contact, bool>> searchContactExpression = c =>
             (c.Firstname != null && c.Firstname.Contains(searchTerm ?? string.Empty)) ||
-            (c.Surname != null && c.Surname.Contains(searchTerm ?? string.Empty)) ||
+            (c.Lastname != null && c.Lastname.Contains(searchTerm ?? string.Empty)) ||
             (c.Email != null && c.Email.Contains(searchTerm ?? string.Empty)) ||
             (c.Company != null && c.Company.Contains(searchTerm ?? string.Empty)) ||
             (c.Notes != null && c.Notes.Contains(searchTerm ?? string.Empty)) ||

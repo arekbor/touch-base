@@ -3,7 +3,7 @@ import { ContactRelationship } from "../enums/contact-relationship.enum";
 
 export interface ContactBody {
   firstname: string;
-  surname: string;
+  lastname: string;
   company: string | null;
   phone: string | null;
   label: ContactLabel;

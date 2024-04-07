@@ -3,7 +3,7 @@ namespace Arekbor.TouchBase.Application.Common.Dtos;
 public record ContactResult(
     Guid Id,
     string? Firstname, 
-    string? Surname, 
+    string? Lastname, 
     string? Phone,
     string? Email
 );

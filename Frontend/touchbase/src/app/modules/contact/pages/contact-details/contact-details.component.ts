@@ -75,7 +75,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
 
           this.contactBody = {
             firstname: contact.firstname,
-            surname: contact.surname,
+            lastname: contact.lastname,
             company: contact.company,
             phone: contact.phone,
             label: contact.label,

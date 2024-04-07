@@ -41,7 +41,7 @@ export class ContactListComponent extends BaseComponent implements OnInit {
     this.fetchContacts();
   }
 
-  protected onCreate(): void {
+  protected onAddContact(): void {
     this.router.navigate(["contact/create"]);
   }
 

@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit {
     this.fetchContactsInfo();
   }
 
+  protected onAddContact(): void {
+    this.router.navigate(["contact/create"]);
+  }
+
   protected onContactDetails(id: string): void {
     this.router.navigate(["/contact/details", id]);
   }

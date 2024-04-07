@@ -36,11 +36,11 @@ internal class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, TokensRes
     public async Task<TokensResult> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken) 
-            ?? throw new BadRequestException("Email or password is invalid");
+            ?? throw new BadRequestException("Invalid email or password.");
 
         if (!_identityService.VerifyPasswordHash(user.Password!, request.Password))
         {
-            throw new BadRequestException("Email or password is invalid");
+            throw new BadRequestException("Invalid email or password.");
         }
 
         var (accessToken, refreshToken) = await _identityService

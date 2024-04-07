@@ -4,7 +4,7 @@ import { ContactRelationship } from "../enums/contact-relationship.enum";
 export interface ContactDetails {
   id: string;
   firstname: string;
-  surname: string;
+  lastname: string;
   phone: string;
   email: string;
   company: string;

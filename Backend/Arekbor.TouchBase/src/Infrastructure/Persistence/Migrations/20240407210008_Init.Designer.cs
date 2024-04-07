@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240327185219_Init")]
+    [Migration("20240407210008_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Label")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Lastname")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -63,9 +66,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.Property<int>("Relationship")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");

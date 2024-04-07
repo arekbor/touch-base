@@ -11,7 +11,7 @@ public record ContactDetailResult
 (
     Guid Id,
     string? Firstname,
-    string? Surname,
+    string? Lastname,
     string? Phone,
     string? Email,
     string? Company,
