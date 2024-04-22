@@ -1,10 +1,11 @@
 using Arekbor.TouchBase.Application.Common.Dtos;
+using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
 using MediatR;
 
 namespace Arekbor.TouchBase.Application.Users;
 
-public record RefreshTokenQuery(string RefreshToken) : IRequest<TokensResult>;
+public record RefreshTokenQuery(string? RefreshToken) : IRequest<TokensResult>;
 
 internal class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, TokensResult>
 {
@@ -16,6 +17,9 @@ internal class RefreshTokenQueryHandler : IRequestHandler<RefreshTokenQuery, Tok
     
     public async Task<TokensResult> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)
     {
+        if (request.RefreshToken is null)
+            throw new UnauthorizedException("Refresh token not found");
+
         var (accessToken, refreshToken) = await _identityService
             .Refresh(request.RefreshToken, cancellationToken);
 

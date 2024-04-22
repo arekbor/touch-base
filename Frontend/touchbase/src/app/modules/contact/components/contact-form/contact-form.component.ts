@@ -8,7 +8,7 @@ import {
   ContactRelationship,
   ContactRelationshipMap,
 } from "src/app/core/enums/contact-relationship.enum";
-import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
+import { BaseComponent } from "src/app/core/helpers/base.component";
 import { FormGroupControl } from "src/app/core/helpers/form-group-control";
 import { ContactBody } from "src/app/core/models/contact-body.model";
 import { DatebirthValidator } from "src/app/shared/validators/datebirth.validator";
@@ -19,7 +19,7 @@ import { PhoneValidator } from "src/app/shared/validators/phone.validator";
   selector: "app-contact-form",
   templateUrl: "./contact-form.component.html",
 })
-export class ContactFormComponent extends BaseFormComponent implements OnInit {
+export class ContactFormComponent extends BaseComponent implements OnInit {
   @Input() contactBody?: ContactBody;
   @Output() contactBodyChange: EventEmitter<ContactBody> =
     new EventEmitter<ContactBody>();

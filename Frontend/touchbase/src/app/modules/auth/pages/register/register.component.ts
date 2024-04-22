@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
+import { BaseComponent } from "src/app/core/helpers/base.component";
 import { FormGroupControl } from "src/app/core/helpers/form-group-control";
 import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Register } from "src/app/core/models/register.model";
@@ -14,7 +14,7 @@ import { PasswordValidator } from "src/app/shared/validators/password.validator"
   selector: "app-register",
   templateUrl: "./register.component.html",
 })
-export class RegisterComponent extends BaseFormComponent implements OnInit {
+export class RegisterComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<FormGroupControl<Register>>;
   protected errors: string[];
 

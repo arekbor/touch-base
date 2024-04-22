@@ -2,7 +2,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { throwError } from "rxjs";
-import { BaseFormComponent } from "src/app/core/helpers/base-form.component";
+import { BaseComponent } from "src/app/core/helpers/base.component";
 import { FormGroupControl } from "src/app/core/helpers/form-group-control";
 import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Login } from "src/app/core/models/login.model";
@@ -13,7 +13,7 @@ import { AuthService } from "src/app/core/services/auth.service";
   selector: "app-login",
   templateUrl: "./login.component.html",
 })
-export class LoginComponent extends BaseFormComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<FormGroupControl<Login>>;
   protected errors: string[];
 
