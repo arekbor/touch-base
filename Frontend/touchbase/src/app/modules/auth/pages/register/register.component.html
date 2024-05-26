@@ -16,21 +16,15 @@
               formControlName="username"
               autocomplete="off"
               placeholder="Enter user name"
-              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'username') }"
+              [ngClass]="{
+                'is-invalid': isControlInvalid(form.get('username'))
+              }"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'username')?.['required']"
-          >
-            <small>User Name is required.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'username')?.['maxlength']"
-          >
-            <small>User Name cannot contain more than 40 characters.</small>
-          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('username'))"
+          />
         </div>
 
         <div class="form-group required">
@@ -46,27 +40,13 @@
               formControlName="email"
               autocomplete="off"
               placeholder="Enter email address"
-              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
+              [ngClass]="{ 'is-invalid': isControlInvalid(form.get('email')) }"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'email')?.['required']"
-          >
-            <small>Email is required.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'email')?.['email']"
-          >
-            <small>Invalid email format.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'email')?.['maxlength']"
-          >
-            <small>Email cannot contain more than 40 characters.</small>
-          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('email'))"
+          />
         </div>
 
         <div class="form-group required">
@@ -79,57 +59,15 @@
               formControlName="password"
               autocomplete="new-password"
               placeholder="Enter password"
-              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'password') }"
+              [ngClass]="{
+                'is-invalid': isControlInvalid(form.get('password'))
+              }"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['required']"
-          >
-            <small>Password is required.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['minlength']"
-          >
-            <small>Your password must be at least 8 characters long.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['maxlength']"
-          >
-            <small>Your password cannot contain more than 40 characters.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['invaliduppercaseletter']"
-          >
-            <small
-              >Your password must contain at least one uppercase letter.</small
-            >
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['invalidlowercaseletter']"
-          >
-            <small
-              >Your password must contain at least one lowercase letter.</small
-            >
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['invalidnumber']"
-          >
-            <small>Your password must contain at least one number.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['invalidspecialcharacter']"
-          >
-            <small
-              >Your password must contain at least one special character.</small
-            >
-          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('password'))"
+          />
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">

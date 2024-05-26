@@ -8,9 +8,9 @@ import {
   ContactRelationship,
   ContactRelationshipMap,
 } from "src/app/core/enums/contact-relationship.enum";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { FormGroupControl } from "src/app/core/helpers/form-group-control";
 import { ContactBody } from "src/app/core/models/contact-body.model";
+import { FormGroupControl } from "src/app/core/utils/form-group-control";
+import { BaseComponent } from "src/app/modules/base.component";
 import { DatebirthValidator } from "src/app/shared/validators/datebirth.validator";
 import { NameValidator } from "src/app/shared/validators/name.validator";
 import { PhoneValidator } from "src/app/shared/validators/phone.validator";

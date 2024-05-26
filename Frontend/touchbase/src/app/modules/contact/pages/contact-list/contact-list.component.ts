@@ -2,11 +2,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Contact } from "src/app/core/models/contact.model";
 import { PaginatedList } from "src/app/core/models/paginated-list";
 import { ContactService } from "src/app/core/services/contact.service";
+import { BaseComponent } from "src/app/modules/base.component";
 
 @Component({
   selector: "app-contact-list",
@@ -58,7 +57,7 @@ export class ContactListComponent extends BaseComponent implements OnInit {
             this.contacts = contacts;
           },
           error: (err: HttpErrorResponse) => {
-            this.errors = handleHttpErrors(err);
+            this.errors = this.handleHttpErrors(err);
             throwError(() => err);
           },
         })

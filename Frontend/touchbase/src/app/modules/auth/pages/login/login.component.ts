@@ -2,12 +2,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { throwError } from "rxjs";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { FormGroupControl } from "src/app/core/helpers/form-group-control";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Login } from "src/app/core/models/login.model";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
+import { FormGroupControl } from "src/app/core/utils/form-group-control";
+import { BaseComponent } from "src/app/modules/base.component";
 
 @Component({
   selector: "app-login",
@@ -45,7 +44,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
           throwError(() => "Tokens not found");
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       })

@@ -4,10 +4,9 @@ import { Router } from "@angular/router";
 import { throwError } from "rxjs";
 import { ContactLabel } from "src/app/core/enums/contact-label.enum";
 import { ContactRelationship } from "src/app/core/enums/contact-relationship.enum";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { ContactBody } from "src/app/core/models/contact-body.model";
 import { ContactService } from "src/app/core/services/contact.service";
+import { BaseComponent } from "src/app/modules/base.component";
 
 @Component({
   selector: "app-create-contact",
@@ -31,7 +30,7 @@ export class CreateContactComponent extends BaseComponent {
           this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       })
