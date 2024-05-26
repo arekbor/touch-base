@@ -8,28 +8,14 @@
         name="firstname"
         formControlName="firstname"
         [ngClass]="{
-          'is-invalid': getFormFieldErrors(form, 'firstname')
+          'is-invalid': isControlInvalid(form.get('firstname'))
         }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'firstname')?.['required']"
-    >
-      <small>First Name is required.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'firstname')?.['maxlength']"
-    >
-      <small>First Name cannot contain more than 40 characters.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'firstname')?.['invalidname']"
-    >
-      <small>First Name can only contain letters.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('firstname'))"
+    />
   </div>
 
   <div class="form-group required">
@@ -40,27 +26,13 @@
         class="form-control"
         name="lastname"
         formControlName="lastname"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'lastname') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('lastname')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'lastname')?.['required']"
-    >
-      <small>Last Name is required.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'lastname')?.['maxlength']"
-    >
-      <small>Last Name cannot contain more than 40 characters.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'lastname')?.['invalidname']"
-    >
-      <small>Last Name can only contain letters.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('lastname'))"
+    />
   </div>
 
   <div class="form-group">
@@ -71,15 +43,13 @@
         class="form-control"
         name="company"
         formControlName="company"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'company') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('company')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'company')?.['maxlength']"
-    >
-      <small>Company cannot contain more than 40 characters.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('company'))"
+    />
   </div>
 
   <div class="form-group">
@@ -93,15 +63,13 @@
         class="form-control"
         name="phone"
         formControlName="phone"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'phone') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('phone')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'phone')?.['invalidphone']"
-    >
-      <small>Invalid phone number format.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('phone'))"
+    />
   </div>
 
   <div class="form-group">
@@ -129,27 +97,13 @@
         class="form-control"
         name="email"
         formControlName="email"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('email')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'email')?.['required']"
-    >
-      <small>Email is required.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'email')?.['email']"
-    >
-      <small>Invalid email format.</small>
-    </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'email')?.['maxlength']"
-    >
-      <small>Email cannot contain more than 40 characters.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('email'))"
+    />
   </div>
 
   <div class="form-group">
@@ -160,15 +114,13 @@
         type="date"
         name="birthday"
         formControlName="birthday"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'birthday') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('birthday')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'birthday')?.['invaliddatebirth']"
-    >
-      <small>Invalid date of birth.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('birthday'))"
+    />
   </div>
 
   <div class="form-group">
@@ -197,15 +149,13 @@
         class="form-control"
         name="notes"
         formControlName="notes"
-        [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'notes') }"
+        [ngClass]="{ 'is-invalid': isControlInvalid(form.get('notes')) }"
       />
     </div>
-    <div
-      class="text-danger"
-      *ngIf="getFormFieldErrors(form, 'notes')?.['maxlength']"
-    >
-      <small>Notes cannot contain more than 15 characters.</small>
-    </div>
+
+    <app-control-error-component
+      [errors]="getControlErrors(form.get('notes'))"
+    />
   </div>
 
   <button class="btn btn-primary btn-block" type="submit" (click)="onSbmit()">

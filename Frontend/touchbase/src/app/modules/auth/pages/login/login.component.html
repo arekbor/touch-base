@@ -19,21 +19,13 @@
               formControlName="email"
               autocomplete="email"
               placeholder="Enter your email address"
-              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'email') }"
+              [ngClass]="{ 'is-invalid': isControlInvalid(form.get('email')) }"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'email')?.['required']"
-          >
-            <small>Email is required.</small>
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'email')?.['email']"
-          >
-            <small>Invalid email format.</small>
-          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('email'))"
+          />
         </div>
 
         <div class="form-group required">
@@ -46,15 +38,15 @@
               formControlName="password"
               autocomplete="current-password"
               placeholder="Enter your password"
-              [ngClass]="{ 'is-invalid': getFormFieldErrors(form, 'password') }"
+              [ngClass]="{
+                'is-invalid': isControlInvalid(form.get('password'))
+              }"
             />
           </div>
-          <div
-            class="text-danger"
-            *ngIf="getFormFieldErrors(form, 'password')?.['required']"
-          >
-            <small>Password is required.</small>
-          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('password'))"
+          />
         </div>
 
         <button class="btn btn-primary btn-block" type="submit">Login</button>

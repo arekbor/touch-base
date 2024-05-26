@@ -3,11 +3,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { FormGroupControl } from "src/app/core/helpers/form-group-control";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { Register } from "src/app/core/models/register.model";
 import { AuthService } from "src/app/core/services/auth.service";
+import { FormGroupControl } from "src/app/core/utils/form-group-control";
+import { BaseComponent } from "src/app/modules/base.component";
 import { PasswordValidator } from "src/app/shared/validators/password.validator";
 
 @Component({
@@ -40,7 +39,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           this.router.navigate(["auth/login"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       })

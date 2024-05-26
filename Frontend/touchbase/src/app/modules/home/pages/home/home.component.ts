@@ -2,19 +2,21 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { ContactsInfo } from "src/app/core/models/contacts-info.model";
 import { ContactService } from "src/app/core/services/contact.service";
+import { BaseComponent } from "src/app/modules/base.component";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseComponent implements OnInit {
   protected contactsInfo: ContactsInfo;
   protected errors: string[];
 
-  constructor(private contactService: ContactService, private router: Router) {}
+  constructor(private contactService: ContactService, private router: Router) {
+    super();
+  }
 
   ngOnInit(): void {
     this.fetchContactsInfo();
@@ -34,7 +36,7 @@ export class HomeComponent implements OnInit {
         this.contactsInfo = contactsInfo;
       },
       error: (err: HttpErrorResponse) => {
-        this.errors = handleHttpErrors(err);
+        this.errors = this.handleHttpErrors(err);
         throwError(() => err);
       },
     });

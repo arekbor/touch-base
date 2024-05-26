@@ -2,11 +2,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { switchMap, throwError } from "rxjs";
-import { BaseComponent } from "src/app/core/helpers/base.component";
-import { handleHttpErrors } from "src/app/core/helpers/handle-http-errors";
 import { ContactBody } from "src/app/core/models/contact-body.model";
 import { ContactDetails } from "src/app/core/models/contact-details.model";
 import { ContactService } from "src/app/core/services/contact.service";
+import { BaseComponent } from "src/app/modules/base.component";
 
 @Component({
   selector: "app-contact-details",
@@ -41,7 +40,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
           this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       })
@@ -55,7 +54,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
           this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       })
@@ -86,7 +85,7 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
           };
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = handleHttpErrors(err);
+          this.errors = this.handleHttpErrors(err);
           throwError(() => err);
         },
       });
