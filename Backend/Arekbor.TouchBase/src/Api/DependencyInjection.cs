@@ -39,6 +39,10 @@ public static class DependencyInjection
         
         services.AddSwaggerGen(config => {
             config.SwaggerDoc("v1", new OpenApiInfo{Title = "Touch Base API", Version = "v1"});
+            config.MapType<DateOnly>(() => new OpenApiSchema{
+                Type = "string",
+                Format = "date"
+            });
             config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme{
                 In = ParameterLocation.Header, 
                 Description = "Please insert JWT with Bearer into field",
