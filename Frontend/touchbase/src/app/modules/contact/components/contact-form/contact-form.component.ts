@@ -11,9 +11,8 @@ import {
 import { ContactBody } from "src/app/core/models/contact-body.model";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
 import { BaseComponent } from "src/app/modules/base.component";
-import { DatebirthValidator } from "src/app/shared/validators/datebirth.validator";
-import { NameValidator } from "src/app/shared/validators/name.validator";
-import { PhoneValidator } from "src/app/shared/validators/phone.validator";
+import { CustomValidators } from "src/app/shared/validators/custom-validators";
+import { GroupValidators } from "src/app/shared/validators/group-validators";
 
 @Component({
   selector: "app-contact-form",
@@ -53,20 +52,12 @@ export class ContactFormComponent extends BaseComponent implements OnInit {
     this.form = new FormGroup<FormGroupControl<ContactBody>>({
       firstname: new FormControl(this.contactBody?.firstname ?? "", {
         nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.maxLength(40),
-          NameValidator,
-        ],
+        validators: GroupValidators.personName(),
       }),
 
       lastname: new FormControl(this.contactBody?.lastname ?? "", {
         nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.maxLength(40),
-          NameValidator,
-        ],
+        validators: GroupValidators.personName(),
       }),
 
       company: new FormControl(
@@ -74,7 +65,10 @@ export class ContactFormComponent extends BaseComponent implements OnInit {
         Validators.maxLength(40)
       ),
 
-      phone: new FormControl(this.contactBody?.phone ?? "", PhoneValidator),
+      phone: new FormControl(
+        this.contactBody?.phone ?? "",
+        CustomValidators.phone()
+      ),
 
       label: new FormControl(this.contactBody?.label ?? ContactLabel.NoLabel, {
         nonNullable: true,
@@ -82,16 +76,12 @@ export class ContactFormComponent extends BaseComponent implements OnInit {
 
       email: new FormControl(this.contactBody?.email ?? "", {
         nonNullable: true,
-        validators: [
-          Validators.email,
-          Validators.required,
-          Validators.maxLength(40),
-        ],
+        validators: GroupValidators.email(),
       }),
 
       birthday: new FormControl(
         this.contactBody?.birthday ?? null,
-        DatebirthValidator
+        CustomValidators.datebirth()
       ),
 
       relationship: new FormControl(

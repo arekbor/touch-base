@@ -65,15 +65,15 @@ export abstract class BaseComponent implements OnDestroy {
       `Maximum ${params.requiredLength} characters are allowed.`,
     minlength: (params: any) =>
       `Minimum ${params.requiredLength} characters are required.`,
-    invaliduppercaseletter: () =>
+    notContainUppercase: () =>
       `This field must contain at least one uppercase letter.`,
-    invalidlowercaseletter: () =>
+    notContainLowercase: () =>
       `This field must contain at least one lowercase letter.`,
-    invalidnumber: () => `This field must contain at least one number.`,
-    invalidspecialcharacter: () =>
+    notContainNumber: () => `This field must contain at least one number.`,
+    notContainSpecialChar: () =>
       `This field must contain at least one special character.`,
-    invalidname: () => `This field can only contain letters.`,
-    invalidphone: () => `Invalid phone number format.`,
-    invaliddatebirth: () => `Invalid date of birth.`,
+    notContainsOnlyLetters: () => `This field can only contain letters.`,
+    invalidPhone: () => `Invalid phone number format.`,
+    invalidDatebirth: () => `Invalid date of birth.`,
   };
 }

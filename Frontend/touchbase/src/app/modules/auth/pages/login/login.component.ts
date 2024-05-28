@@ -7,6 +7,7 @@ import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
 import { BaseComponent } from "src/app/modules/base.component";
+import { GroupValidators } from "src/app/shared/validators/group-validators";
 
 @Component({
   selector: "app-login",
@@ -55,7 +56,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     this.form = new FormGroup<FormGroupControl<Login>>({
       email: new FormControl("", {
         nonNullable: true,
-        validators: [Validators.required, Validators.email],
+        validators: GroupValidators.email(),
       }),
 
       password: new FormControl("", {
