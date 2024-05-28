@@ -7,7 +7,8 @@ import { Register } from "src/app/core/models/register.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
 import { BaseComponent } from "src/app/modules/base.component";
-import { PasswordValidator } from "src/app/shared/validators/password.validator";
+import { CustomValidators } from "src/app/shared/validators/custom-validators";
+import { GroupValidators } from "src/app/shared/validators/group-validators";
 
 @Component({
   selector: "app-register",
@@ -50,16 +51,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     this.form = new FormGroup<FormGroupControl<Register>>({
       username: new FormControl("", {
         nonNullable: true,
-        validators: [Validators.required, Validators.maxLength(40)],
+        validators: GroupValidators.username(),
       }),
 
       email: new FormControl("", {
         nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.email,
-          Validators.maxLength(40),
-        ],
+        validators: GroupValidators.email(),
       }),
 
       password: new FormControl("", {
@@ -68,7 +65,10 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(40),
-          PasswordValidator,
+          CustomValidators.containsLowercase(),
+          CustomValidators.containNumber(),
+          CustomValidators.containsUppercase(),
+          CustomValidators.containsSpecialChar(),
         ],
       }),
     });
