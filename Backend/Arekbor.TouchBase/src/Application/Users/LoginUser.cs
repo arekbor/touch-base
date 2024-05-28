@@ -14,7 +14,7 @@ public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
     {   
         RuleFor(x => x.Email)
             .EmailAddress();
-            
+
         RuleFor(x => x.Password)
             .NotEmpty()
             .NotNull();

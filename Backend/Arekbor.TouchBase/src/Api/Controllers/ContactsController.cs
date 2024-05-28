@@ -7,8 +7,8 @@ namespace Arekbor.TouchBase.Api.Controllers;
 public class ContactsController : BaseApiController
 {
     [HttpPost("create")]
-    public async Task<IActionResult> Create([FromBody] CreateContactCommand command, CancellationToken cancellationToken) 
-        => await Send(command, cancellationToken);
+    public async Task<IActionResult> Create([FromBody] ContactBody contactBody, CancellationToken cancellationToken) 
+        => await Send(new CreateContactCommand(contactBody), cancellationToken);
 
     [HttpPut("update")]
     public async Task<IActionResult> Update(Guid id, [FromBody] ContactBody contactBody, CancellationToken cancellationToken)

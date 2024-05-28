@@ -7,26 +7,15 @@ public class ContactBodyValidator : AbstractValidator<ContactBody>
 {
     public ContactBodyValidator()
     {
-         RuleFor(x => x.Firstname)
-            .NotNull()
-            .NotEmpty()
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.")
-            .Matches("^[a-zA-Z]*$")
-            .WithMessage("{PropertyName} can only contain letters.");
+
+        RuleFor(x => x.Firstname)
+            .PersonName();
         
         RuleFor(x => x.Lastname)
-            .NotNull()
-            .NotEmpty()
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.")
-            .Matches("^[a-zA-Z]*$")
-            .WithMessage("{PropertyName} can only contain letters.");
+            .PersonName();
 
         RuleFor(x => x.Company)
-            .MaximumLength(40)
-            .When(x => !string.IsNullOrEmpty(x.Company))
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.");
+            .MaxLengthIfNotEmptyOrNull(40);
 
         RuleFor(x => x.Phone)
             .Matches(@"^\d{9}$")
@@ -42,16 +31,12 @@ public class ContactBodyValidator : AbstractValidator<ContactBody>
             .WithMessage("Invalid date of birth.");
         
         RuleFor(x => x.Email)
-            .EmailAddress()
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.");
+            .EmailAddress();
 
         RuleFor(x => x.Relationship)
             .IsInEnum();
 
         RuleFor(x => x.Notes)
-            .MaximumLength(15)
-            .When(x => !string.IsNullOrEmpty(x.Notes))
-            .WithMessage("{PropertyName} cannot contain more than 15 characters.");
+            .MaxLengthIfNotEmptyOrNull(15);
     }
 }

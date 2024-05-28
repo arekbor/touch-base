@@ -1,5 +1,6 @@
 using Arekbor.TouchBase.Application.Common.Exceptions;
 using Arekbor.TouchBase.Application.Common.Interfaces;
+using Arekbor.TouchBase.Application.Common.Validators;
 using Arekbor.TouchBase.Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -13,15 +14,10 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     public RegisterUserCommandValidator()
     {  
         RuleFor(x => x.Username)
-            .NotNull()
-            .NotEmpty()
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.");
+            .Username();
          
         RuleFor(x => x.Email)
-            .EmailAddress()
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.");
+            .EmailAddress();
 
         RuleFor(x => x.Password)
             .NotEmpty()

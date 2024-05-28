@@ -8,13 +8,14 @@ using MediatR;
 
 namespace Arekbor.TouchBase.Application.Contacts;
 
-public record CreateContactCommand(): ContactBody, IRequest<Unit>;
+public record CreateContactCommand(ContactBody ContactBody) : IRequest<Unit>;
 
 public class CreateContactCommandValidator : AbstractValidator<CreateContactCommand>
 {
     public CreateContactCommandValidator()
     {
-        Include(new ContactBodyValidator());
+        RuleFor(x => x.ContactBody)
+            .SetValidator(new ContactBodyValidator());
     }
 }
 
@@ -35,7 +36,7 @@ internal class CreateContactCommandHandler : IRequestHandler<CreateContactComman
 
     public async Task<Unit> Handle(CreateContactCommand request, CancellationToken cancellationToken)
     {
-        var contact = request.Adapt<Contact>();
+        var contact = request.ContactBody.Adapt<Contact>();
         
         contact.UserId = _currentUserService.GetId();
 
