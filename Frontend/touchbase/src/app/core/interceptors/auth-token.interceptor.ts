@@ -70,9 +70,9 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
     const refreshToken = this.storageService.getRefreshToken();
     return this.authService.getRefreshToken(refreshToken!).pipe(
-      concatMap((tokens) => {
+      concatMap((tokens) => { 
         if (tokens && tokens.accessToken && tokens.refreshToken) {
-          this.authService.setAuthTokens(tokens);
+          this.storageService.setAuthorizationTokens(tokens);
 
           this.tokenRefreshed$.next(true);
           return next.handle(this.setAuthorizationHeader(req));

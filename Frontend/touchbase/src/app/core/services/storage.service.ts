@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Tokens } from "../models/tokens.model";
 
 enum StorageKeys {
   ACCESS_TOKEN = "access-token",
@@ -28,5 +29,10 @@ export class StorageService {
   removeAuthorizationTokens() {
     window.localStorage.removeItem(StorageKeys.ACCESS_TOKEN);
     window.localStorage.removeItem(StorageKeys.REFRESH_TOKEN);
+  }
+
+  setAuthorizationTokens(tokens: Tokens): void {
+    this.setAccessToken(tokens.accessToken);
+    this.setRefreshToken(tokens.refreshToken);
   }
 }

@@ -5,6 +5,7 @@ import { throwError } from "rxjs";
 import { Login } from "src/app/core/models/login.model";
 import { Tokens } from "src/app/core/models/tokens.model";
 import { AuthService } from "src/app/core/services/auth.service";
+import { StorageService } from "src/app/core/services/storage.service";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
 import { BaseComponent } from "src/app/modules/base.component";
 import { GroupValidators } from "src/app/shared/validators/group-validators";
@@ -17,7 +18,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<FormGroupControl<Login>>;
   protected errors: string[];
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private storageService: StorageService
+  ) {
     super();
   }
 
@@ -37,7 +41,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this.authService.login(rawValue).subscribe({
         next: (tokens: Tokens | null) => {
           if (tokens) {
-            this.authService.setAuthTokens(tokens);
+            this.storageService.setAuthorizationTokens(tokens);
             window.location.reload();
             return;
           }
