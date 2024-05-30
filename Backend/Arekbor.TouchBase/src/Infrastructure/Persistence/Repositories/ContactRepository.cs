@@ -26,6 +26,7 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
         return Context.Contacts
             .Where(x => x.UserId == userId)
             .WhereIf(searchContactExpression, !string.IsNullOrWhiteSpace(searchTerm))
+            .OrderByDescending(x => x.CreatedAt)
             .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
     }
 
