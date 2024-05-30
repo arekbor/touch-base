@@ -39,7 +39,7 @@ export class CustomValidators {
 
   static containsOnlyLetters(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const pattern = /^[a-zA-Z]*$/;
+      const pattern = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*$/;
       if (!pattern.test(control.value)) {
         return { notContainsOnlyLetters: true };
       }

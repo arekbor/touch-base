@@ -11,7 +11,7 @@ public static class ValidationExtensions
             .NotEmpty()
             .MaximumLength(40)
             .WithMessage("{PropertyName} cannot contain more than 40 characters.")
-            .Matches("^[a-zA-Z]*$")
+            .Matches("^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*$")
             .WithMessage("{PropertyName} can only contain letters.");
     }
 
