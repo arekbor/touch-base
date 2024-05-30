@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Claims } from "../models/claims.model";
 import { Login } from "../models/login.model";
@@ -50,15 +50,20 @@ export class AuthService {
     return this.getUserClaims() != null;
   }
 
-  getValidAccessToken(): string | null {
-    const accessToken = this.storageService.getAccessToken();
-    if (accessToken && !this.jwtHelperService.isTokenExpired(accessToken)) {
-      return accessToken;
-    }
-    return null;
+  reloadTokens() {
+    const refreshToken = this.storageService.getRefreshToken();
+    return this.getRefreshToken(refreshToken).pipe(
+      map((tokens: Tokens | null) => {
+        if (tokens && tokens.accessToken && tokens.refreshToken) {
+          this.storageService.setAuthorizationTokens(tokens);
+        }
+      })
+    );
   }
 
-  getRefreshToken(refreshToken: string): Observable<Tokens | null> {
+  private getRefreshToken(
+    refreshToken: string | null
+  ): Observable<Tokens | null> {
     return this.httpClient.post<Tokens>(`${environment.apiUrl}/Users/refresh`, {
       refreshToken: refreshToken,
     });
