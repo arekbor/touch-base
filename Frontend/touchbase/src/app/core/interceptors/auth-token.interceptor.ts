@@ -14,6 +14,7 @@ import {
   concatMap,
   filter,
   finalize,
+  switchMap,
   take,
   throwError,
 } from "rxjs";
@@ -68,18 +69,12 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     this.isRefreshingToken = true;
     this.tokenRefreshed$.next(false);
 
-    const refreshToken = this.storageService.getRefreshToken();
-    return this.authService.getRefreshToken(refreshToken!).pipe(
-      concatMap((tokens) => { 
-        if (tokens && tokens.accessToken && tokens.refreshToken) {
-          this.storageService.setAuthorizationTokens(tokens);
-
-          this.tokenRefreshed$.next(true);
-          return next.handle(this.setAuthorizationHeader(req));
-        }
-        return this.handleError("Tokens not found");
+    return this.authService.reloadTokens().pipe(
+      switchMap(() => {
+        this.tokenRefreshed$.next(true);
+        return next.handle(this.setAuthorizationHeader(req));
       }),
-      catchError((err: HttpErrorResponse) => {
+      catchError((err) => {
         return this.handleError(err);
       }),
       finalize(() => {
