@@ -55,10 +55,8 @@ internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
     public async Task<Unit> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
-        if (user != null)
-        {
+        if (user is not null)
             throw new BadRequestException($"User with email: {request.Email} already exists");
-        }
 
         var hashedPassword = _identityService.HashPassword(request.Password);
 

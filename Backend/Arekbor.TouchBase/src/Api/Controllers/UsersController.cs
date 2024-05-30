@@ -24,4 +24,8 @@ public class UsersController : BaseApiController
     [HttpGet("get")]
     public async Task<IActionResult> Get(CancellationToken cancellationToken) 
         => await Send(new GetUserQuery(), cancellationToken);
+
+    [HttpPut("updateProfile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileCommand command, CancellationToken cancellationToken)
+        => await Send(command, cancellationToken);
 }

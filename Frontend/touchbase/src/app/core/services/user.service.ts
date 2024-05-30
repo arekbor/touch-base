@@ -13,4 +13,11 @@ export class UserService {
   getUser(): Observable<User | null> {
     return this.httpClient.get<User>(`${environment.apiUrl}/Users/get`);
   }
+
+  updateProfile(user: User): Observable<void> {
+    return this.httpClient.put<void>(
+      `${environment.apiUrl}/Users/updateProfile`,
+      user
+    );
+  }
 }
