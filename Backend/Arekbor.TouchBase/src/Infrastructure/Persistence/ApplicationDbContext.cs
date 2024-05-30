@@ -47,6 +47,12 @@ public class ApplicationDbContext : DbContext
                 entityType.AddSoftDelete();
             }
         }
+
+        modelBuilder.Entity<User>(entity => {
+            entity.HasIndex(e => e.Email)
+                .IsUnique();
+        });
+
         base.OnModelCreating(modelBuilder);
     }
 }

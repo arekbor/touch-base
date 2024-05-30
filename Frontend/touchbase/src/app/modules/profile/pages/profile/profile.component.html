@@ -1,21 +1,66 @@
-<div class="card mt-5" *ngIf="user">
-  <div class="card-body">
-    <div class="alert alert-info d-block text-center">
-      <small>Email: {{ user.email }}</small>
+<div class="col-md-12 mt-5 mb-5" *ngIf="user">
+  <div class="card">
+    <div class="card-header">
+      <h5>Profile</h5>
+      <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-danger" (click)="onLogout()">
+          Logout
+        </button>
+      </div>
     </div>
-    <div class="alert alert-info d-block text-center">
-      <small>Username: {{ user.username }}</small>
-    </div>
-  </div>
-  <div class="card-footer">
-    <div class="row">
-      <div class="col-12">
-        <div class="text-right">
-          <button type="button" class="btn btn-warning" (click)="logout()">
-            Logout
+    <div class="card-body">
+      <form [formGroup]="form">
+        <div class="form-group required">
+          <label for="username" class="control-label">Username</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="username"
+              formControlName="username"
+              [ngClass]="{
+                'is-invalid': isControlInvalid(form.get('username'))
+              }"
+            />
+          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('username'))"
+          />
+        </div>
+
+        <div class="form-group required">
+          <label for="email" class="control-label">Email</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              name="email"
+              formControlName="email"
+              [ngClass]="{
+                'is-invalid': isControlInvalid(form.get('email'))
+              }"
+            />
+          </div>
+
+          <app-control-error-component
+            [errors]="getControlErrors(form.get('email'))"
+          />
+        </div>
+
+        <div class="d-grid d-flex justify-content-end">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            (click)="onUpdateProfile()"
+          >
+            Update profile
           </button>
         </div>
-      </div>
+      </form>
+    </div>
+    <div class="card-footer">
+      <app-http-error [errors]="errors" />
     </div>
   </div>
 </div>
