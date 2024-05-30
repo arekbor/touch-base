@@ -43,7 +43,7 @@ internal class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileComman
                 ??  throw new NotFoundException($"User ${_currentUserService.GetId()} not found");
 
         var userWithSameEmail = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
-        if (userWithSameEmail?.Email is not null && userWithSameEmail.Email.Equals(user.Email))
+        if (userWithSameEmail?.Email is not null && !userWithSameEmail.Email.Equals(user.Email))
             throw new BadRequestException($"User with email: {request.Email} already exists");
 
         user.Username = request.Username;
