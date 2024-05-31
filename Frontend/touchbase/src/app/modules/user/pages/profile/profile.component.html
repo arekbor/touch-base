@@ -1,12 +1,7 @@
 <div class="col-md-12 mt-5 mb-5" *ngIf="user">
   <div class="card">
     <div class="card-header">
-      <h5>Profile</h5>
-      <div class="btn-group btn-group-sm">
-        <button type="button" class="btn btn-danger" (click)="onLogout()">
-          Logout
-        </button>
-      </div>
+      <h5>Update Profile</h5>
     </div>
     <div class="card-body">
       <form [formGroup]="form">
@@ -48,15 +43,13 @@
           />
         </div>
 
-        <div class="d-grid d-flex justify-content-end">
-          <button
-            class="btn btn-primary"
-            type="submit"
-            (click)="onUpdateProfile()"
-          >
-            Update profile
-          </button>
-        </div>
+        <button
+          class="btn btn-primary btn-block"
+          type="submit"
+          (click)="onUpdateProfile()"
+        >
+          Update profile
+        </button>
       </form>
     </div>
     <div class="card-footer">

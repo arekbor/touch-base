@@ -19,11 +19,9 @@ const routes: Routes = [
           import("./modules/home/home.module").then((m) => m.HomeModule),
       },
       {
-        path: "profile",
+        path: "user",
         loadChildren: () =>
-          import("./modules/profile/profile.module").then(
-            (m) => m.ProfileModule
-          ),
+          import("./modules/user/user.module").then((m) => m.UserModule),
       },
       {
         path: "contact",

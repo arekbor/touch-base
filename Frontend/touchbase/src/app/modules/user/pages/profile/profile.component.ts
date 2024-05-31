@@ -32,10 +32,6 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     this.initUser();
   }
 
-  protected onLogout() {
-    this.authService.logout();
-  }
-
   protected onUpdateProfile() {
     this.form.markAllAsTouched();
     if (!this.form.valid) {

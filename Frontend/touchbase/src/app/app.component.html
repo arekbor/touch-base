@@ -24,11 +24,29 @@
       </ul>
 
       <ul class="navbar-nav ml-auto" *ngIf="isUserLogged">
-        <li class="nav-item">
-          <a class="nav-link" role="button" routerLink="profile">{{
-            username | slice : 0 : 10
-          }}</a>
-        </li>
+        <div class="dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            role="button"
+            id="dropdown-user-menu"
+            data-toggle="dropdown"
+            >{{ username | slice : 0 : 10 }}</a
+          >
+
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="dropdown-user-menu"
+          >
+            <button class="dropdown-item" routerLink="user/profile">
+              Profile
+            </button>
+            <button class="dropdown-item" routerLink="user/password">
+              Password
+            </button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="onLogout()">Logout</button>
+          </div>
+        </div>
       </ul>
 
       <ul class="navbar-nav ml-auto" *ngIf="!isUserLogged">

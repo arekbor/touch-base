@@ -39,9 +39,7 @@ internal class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, TokensRes
             ?? throw new BadRequestException("Invalid email or password.");
 
         if (!_identityService.VerifyPasswordHash(user.Password!, request.Password))
-        {
             throw new BadRequestException("Invalid email or password.");
-        }
 
         var (accessToken, refreshToken) = await _identityService
             .Authorize(user.Id, cancellationToken);
