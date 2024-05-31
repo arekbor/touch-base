@@ -16,7 +16,6 @@ import { GroupValidators } from "src/app/shared/validators/group-validators";
 })
 export class LoginComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<FormGroupControl<Login>>;
-  protected errors: string[];
 
   constructor(
     private authService: AuthService,
@@ -49,8 +48,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
           throwError(() => "Tokens not found");
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = this.handleHttpErrors(err);
-          throwError(() => err);
+          this.handleHttpErrors(err);
         },
       })
     );

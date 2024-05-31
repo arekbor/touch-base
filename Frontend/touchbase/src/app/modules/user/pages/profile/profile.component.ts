@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { switchMap, throwError } from "rxjs";
+import { switchMap } from "rxjs";
 import { User } from "src/app/core/models/user.models";
 import { AuthService } from "src/app/core/services/auth.service";
 import { UserService } from "src/app/core/services/user.service";
@@ -15,8 +15,6 @@ import { GroupValidators } from "src/app/shared/validators/group-validators";
 })
 export class ProfileComponent extends BaseComponent implements OnInit {
   protected user: User;
-
-  protected errors: string[];
 
   protected form: FormGroup<FormGroupControl<User>>;
 
@@ -51,8 +49,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
             window.location.reload();
           },
           error: (err: HttpErrorResponse) => {
-            this.errors = this.handleHttpErrors(err);
-            throwError(() => err);
+            this.handleHttpErrors(err);
           },
         })
     );
@@ -68,7 +65,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
           }
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = this.handleHttpErrors(err);
+          this.handleHttpErrors(err);
         },
       })
     );

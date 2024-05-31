@@ -1,5 +1,6 @@
 <div
-  class="alert alert-danger d-block mb-2 text-center"
+  class="alert alert-danger alert-dismissible d-block mb-2 fade show text-center"
+  role="alert"
   *ngIf="errors && errors.length"
 >
   <ul class="list-unstyled mb-0">
@@ -7,4 +8,8 @@
       <small>{{ error }}</small>
     </li>
   </ul>
+
+  <button type="button" class="close" data-dismiss="alert" (click)="onClose()">
+    <span>&times;</span>
+  </button>
 </div>

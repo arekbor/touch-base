@@ -7,6 +7,7 @@ import { Subscription } from "rxjs";
   template: "",
 })
 export abstract class BaseComponent implements OnDestroy {
+  protected errors: string[] = [];
   private subscriptions: Subscription[] = [];
 
   ngOnDestroy(): void {
@@ -40,7 +41,7 @@ export abstract class BaseComponent implements OnDestroy {
       : false;
   }
 
-  protected handleHttpErrors(err: HttpErrorResponse): string[] {
+  protected handleHttpErrors(err: HttpErrorResponse): void {
     const errors: string[] = [];
 
     const detail = err.error.detail || err.statusText;
@@ -55,7 +56,7 @@ export abstract class BaseComponent implements OnDestroy {
       });
     }
 
-    return errors;
+    this.errors = errors;
   }
 
   private errorControlMessages: Record<string, any> = {
