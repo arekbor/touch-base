@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { throwError } from "rxjs";
 import { Contact } from "src/app/core/models/contact.model";
 import { PaginatedList } from "src/app/core/models/paginated-list";
 import { ContactService } from "src/app/core/services/contact.service";
@@ -13,7 +12,6 @@ import { BaseComponent } from "src/app/modules/base.component";
 })
 export class ContactListComponent extends BaseComponent implements OnInit {
   protected contacts: PaginatedList<Contact>;
-  protected errors: string[];
 
   protected pageNumber: number = 1;
   protected searchTerm?: string;
@@ -57,8 +55,7 @@ export class ContactListComponent extends BaseComponent implements OnInit {
             this.contacts = contacts;
           },
           error: (err: HttpErrorResponse) => {
-            this.errors = this.handleHttpErrors(err);
-            throwError(() => err);
+            this.handleHttpErrors(err);
           },
         })
     );

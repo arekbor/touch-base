@@ -1,36 +1,54 @@
-<div class="card mt-5" *ngIf="contactsInfo">
-  <div class="card-body">
-    <div class="alert alert-info d-block text-center">
-      <div class="btn-group btn-group-sm">
-        <button type="button" class="btn btn-success" (click)="onAddContact()">
-          Add contact
-        </button>
+<!-- <div class="card mt-5" *ngIf="contactsInfo">
+  
+</div> -->
+
+<div class="col-md-12 mt-5 mb-5">
+  <div class="card">
+    <div class="card-header">
+      <h5>Home</h5>
+    </div>
+
+    <div class="card-body" *ngIf="contactsInfo">
+      <div class="alert alert-info d-block text-center">
+        <div class="btn-group btn-group-sm">
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="onAddContact()"
+          >
+            Add contact
+          </button>
+        </div>
+      </div>
+
+      <div class="alert alert-info d-block text-center">
+        <small
+          >Total number of contacts: {{ contactsInfo.countOfContacts }}</small
+        >
+      </div>
+
+      <div
+        class="alert alert-info d-block text-center"
+        *ngIf="contactsInfo.lastCreatedContact"
+      >
+        <small>
+          Recently added contact:
+          <a
+            class="nav-item"
+            role="button"
+            (click)="onContactDetails(contactsInfo.lastCreatedContact.id)"
+          >
+            <span
+              >{{ contactsInfo.lastCreatedContact.firstname }}
+              {{ contactsInfo.lastCreatedContact.lastname }}</span
+            >
+          </a>
+        </small>
       </div>
     </div>
 
-    <div class="alert alert-info d-block text-center">
-      <small
-        >Total number of contacts: {{ contactsInfo.countOfContacts }}</small
-      >
-    </div>
-
-    <div
-      class="alert alert-info d-block text-center"
-      *ngIf="contactsInfo.lastCreatedContact"
-    >
-      <small>
-        Recently added contact:
-        <a
-          class="nav-item"
-          role="button"
-          (click)="onContactDetails(contactsInfo.lastCreatedContact.id)"
-        >
-          <span
-            >{{ contactsInfo.lastCreatedContact.firstname }}
-            {{ contactsInfo.lastCreatedContact.lastname }}</span
-          >
-        </a>
-      </small>
+    <div class="card-footer">
+      <app-http-error [errors]="errors" />
     </div>
   </div>
 </div>

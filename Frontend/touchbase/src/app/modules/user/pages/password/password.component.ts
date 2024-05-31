@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { throwError } from "rxjs";
 import { Password } from "src/app/core/models/password.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { UserService } from "src/app/core/services/user.service";
@@ -14,8 +13,6 @@ import { GroupValidators } from "src/app/shared/validators/group-validators";
   templateUrl: "./password.component.html",
 })
 export class PasswordComponent extends BaseComponent implements OnInit {
-  protected errors: string[];
-
   protected form: FormGroup<FormGroupControl<Password>>;
 
   constructor(
@@ -41,8 +38,7 @@ export class PasswordComponent extends BaseComponent implements OnInit {
           this.authService.logout();
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = this.handleHttpErrors(err);
-          throwError(() => err);
+          this.handleHttpErrors(err);
         },
       })
     );

@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { throwError } from "rxjs";
 import { ContactLabel } from "src/app/core/enums/contact-label.enum";
 import { ContactRelationship } from "src/app/core/enums/contact-relationship.enum";
 import { ContactBody } from "src/app/core/models/contact-body.model";
@@ -13,8 +12,6 @@ import { BaseComponent } from "src/app/modules/base.component";
   templateUrl: "./create-contact.component.html",
 })
 export class CreateContactComponent extends BaseComponent {
-  protected errors: string[];
-
   protected contactLabel: typeof ContactLabel = ContactLabel;
   protected contactRelationship: typeof ContactRelationship =
     ContactRelationship;
@@ -30,8 +27,7 @@ export class CreateContactComponent extends BaseComponent {
           this.router.navigate(["contact/list"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = this.handleHttpErrors(err);
-          throwError(() => err);
+          this.handleHttpErrors(err);
         },
       })
     );

@@ -1,9 +1,9 @@
-<div class="col-md-12 mt-5 mb-5" *ngIf="user">
+<div class="col-md-12 mt-5 mb-5">
   <div class="card">
     <div class="card-header">
       <h5>Update Profile</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body" *ngIf="user">
       <form [formGroup]="form">
         <div class="form-group required">
           <label for="username" class="control-label">User name</label>
@@ -52,6 +52,7 @@
         </button>
       </form>
     </div>
+
     <div class="card-footer">
       <app-http-error [errors]="errors" />
     </div>

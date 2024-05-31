@@ -2,7 +2,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
-import { throwError } from "rxjs";
 import { Register } from "src/app/core/models/register.model";
 import { AuthService } from "src/app/core/services/auth.service";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
@@ -15,7 +14,6 @@ import { GroupValidators } from "src/app/shared/validators/group-validators";
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
   protected form: FormGroup<FormGroupControl<Register>>;
-  protected errors: string[];
 
   constructor(private authService: AuthService, private router: Router) {
     super();
@@ -39,8 +37,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
           this.router.navigate(["auth/login"]);
         },
         error: (err: HttpErrorResponse) => {
-          this.errors = this.handleHttpErrors(err);
-          throwError(() => err);
+          this.handleHttpErrors(err);
         },
       })
     );

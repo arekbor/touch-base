@@ -6,4 +6,8 @@ import { Component, Input } from "@angular/core";
 })
 export class HttpErrorComponent {
   @Input({ required: true }) errors: string[];
+
+  protected onClose() {
+    this.errors = [];
+  }
 }
