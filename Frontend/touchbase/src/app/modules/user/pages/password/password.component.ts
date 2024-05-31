@@ -1,23 +1,27 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { throwError } from "rxjs";
-import { Register } from "src/app/core/models/register.model";
+import { Password } from "src/app/core/models/password.model";
 import { AuthService } from "src/app/core/services/auth.service";
+import { UserService } from "src/app/core/services/user.service";
 import { FormGroupControl } from "src/app/core/utils/form-group-control";
 import { BaseComponent } from "src/app/modules/base.component";
 import { GroupValidators } from "src/app/shared/validators/group-validators";
 
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
+  selector: "app-password",
+  templateUrl: "./password.component.html",
 })
-export class RegisterComponent extends BaseComponent implements OnInit {
-  protected form: FormGroup<FormGroupControl<Register>>;
+export class PasswordComponent extends BaseComponent implements OnInit {
   protected errors: string[];
 
-  constructor(private authService: AuthService, private router: Router) {
+  protected form: FormGroup<FormGroupControl<Password>>;
+
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {
     super();
   }
 
@@ -31,12 +35,10 @@ export class RegisterComponent extends BaseComponent implements OnInit {
       return;
     }
 
-    const rawValue = this.form.getRawValue();
-
     this.safeSub(
-      this.authService.register(rawValue).subscribe({
+      this.userService.updatePassword(this.form.getRawValue()).subscribe({
         next: () => {
-          this.router.navigate(["auth/login"]);
+          this.authService.logout();
         },
         error: (err: HttpErrorResponse) => {
           this.errors = this.handleHttpErrors(err);
@@ -47,18 +49,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup<FormGroupControl<Register>>({
-      username: new FormControl("", {
+    this.form = new FormGroup<FormGroupControl<Password>>({
+      oldPassword: new FormControl("", {
         nonNullable: true,
-        validators: GroupValidators.username(),
+        validators: Validators.required,
       }),
-
-      email: new FormControl("", {
-        nonNullable: true,
-        validators: GroupValidators.email(),
-      }),
-
-      password: new FormControl("", {
+      newPassword: new FormControl("", {
         nonNullable: true,
         validators: GroupValidators.password(),
       }),

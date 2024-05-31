@@ -20,20 +20,7 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .EmailAddress();
 
         RuleFor(x => x.Password)
-            .NotEmpty()
-            .NotNull()
-            .MinimumLength(8)
-            .WithMessage("{PropertyName} must be at least 8 characters long.")
-            .MaximumLength(40)
-            .WithMessage("{PropertyName} cannot contain more than 40 characters.")
-            .Matches(@"[A-Z]+")
-            .WithMessage("{PropertyName} must contain at least one uppercase letter.")
-            .Matches(@"[a-z]+")
-            .WithMessage("{PropertyName} must contain at least one lowercase letter.")
-            .Matches(@"[0-9]+")
-            .WithMessage("{PropertyName} must contain at least one number.")
-            .Matches(@"[][""!@#$%^&*(){}:;<>,.?/+_=|'~\\-]")
-            .WithMessage("{PropertyName} must contain at least one special character.");
+            .Password();
     }
 }
 
@@ -58,13 +45,11 @@ internal class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,
         if (user is not null)
             throw new BadRequestException($"User with email: {request.Email} already exists");
 
-        var hashedPassword = _identityService.HashPassword(request.Password);
-
         var newUser = new User
         {
             Username = request.Username,
             Email = request.Email,
-            Password = hashedPassword
+            Password = _identityService.HashPassword(request.Password)
         };
 
         await _userRepository.AddAsync(newUser, cancellationToken);

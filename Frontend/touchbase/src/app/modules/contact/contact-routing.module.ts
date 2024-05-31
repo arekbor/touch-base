@@ -7,20 +7,20 @@ import { CreateContactComponent } from "./pages/create-contact/create-contact.co
 const routes: Routes = [
   {
     path: "",
-    children: [
-      {
-        path: "details/:id",
-        component: ContactDetailsComponent,
-      },
-      {
-        path: "list",
-        component: ContactListComponent,
-      },
-      {
-        path: "create",
-        component: CreateContactComponent,
-      },
-    ],
+    redirectTo: "list",
+    pathMatch: "full",
+  },
+  {
+    path: "details/:id",
+    component: ContactDetailsComponent,
+  },
+  {
+    path: "list",
+    component: ContactListComponent,
+  },
+  {
+    path: "create",
+    component: CreateContactComponent,
   },
 ];
 

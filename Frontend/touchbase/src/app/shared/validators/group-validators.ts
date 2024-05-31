@@ -17,4 +17,16 @@ export class GroupValidators {
   static email(): ValidatorFn[] {
     return [Validators.required, Validators.email];
   }
+
+  static password(): ValidatorFn[] {
+    return [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(40),
+      CustomValidators.containsLowercase(),
+      CustomValidators.containNumber(),
+      CustomValidators.containsUppercase(),
+      CustomValidators.containsSpecialChar(),
+    ];
+  }
 }
