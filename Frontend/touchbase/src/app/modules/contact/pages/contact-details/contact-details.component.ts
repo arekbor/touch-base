@@ -61,9 +61,9 @@ export class ContactDetailsComponent extends BaseComponent implements OnInit {
   private fetchContact(): void {
     this.activatedRoute.params
       .pipe(
-        switchMap((params: Params) => {
-          return this.contactService.getContact(params["id"]);
-        })
+        switchMap((params: Params) =>
+          this.contactService.getContact(params["id"])
+        )
       )
       .subscribe({
         next: (contact: ContactDetails) => {

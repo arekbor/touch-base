@@ -11,7 +11,6 @@ import {
   BehaviorSubject,
   Observable,
   catchError,
-  concatMap,
   filter,
   finalize,
   switchMap,
@@ -62,7 +61,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
       return this.tokenRefreshed$.pipe(
         filter(Boolean),
         take(1),
-        concatMap(() => next.handle(this.setAuthorizationHeader(req)))
+        switchMap(() => next.handle(this.setAuthorizationHeader(req)))
       );
     }
 

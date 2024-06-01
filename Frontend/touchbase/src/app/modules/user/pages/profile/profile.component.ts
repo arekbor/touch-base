@@ -39,11 +39,7 @@ export class ProfileComponent extends BaseComponent implements OnInit {
     this.safeSub(
       this.userService
         .updateProfile(this.form.getRawValue())
-        .pipe(
-          switchMap(() => {
-            return this.authService.reloadTokens();
-          })
-        )
+        .pipe(switchMap(() => this.authService.reloadTokens()))
         .subscribe({
           next: () => {
             window.location.reload();
